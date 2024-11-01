@@ -63,7 +63,6 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'users.PinklerUser'
-LOGIN_URL = '/auth/login/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -100,3 +99,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = 'varcekcool1242@yandex.ru'
+EMAIL_HOST_PASSWORD = 'tpifydamkmtbxfia'
+DEFAULT_FROM_EMAIL = 'varcekcool1242@yandex.ru'

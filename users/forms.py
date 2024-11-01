@@ -80,7 +80,7 @@ class PinklerUserCreationForm(UserCreationForm):
 
     class Meta:
         model = PinklerUser
-        fields = ('username', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2', 'email')
 
 
 class PinklerUserAuthenticationForm(AuthenticationForm):
