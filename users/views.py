@@ -29,8 +29,8 @@ class PinklerUserRegistrationView(generic.CreateView):
         )
 
         subject = 'Подтвердите регистрацию в Pinkler'
-        content = (f'Спасибо за регистрацию в нашей социальной сети! '
-                   f'Для подтверждения своего email, перейдите по ссылке : {confirmation_url}')
+        content = (f'Спасибо за регистрацию в нашей социальной сети!\n'
+                   f'Для подтверждения своего email, перейдите по ссылке : \n{confirmation_url}')
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = [user.email]
 
