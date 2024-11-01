@@ -32,3 +32,9 @@ class EmailConfirmationToken(models.Model):
 
     def is_valid(self):
         return timezone.now() - self.created_at < timezone.timedelta(minutes=15)
+
+    def __str__(self):
+        return f'EmailConfirmationToken(user={self.user.username}, token={self.token})'
+
+    def __repr__(self):
+        return f'EmailConfirmationToken(user={self.user.username}, token={self.token}, created_at={self.created_at})'
