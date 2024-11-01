@@ -63,6 +63,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'users.PinklerUser'
+LOGIN_URL = '/auth/login/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
