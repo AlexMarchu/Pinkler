@@ -62,7 +62,7 @@ class EmailConfirmationView(View):
 class PinklerUserAuthenticationView(LoginView):
     form_class = PinklerUserAuthenticationForm
     template_name = 'users/authentication.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('feed')
 
     def form_valid(self, form):
         return super().form_valid(form)
