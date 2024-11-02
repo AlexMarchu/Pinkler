@@ -64,7 +64,7 @@ img {
     border-radius: 2rem;
     cursor: pointer;
     transition: all 300ms ease;
-    font-size: 0.9rem;
+    font-size: 0.94rem;
 }
 
 .btn:hover {
@@ -72,13 +72,19 @@ img {
 }
 
 .btn-primary {
-    font-size: 0.94rem;
+    font-size: 0.98rem;
     background: var(--color-primary);
     color: var(--color-white);
 }
 
 .text-muted {
     color: var(--color-grey);
+}
+
+.uil {
+    font-size: 1.4rem;
+    color: var(--color-grey);
+    position: relative;
 }
 
 .notification-count {
@@ -91,6 +97,15 @@ img {
     position: absolute;
     top: -0.2rem;
     right: -0.3rem;
+}
+
+.search-input {
+    background: var(--color-light);
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
 }
 
 /* =============== Navbar ============== */
@@ -108,7 +123,7 @@ img {
     align-items: center;
 }
 
-.upper-panel .center-container {
+.upper-panel .middle-bar {
     display: flex;
 }
 
@@ -120,15 +135,6 @@ img {
     left: 0.96rem;
     width: 0.30rem;
     height: 0.30rem;
-}
-
-.search-input {
-    background: var(--color-light);
-    border-radius: 1.5rem;
-    display: flex;
-    align-items: center;
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
 }
 
 .upper-panel .search-input {
@@ -161,10 +167,8 @@ img {
     border-radius: 35%;
 }
 
-.uil {
-    font-size: 1.4rem;
-    color: var(--color-grey);
-    position: relative;
+.upper-panel .search-input .uil {
+    font-size: 1.2rem;
 }
 
 /* =============== Main ============== */
@@ -201,7 +205,7 @@ main .grid-container .left .profile-card {
     border-radius: var(--card-border-radius);
 }
 
-.left .sidebar .menu-item {
+.left .sidebar .item {
     display: flex;
     align-items: center;
     height: 4rem;
@@ -210,7 +214,7 @@ main .grid-container .left .profile-card {
     position: relative;
 }
 
-.left .sidebar .menu-item:hover, .upper-panel .nofitications-item:hover {
+.left .sidebar .item:hover, .upper-panel .nofitications-item:hover {
     background: var(--color-light);
 }
 
@@ -240,12 +244,12 @@ main .grid-container .left .profile-card {
     background: var(--color-primary);
 }
 
-.left .sidebar .menu-item:first-child.active {
+.left .sidebar .item:first-child.active {
     border-top-left-radius: var(--card-border-radius);
     overflow: hidden;
 }
 
-.left .sidebar .menu-item:last-child.active {
+.left .sidebar .item:last-child.active {
     border-bottom-left-radius: var(--card-border-radius);
     overflow: hidden;
 }
@@ -327,20 +331,20 @@ main .grid-container .left .profile-card {
     margin: 1rem 0;
 }
 
-.right .request {
+.right .friend-requests .request {
     background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-bottom: 0.7rem;
 }
 
-.right .request .info {
+.right .friend-requests .request .info {
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
 }
 
-.right .request .action {
+.right .friend-requests .request .action {
     display: flex;
     gap: 1rem;
 }
