@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block other %}
+
+    <div class="middle">
+        {% block middle-content %}
+        {% endblock %}
+    </div>
+
+    <!----------------- RIGHT -------------------->
+    <div class="right">
+        <!------- MESSAGES ------->
+        <div class="messages">
+            <div class="heading">
+                <h4>Сообщения</h4>
+            </div>
+            <!----------------- SEARCH INPUT -------------------->
+            <div class="search-input">
+                <i class="uil uil-search"></i>
+                <input type="search" placeholder="Поиск...">
+            </div>
+            <!------- MESSAGES ------->
+            <div class="message">
+                <div class="profile-photo">
+                    <img src="./images/profile-17.jpg">
+                </div>
+                <div class="message-body">
+                    <h5>Edem Quist</h5>
+                    <p class="text-muted">Just woke up bruh</p>
+                </div>
+            </div>
+            <!------- MESSAGES ------->
+            <div class="message">
+                <div class="profile-photo">
+                    <img src="./images/profile-6.jpg">
+                </div>
+                <div class="message-body">
+                    <h5>Daniella Jackson</h5>
+                    <p class="text-bold">2 new messages</p>
+                </div>
+            </div>
+        </div>
+        <!------- FRIEND REQUESTS ------->
+        <div class="friend-requests">
+            <h4>Заявки в друзья</h4>
+            <!------- REQUEST ------->
+            <div class="request">
+                <div class="info">
+                    <div class="profile-photo">
+                        <img src="./images/profile-20.jpg">
+                    </div>
+                    <div>
+                        <h5>Hajia Bintu</h5>
+                        <p class="text-muted">8 общих друзей</p>
+                    </div>
+                </div>
+                <div class="action">
+                    <button class="btn btn-primary">
+                        Принять
+                    </button>
+                    <button class="btn">
+                        Отклонить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -125,18 +125,28 @@ img {
 .search-input {
     background: var(--color-light);
     border-radius: 1.5rem;
-    padding: 0.72rem 1rem;
+    display: flex;
+    align-items: center;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+}
+
+.upper-panel .search-input {
+    width: 100%;
 }
 
 .search-input input[type="search"] {
+    width: 100%;
     background: transparent;
-    width: 30vw;
-    margin-left: 1rem;
-    font-size: 1.05rem;
     color: var(--color-dark);   
 }
 
-.upper-panel .search-input input[type="search"]::placeholder {
+.upper-panel .search-input input[type="search"] {
+    font-size: 1.05rem;
+    padding: 0.72rem 0.4rem;
+}
+
+.search-input input[type="search"]::placeholder {
     color: var(--color-grey);
 }
 
@@ -246,4 +256,91 @@ main .grid-container .left .profile-card {
     text-align: center;
     padding: 1rem 0;
     margin-bottom: 0.7rem;
+}
+
+/* =============== Messages ============== */
+.right .messages {
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+}
+
+.right .messages .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.right .messages i {
+    font-size: 1.4rem;
+}
+
+.right .messages .search-input {
+    margin-bottom: 1rem;
+}
+
+.right .messages .search-input input[type="search"] {
+    font-size: 0.95rem;
+    padding: 0.72rem 0.3rem;
+}
+
+.right .messages .search-input i {
+    font-size: 1.1rem;
+}
+
+.right .messages .message-requests {
+    color: var(--color-primary);
+}
+
+.right .messages .message {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: start;
+}
+
+.right .message .profile-photo {
+    position: relative;
+    overflow: visible;
+}
+
+.right .profile-photo img {
+    border-radius: 50%;
+}
+
+.right .messages .message:last-child {
+    margin: 0;
+}
+
+.right .messages .message p {
+    font-size:0.8rem;
+}
+
+/* =============== Friend Requests ============== */
+.right .friend-requests {
+    margin-top: 1rem;
+}
+
+.right .friend-requests h4 {
+    color: var(--color-grey);
+    margin: 1rem 0;
+}
+
+.right .request {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-bottom: 0.7rem;
+}
+
+.right .request .info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.right .request .action {
+    display: flex;
+    gap: 1rem;
 }
