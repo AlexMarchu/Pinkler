@@ -1,10 +1,8 @@
-import uuid
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import generic, View
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -40,7 +38,7 @@ class PinklerUserRegistrationView(generic.CreateView):
         except Exception as e:
             print(f'Ошибка при отправке письма {e}')
 
-        return super().form_valid(form)
+        return render(self.request, 'users/request_email_confirmation.html', {'user': user})
 
 
 class EmailConfirmationView(View):
@@ -54,9 +52,11 @@ class EmailConfirmationView(View):
         user.is_active = True
         user.save()
 
+        login(request, user)
+
         confirmation_token.delete()
 
-        return render(request, 'users/confirm_email.html', {'user': user})
+        return render(request, 'users/email_confirmed.html', {'user': user})
 
 
 class PinklerUserAuthenticationView(LoginView):
