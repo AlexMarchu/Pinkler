@@ -1,7 +1,7 @@
 // Sidebar
 const menuItems = document.querySelectorAll('.item');
 
-//Theme
+// Theme
 const theme = document.querySelector('#theme');
 const themeModal = document.querySelector('.customize-theme');
 const fontSize = document.querySelectorAll('.choose-size span');
@@ -11,6 +11,76 @@ const Bg1 = document.querySelector('.bg-1');
 const Bg2 = document.querySelector('.bg-2');
 const Bg3 = document.querySelector('.bg-3');
 
+document.addEventListener('DOMContentLoaded', () => {
+    fetchThemePreferences()
+        .then(() => {
+            document.body.style.visibility = 'visible'; // Отображаем страницу после применения настроек
+        });
+});
+
+// Функция для загрузки настроек темы
+function fetchThemePreferences() {
+    return fetch('/accounts/get-theme-preference/') // Добавлен return
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            applyThemePreferences(data); // Применяем загруженные данные
+        })
+        .catch(error => {
+            console.error('Failed to retrieve theme preferences:', error);
+        });
+}
+
+// Применение полученных настроек темы
+function applyThemePreferences(data) {
+    console.log('Received theme preferences:', data);
+
+    // Применяем шрифт и основной цвет
+    document.querySelector('html').style.fontSize = data.font_size;
+    document.documentElement.style.setProperty('--primary-color-hue', data.primary_color);
+
+    const theme = data.theme;
+    let lightColorLightness, whiteColorLightness, darkColorLightness;
+
+    // Настройка яркости для тем
+    if (theme === "light") {
+        lightColorLightness = '95%';
+        whiteColorLightness = '98%';
+        darkColorLightness = '0%';
+    } else if (theme === "dim") {
+        lightColorLightness = '15%';
+        whiteColorLightness = '20%';
+        darkColorLightness = '95%';
+    } else if (theme === "dark") {
+        lightColorLightness = '0%';
+        whiteColorLightness = '10%';
+        darkColorLightness = '95%';
+    }
+
+    // Применяем яркость для корневых переменных CSS
+    document.documentElement.style.setProperty('--light-color-lightness', lightColorLightness);
+    document.documentElement.style.setProperty('--white-color-lightness', whiteColorLightness);
+    document.documentElement.style.setProperty('--dark-color-lightness', darkColorLightness);
+
+    console.log('Applied color lightness settings:', {
+        lightColorLightness,
+        whiteColorLightness,
+        darkColorLightness
+    });
+
+    // Отображаем активный фон в интерфейсе
+    document.querySelectorAll('.choose-bg div').forEach(div => div.classList.remove('active'));
+    const activeBg = document.querySelector(`.bg-${theme === "light" ? 1 : theme === "dim" ? 2 : 3}`);
+    if (activeBg) {
+        activeBg.classList.add('active');
+    } else {
+        console.warn('No active background element found for theme:', theme);
+    }
+}
 
 
 
@@ -20,11 +90,11 @@ const Bg3 = document.querySelector('.bg-3');
 
 // Opens Modal
 const openThemeModal = () => {
-    console.log(1);
     themeModal.style.display = 'grid';
 }
+
 const closeThemeModal = (e) => {
-    if(e.target.classList.contains('customize-theme')) {
+    if (e.target.classList.contains('customize-theme')) {
         themeModal.style.display = 'none';
     }
 }
@@ -38,78 +108,123 @@ themeModal.addEventListener('click', closeThemeModal);
 const removeSizeSelectors = () => {
     fontSize.forEach(size => {
         size.classList.remove('active');
-    })
+    });
 }
 
+// Send theme preferences to the server
+const sendThemePreferences = () => {
+    const activeBg = document.querySelector('.choose-bg .active');
+    const theme = activeBg ? activeBg.dataset.theme : ''; // Получаем текущую тему из активного элемента
+    const fontSize = document.querySelector('html').style.fontSize;  // Получаем текущий размер шрифта
+    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color-hue');  // Основной цвет
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    fetch('/accounts/save-theme-preference/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken  // Добавляем CSRF токен для безопасности
+        },
+        body: JSON.stringify({
+            theme: theme,
+            font_size: fontSize,
+            primary_color: primaryColor
+        })
+    }).then(response => {
+        if (response.ok) {
+            console.log('Theme preferences saved successfully');
+        } else {
+            console.error('Failed to save theme preferences');
+        }
+    });
+};
+
+// Обработчики событий для изменения размера шрифта
 fontSize.forEach(size => {
-   size.addEventListener('click', () => {
+    size.addEventListener('click', () => {
         removeSizeSelectors();
         let fontSize;
         size.classList.toggle('active');
 
-        if(size.classList.contains('font-size-1')) {
+        if (size.classList.contains('font-size-1')) {
             fontSize = '10px';
             root.style.setProperty('----sticky-top-left', '5.4rem');
             root.style.setProperty('----sticky-top-right', '5.4rem');
-        } else if(size.classList.contains('font-size-2')) {
+        } else if (size.classList.contains('font-size-2')) {
             fontSize = '13px';
             root.style.setProperty('----sticky-top-left', '5.4rem');
             root.style.setProperty('----sticky-top-right', '-7rem');
-        } else if(size.classList.contains('font-size-3')) {
+        } else if (size.classList.contains('font-size-3')) {
             fontSize = '16px';
             root.style.setProperty('----sticky-top-left', '-2rem');
             root.style.setProperty('----sticky-top-right', '-17rem');
-        } else if(size.classList.contains('font-size-4')) {
+        } else if (size.classList.contains('font-size-4')) {
             fontSize = '19px';
             root.style.setProperty('----sticky-top-left', '-5rem');
             root.style.setProperty('----sticky-top-right', '-25rem');
-        } else if(size.classList.contains('font-size-5')) {
+        } else if (size.classList.contains('font-size-5')) {
             fontSize = '22px';
             root.style.setProperty('----sticky-top-left', '-12rem');
             root.style.setProperty('----sticky-top-right', '-35rem');
         }
 
-        // change font size of the root html element
+        // Изменяем размер шрифта корневого HTML элемента
         document.querySelector('html').style.fontSize = fontSize;
-   })
-})
+        sendThemePreferences(); // Отправляем предпочтения после изменения
+    });
+});
 
-// Remove active class from colors
+// Обработчики событий для изменения цвета
 const changeActiveColorClass = () => {
     colorPalette.forEach(colorPicker => {
         colorPicker.classList.remove('active');
-    })
+    });
 }
 
-// Change color primary
 colorPalette.forEach(color => {
     color.addEventListener('click', () => {
-        let primary;
+        let primaryHue;
         changeActiveColorClass();
 
-        if(color.classList.contains('color-1')) {
+        if (color.classList.contains('color-1')) {
             primaryHue = 252;
-        } else if(color.classList.contains('color-2')) {
+        } else if (color.classList.contains('color-2')) {
             primaryHue = 52;
-        } else if(color.classList.contains('color-3')) {
+        } else if (color.classList.contains('color-3')) {
             primaryHue = 352;
-        } else if(color.classList.contains('color-4')) {
+        } else if (color.classList.contains('color-4')) {
             primaryHue = 152;
-        } else if(color.classList.contains('color-5')) {
+        } else if (color.classList.contains('color-5')) {
             primaryHue = 202;
         }
 
         color.classList.add('active');
         root.style.setProperty('--primary-color-hue', primaryHue);
-    })
-})
+        sendThemePreferences(); // Отправляем предпочтения после изменения цвета
+    });
+});
 
-//Theme Background Values
+// Обработчики событий для изменения фона
 let lightColorLightness;
 let whiteColorLightness;
 let darkColorLightness;
 
-// Changes background color
 const changeBG = () => {
     root.style.setProperty('--light-color-lightness', lightColorLightness);
     root.style.setProperty('--white-color-lightness', whiteColorLightness);
@@ -117,38 +232,34 @@ const changeBG = () => {
 }
 
 Bg1.addEventListener('click', () => {
-    // add active class
+    lightColorLightness = '95%'; // для белого фона
+    whiteColorLightness = '98%';
+    darkColorLightness = '0%';
     Bg1.classList.add('active');
-    // remove active class from the others
     Bg2.classList.remove('active');
     Bg3.classList.remove('active');
-    //remove customized changes from local storage
-    window.location.reload();
+    changeBG(); // Обновите светлоту
+    sendThemePreferences(); // Сохраните предпочтения
 });
 
 Bg2.addEventListener('click', () => {
     darkColorLightness = '95%';
     whiteColorLightness = '20%';
     lightColorLightness = '15%';
-
-    // add active class
     Bg2.classList.add('active');
-    // remove active class from the others
     Bg1.classList.remove('active');
     Bg3.classList.remove('active');
     changeBG();
+    sendThemePreferences(); // Отправляем предпочтения после изменения фона
 });
 
 Bg3.addEventListener('click', () => {
     darkColorLightness = '95%';
     whiteColorLightness = '10%';
     lightColorLightness = '0%';
-
-    // add active class
     Bg3.classList.add('active');
-    // remove active class from the others
     Bg1.classList.remove('active');
     Bg2.classList.remove('active');
     changeBG();
+    sendThemePreferences(); // Отправляем предпочтения после изменения фона
 });
-
