@@ -11,6 +11,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'feed',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,13 @@ STATICFILES_DIRS = [
 ]
 
 WSGI_APPLICATION = 'pinkler.wsgi.application'
+ASGI_APPLICATION = "pinkler.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

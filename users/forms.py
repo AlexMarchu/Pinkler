@@ -30,6 +30,14 @@ class PinklerUserCreationForm(UserCreationForm):
         })
     )
 
+    email = forms.EmailField(
+        label='Адрес электронной почты',
+        widget = forms.EmailInput(attrs={
+            'placeholder': 'Адрес электронной почты',
+            'required': 'required'
+        })
+    )
+
     # TODO: Add an interface for changing data in the user profile page.
     """
     These fields are not needed during registration,
@@ -80,7 +88,7 @@ class PinklerUserCreationForm(UserCreationForm):
 
     class Meta:
         model = PinklerUser
-        fields = ('username', 'password1', 'password2', 'email')
+        fields = ('username', 'email','password1', 'password2')
 
 
 class PinklerUserAuthenticationForm(AuthenticationForm):
