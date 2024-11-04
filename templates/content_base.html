@@ -1,20 +1,19 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="ru">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/core.css' %}">
     </head>
     <body>
         <!----------------- UPPER PANEL -------------------->
         <nav class="upper-panel">
             <div class="grid-container">
                 <!----------------- LOGO -------------------->
-                <h2 class="logo">pinkler<div id ="point"></div></h2>
+                <h2 class="logo">pinkler<div id="point"></div></h2>
                 <!----------------- SEARCH INPUT AND NOTIFICATIONS -------------------->
                 <div class="middle-bar">
                     <div class="search-input">
@@ -27,12 +26,11 @@
                 </div>
             </div>
         </nav>
-        
         <!----------------- MAIN -------------------->
         <main>
             <div class="grid-container">
                 <div class="left">
-                    <!----------------- PROFILE -------------------->
+                    <!----------------- PROFILE CARD -------------------->
                     <a class="profile-card">
                         <div class="profile-photo">
                             <img src="">
@@ -42,88 +40,80 @@
                             <p class="muted">{{ user.email }}</p>
                         </div>
                     </a>
-
                     <!----------------- SIDEBAR -------------------->
                     <div class="sidebar">
-                        <a class="item">
+                        <a class="sidebar-item">
                             <span><i class="uil uil-home"></i></span>
                             <h3>Главная</h3>
                         </a>
-                        <a class="item">
+                        <a class="sidebar-item">
                             <span><i class="uil uil-envelope-alt"><small class="notification-count">?</small></i></span>
                             <h3>Сообщения</h3>
                         </a>
-                        <a class="item">
+                        <a class="sidebar-item">
                             <span><i class="uil uil-users-alt"><small class="notification-count">?</small></i></span>
                             <h3>Друзья</h3>
                         </a>
-                        <a class="item">
+                        <a class="sidebar-item">
                             <span><i class="uil uil-bookmark"></i></span>
                             <h3>Закладки</h3>
                         </a>
-                        <a class="item" id="theme">
+                        <a class="sidebar-item" id="theme">
                             <span><i class="uil uil-palette"></i></span>
                             <h3>Темы</h3>
                         </a>
                     </div>
                     <!----------------- CREATE POST -------------------->
-                    <label class="btn btn-primary">Создать пост</label>
+                    <button class="btn btn-primary">Создать пост</button>
                 </div>
                 
                 <!----------------- MIDDLE -------------------->
                 <div class="middle">
-                    {% block middle-content %}
+                    {% block content %}
                     {% endblock %}
                 </div>
             
                 <!----------------- RIGHT -------------------->
                 <div class="right">
-                    <!----------------- MESSAGES -------------------->
-                    <div class="messages">
-                        <div class="heading">
-                            <h4>Сообщения</h4>
-                        </div>
-                        <!----------------- SEARCH INPUT -------------------->
-                        <div class="search-input">
-                            <i class="uil uil-search"></i>
-                            <input type="search" placeholder="Поиск...">
-                        </div>
+                    <!----------------- CHATS -------------------->
+                    <div class="chats">
+                        <h4 class="heading">Недавние сообщения</h4>
                         <!----------------- MESSAGE -------------------->
-                        <div class="message">
+                        <div class="chat-item">
                             <div class="profile-photo">
                                 <img src="">
                             </div>
-                            <div class="body">
-                                <h5>wyborn</h5>
+                            <div class="handle">
+                                <h4>wyborn</h4>
                                 <p class="text-muted">WASSUP!</p>
                             </div>
                         </div>
                         <!----------------- MESSAGE -------------------->
-                        <div class="message">
+                        <div class="chat-item">
                             <div class="profile-photo">
                                 <img src="">
                             </div>
-                            <div class="body">
-                                <h5>kurylov89</h5>
-                                <p class="text-bold">17 new messages</p>
+                            <div class="handle">
+                                <h4>kurylov89iq</h4>
+                                <p class="text-muted">А вот я думаю...</p>
                             </div>
                         </div>
                     </div>
                     <!----------------- FRIEND REQUESTS -------------------->
                     <div class="friend-requests">
-                        <h4>Заявки в друзья</h4>
+                        <h4 class="heading">Заявки в друзья</h4>
                         <!----------------- REQUEST -------------------->
                         <div class="request">
                             <div class="info">
                                 <div class="profile-photo">
                                     <img src="">
                                 </div>
-                                <div>
-                                    <h5>mesenev</h5>
+                                <div class="handle">
+                                    <h4>mesenev</h4>
                                     <p class="text-muted">8 общих друзей</p>
                                 </div>
                             </div>
-                            <div class="action">
+                            <div class="actions">
                                 <button class="btn btn-primary">Принять</button>
                                 <button class="btn">Отклонить</button>
                             </div>
@@ -187,9 +177,6 @@
                 </div>
             </div>
         </div>
-
-
         <script src="{% static 'scripts/index.js' %}"></script>
-
     </body>
 </html>

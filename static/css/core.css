@@ -37,7 +37,7 @@ body {
     overflow-x: hidden;
 }
 
-/* =============== General Style ============== */
+/* =============== General styles ============== */
 .grid-container {
     width: 80%;
     margin: 0 auto;
@@ -57,13 +57,44 @@ img {
     overflow: hidden;
 }
 
+.chat-item {
+    cursor: pointer;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.2rem;
+    align-items: start;
+    border-radius: 0.7rem;
+    padding: 0.6rem 0.2rem;
+    transition: all 200ms ease;
+}
+
+.chats, .right .chats {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+}
+
+.chats .chat-item h4 {
+    margin-bottom: 0.16rem;
+}
+
+.chat-item:hover {
+    background: var(--color-light);
+}
+
+.chats .chat-item:last-child {
+    margin: 0;
+}
+
 .btn {
     display: inline-block;
     padding: 0.6rem 2rem;
     font-weight: 500;
     border-radius: 2rem;
     cursor: pointer;
-    transition: all 300ms ease;
+    transition: all 200ms ease;
     font-size: 0.94rem;
 }
 
@@ -100,12 +131,27 @@ img {
 }
 
 .search-input {
+    width: 100%;
     background: var(--color-light);
     border-radius: 1.5rem;
     display: flex;
     align-items: center;
     padding-left: 0.4rem;
     padding-right: 0.4rem;
+}
+
+.search-input input[type="search"] {
+    width: 100%;
+    background: transparent;
+    color: var(--color-dark);
+}
+
+.search-input input[type="search"]::placeholder {
+    color: var(--color-grey);
+}
+
+.search-input .uil {
+    font-size: 1.2rem;
 }
 
 /* =============== Navbar ============== */
@@ -137,23 +183,9 @@ img {
     height: 0.30rem;
 }
 
-.upper-panel .search-input {
-    width: 100%;
-}
-
-.search-input input[type="search"] {
-    width: 100%;
-    background: transparent;
-    color: var(--color-dark);
-}
-
 .upper-panel .search-input input[type="search"] {
     font-size: 1.05rem;
     padding: 0.72rem 0.4rem;
-}
-
-.search-input input[type="search"]::placeholder {
-    color: var(--color-grey);
 }
 
 .upper-panel .nofitications-item {
@@ -167,10 +199,6 @@ img {
     border-radius: 35%;
 }
 
-.upper-panel .search-input .uil {
-    font-size: 1.2rem;
-}
-
 /* =============== Main ============== */
 main {
     position: relative;
@@ -182,13 +210,13 @@ main .grid-container {
 }
 
 /* =============== Left ============== */
-main .grid-container .left {
+.left {
     height: max-content;
     position: sticky;
     top: 5.4rem;
 }
 
-main .grid-container .left .profile-card {
+.left .profile-card {
     padding: var(--card-padding);
     background: var(--color-white);
     border-radius: var(--card-border-radius);
@@ -205,7 +233,7 @@ main .grid-container .left .profile-card {
     border-radius: var(--card-border-radius);
 }
 
-.left .sidebar .item {
+.left .sidebar .sidebar-item {
     display: flex;
     align-items: center;
     height: 4rem;
@@ -214,7 +242,7 @@ main .grid-container .left .profile-card {
     position: relative;
 }
 
-.left .sidebar .item:hover, .upper-panel .nofitications-item:hover {
+.left .sidebar .sidebar-item:hover, .upper-panel .nofitications-item:hover {
     background: var(--color-light);
 }
 
@@ -244,12 +272,12 @@ main .grid-container .left .profile-card {
     background: var(--color-primary);
 }
 
-.left .sidebar .item:first-child.active {
+.left .sidebar .sidebar-item:first-child.active {
     border-top-left-radius: var(--card-border-radius);
     overflow: hidden;
 }
 
-.left .sidebar .item:last-child.active {
+.left .sidebar .sidebar-item:last-child.active {
     border-bottom-left-radius: var(--card-border-radius);
     overflow: hidden;
 }
@@ -262,63 +290,24 @@ main .grid-container .left .profile-card {
     margin-bottom: 0.7rem;
 }
 
-/* =============== Messages ============== */
-.right .messages {
-    background: var(--color-white);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
+/* =============== Middle chats styles ============== */
+.middle .chats .heading {
+    font-size: 1.26rem;
 }
 
-.right .messages .heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+.middle .chats .search-input {
+    margin: 0.6rem 0;
 }
 
-.right .messages i {
-    font-size: 1.4rem;
+.middle .chats .search-input input[type="search"] {
+    font-size: 1.05rem;
+    padding: 0.7rem 0.32rem;
 }
 
-.right .messages .search-input {
-    margin-bottom: 1rem;
-}
-
-.right .messages .search-input input[type="search"] {
-    font-size: 0.95rem;
-    padding: 0.72rem 0.3rem;
-}
-
-.right .messages .search-input i {
+/* =============== Right chats styles ============== */
+.right .chats .heading {
     font-size: 1.1rem;
-}
-
-.right .messages .message-requests {
-    color: var(--color-primary);
-}
-
-.right .messages .message {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    align-items: start;
-}
-
-.right .message .profile-photo {
-    position: relative;
-    overflow: visible;
-}
-
-.right .profile-photo img {
-    border-radius: 50%;
-}
-
-.right .messages .message:last-child {
-    margin: 0;
-}
-
-.right .messages .message p {
-    font-size:0.8rem;
+    margin-bottom: 0.56rem;
 }
 
 /* =============== Friend Requests ============== */
@@ -326,9 +315,10 @@ main .grid-container .left .profile-card {
     margin-top: 1rem;
 }
 
-.right .friend-requests h4 {
+.right .friend-requests .heading {
+    font-size: 1.1rem;
+    margin-bottom: 0.64rem;
     color: var(--color-grey);
-    margin: 1rem 0;
 }
 
 .right .friend-requests .request {
@@ -344,7 +334,7 @@ main .grid-container .left .profile-card {
     margin-bottom: 1rem;
 }
 
-.right .friend-requests .request .action {
+.right .friend-requests .request .actions {
     display: flex;
     gap: 1rem;
 }
