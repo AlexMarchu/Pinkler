@@ -49,7 +49,7 @@ function applyThemePreferences(data) {
     
     if (theme === "light") {
         lightColorLightness = '95%';
-        whiteColorLightness = '98%';
+        whiteColorLightness = '100%';
         darkColorLightness = '0%';
     } else if (theme === "dim") {
         lightColorLightness = '15%';
