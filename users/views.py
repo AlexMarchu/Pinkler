@@ -5,9 +5,12 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.conf import settings
-
 from .forms import PinklerUserCreationForm, PinklerUserAuthenticationForm
 from .models import PinklerUser, EmailConfirmationToken
+import json
+from .models import UserThemePreference
+from django.http import JsonResponse
+
 
 
 class PinklerUserRegistrationView(generic.CreateView):
@@ -66,3 +69,30 @@ class PinklerUserAuthenticationView(LoginView):
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+
+def save_theme_preference(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        theme = data.get('theme')
+        font_size = data.get('font_size')
+        primary_color = data.get('primary_color')
+
+        user_theme, created = UserThemePreference.objects.get_or_create(user=request.user)
+        user_theme.theme = theme
+        user_theme.font_size = font_size
+        user_theme.primary_color = primary_color
+        user_theme.save()
+
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+def get_theme_preference(request):
+    user = request.user
+    theme_preference = UserThemePreference.objects.get(user=user)
+    return JsonResponse({
+        'font_size': theme_preference.font_size,
+        'primary_color': theme_preference.primary_color,
+        'theme': theme_preference.theme,
+    })
