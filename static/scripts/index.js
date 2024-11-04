@@ -14,13 +14,13 @@ const Bg3 = document.querySelector('.bg-3');
 document.addEventListener('DOMContentLoaded', () => {
     fetchThemePreferences()
         .then(() => {
-            document.body.style.visibility = 'visible'; // Отображаем страницу после применения настроек
+            document.body.style.visibility = 'visible';
         });
 });
 
-// Функция для загрузки настроек темы
+// Function for loading theme settings
 function fetchThemePreferences() {
-    return fetch('/accounts/get-theme-preference/') // Добавлен return
+    return fetch('/accounts/get-theme-preference/')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -28,28 +28,28 @@ function fetchThemePreferences() {
             return response.json();
         })
         .then(data => {
-            applyThemePreferences(data); // Применяем загруженные данные
+            applyThemePreferences(data);
         })
         .catch(error => {
             console.error('Failed to retrieve theme preferences:', error);
         });
 }
 
-// Применение полученных настроек темы
+// Applying the received theme settings
 function applyThemePreferences(data) {
     console.log('Received theme preferences:', data);
 
-    // Применяем шрифт и основной цвет
+    
     document.querySelector('html').style.fontSize = data.font_size;
     document.documentElement.style.setProperty('--primary-color-hue', data.primary_color);
 
     const theme = data.theme;
     let lightColorLightness, whiteColorLightness, darkColorLightness;
 
-    // Настройка яркости для тем
+    
     if (theme === "light") {
         lightColorLightness = '95%';
-        whiteColorLightness = '98%';
+        whiteColorLightness = '100%';
         darkColorLightness = '0%';
     } else if (theme === "dim") {
         lightColorLightness = '15%';
@@ -61,7 +61,7 @@ function applyThemePreferences(data) {
         darkColorLightness = '95%';
     }
 
-    // Применяем яркость для корневых переменных CSS
+    
     document.documentElement.style.setProperty('--light-color-lightness', lightColorLightness);
     document.documentElement.style.setProperty('--white-color-lightness', whiteColorLightness);
     document.documentElement.style.setProperty('--dark-color-lightness', darkColorLightness);
@@ -72,7 +72,7 @@ function applyThemePreferences(data) {
         darkColorLightness
     });
 
-    // Отображаем активный фон в интерфейсе
+    
     document.querySelectorAll('.choose-bg div').forEach(div => div.classList.remove('active'));
     const activeBg = document.querySelector(`.bg-${theme === "light" ? 1 : theme === "dim" ? 2 : 3}`);
     if (activeBg) {
@@ -114,9 +114,9 @@ const removeSizeSelectors = () => {
 // Send theme preferences to the server
 const sendThemePreferences = () => {
     const activeBg = document.querySelector('.choose-bg .active');
-    const theme = activeBg ? activeBg.dataset.theme : ''; // Получаем текущую тему из активного элемента
-    const fontSize = document.querySelector('html').style.fontSize;  // Получаем текущий размер шрифта
-    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color-hue');  // Основной цвет
+    const theme = activeBg ? activeBg.dataset.theme : '';
+    const fontSize = document.querySelector('html').style.fontSize;
+    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color-hue');
 
     function getCookie(name) {
         let cookieValue = null;
@@ -139,7 +139,7 @@ const sendThemePreferences = () => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken  // Добавляем CSRF токен для безопасности
+            'X-CSRFToken': csrftoken
         },
         body: JSON.stringify({
             theme: theme,
@@ -186,11 +186,10 @@ fontSize.forEach(size => {
 
         // Изменяем размер шрифта корневого HTML элемента
         document.querySelector('html').style.fontSize = fontSize;
-        sendThemePreferences(); // Отправляем предпочтения после изменения
+        sendThemePreferences();
     });
 });
 
-// Обработчики событий для изменения цвета
 const changeActiveColorClass = () => {
     colorPalette.forEach(colorPicker => {
         colorPicker.classList.remove('active');
@@ -216,11 +215,10 @@ colorPalette.forEach(color => {
 
         color.classList.add('active');
         root.style.setProperty('--primary-color-hue', primaryHue);
-        sendThemePreferences(); // Отправляем предпочтения после изменения цвета
+        sendThemePreferences();
     });
 });
 
-// Обработчики событий для изменения фона
 let lightColorLightness;
 let whiteColorLightness;
 let darkColorLightness;
@@ -232,14 +230,14 @@ const changeBG = () => {
 }
 
 Bg1.addEventListener('click', () => {
-    lightColorLightness = '95%'; // для белого фона
+    lightColorLightness = '95%';
     whiteColorLightness = '98%';
     darkColorLightness = '0%';
     Bg1.classList.add('active');
     Bg2.classList.remove('active');
     Bg3.classList.remove('active');
     changeBG(); // Обновите светлоту
-    sendThemePreferences(); // Сохраните предпочтения
+    sendThemePreferences();
 });
 
 Bg2.addEventListener('click', () => {
@@ -250,7 +248,7 @@ Bg2.addEventListener('click', () => {
     Bg1.classList.remove('active');
     Bg3.classList.remove('active');
     changeBG();
-    sendThemePreferences(); // Отправляем предпочтения после изменения фона
+    sendThemePreferences();
 });
 
 Bg3.addEventListener('click', () => {
@@ -261,5 +259,5 @@ Bg3.addEventListener('click', () => {
     Bg1.classList.remove('active');
     Bg2.classList.remove('active');
     changeBG();
-    sendThemePreferences(); // Отправляем предпочтения после изменения фона
+    sendThemePreferences();
 });
