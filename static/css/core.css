@@ -359,23 +359,35 @@ main .grid-container {
 .customize-theme .card {
     background: var(--color-white);
     padding: 3rem;
+    width: 50%;
     border-radius: var(--card-border-radius);
-    width:50%;
     box-shadow: 0 0 1rem var(--color-primary);
+}
+
+.customize-theme .card p {
+    font-size: 1.2rem;
+}
+
+.customize-theme .card h3 {
+    margin-bottom: 0.9rem;
 }
 
 /* =============== Font Size ============== */
 .customize-theme .font-size {
-    margin-top: 5rem;
+    margin-top: 3rem;
 }
 
 .customize-theme .font-size > div {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     background: var(--color-light);
-    padding: var(--search-padding);
     border-radius: var(--card-border-radius);
+    padding: 0.6rem 1rem;
+}
+
+.customize-theme .font-size > div h4 {
+    font-size: 1.14rem;
 }
 
 .customize-theme .choose-size {
@@ -412,16 +424,17 @@ main .grid-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0.4rem 1rem;    
 }
 
 .customize-theme .choose-color span {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
 }
 
 .customize-theme .choose-color span:nth-child(1) {
-    background: hsl(233, 60%, 16%);
+    background: hsl(252, 75%, 60%);
 }
 
 .customize-theme .choose-color span:nth-child(2) {
