@@ -1,59 +1,17 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #4cae4c;
-        }
-    </style>
-</head>
-<body>
+{% extends 'users/auth_base.html' %}
 
-<div class="login-container">
-    <h2>Вход в систему</h2>
-    <form action="{% url 'login' %}" method="post">
+{% block title %}
+    <title>Вход</title>
+{% endblock %}
+
+{% block container-content %}
+    <h2>Вход</h2>
+    <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Войти</button>
+        <input type="submit" value="Войти">
     </form>
-</div>
-
-</body>
-</html>
+    <div class="auth-link">
+        <p>Нет аккаунта? <a href="{% url 'register' %}">Регистрация</a></p>
+    </div>
+{% endblock %}
