@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import PinklerUserCreationForm, PinklerUserAuthenticationForm
 from .models import PinklerUser, EmailConfirmationToken
+from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import UserThemePreference
 from django.http import JsonResponse
@@ -70,7 +71,7 @@ class PinklerUserAuthenticationView(LoginView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-
+@csrf_exempt
 def save_theme_preference(request):
     if request.method == 'POST':
         data = json.loads(request.body)
