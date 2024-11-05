@@ -32,7 +32,7 @@ class PinklerUserCreationForm(UserCreationForm):
 
     email = forms.EmailField(
         label='Адрес электронной почты',
-        widget = forms.EmailInput(attrs={
+        widget=forms.EmailInput(attrs={
             'placeholder': 'Адрес электронной почты',
             'required': 'required'
         })
@@ -88,7 +88,7 @@ class PinklerUserCreationForm(UserCreationForm):
 
     class Meta:
         model = PinklerUser
-        fields = ('username', 'email','password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2')
 
 
 class PinklerUserAuthenticationForm(AuthenticationForm):
