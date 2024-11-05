@@ -6,13 +6,14 @@ const Bg1 = document.querySelector('.bg-1');
 const Bg2 = document.querySelector('.bg-2');
 const Bg3 = document.querySelector('.bg-3');
 
-const root = document.querySelector(':root');
+var root = document.querySelector(':root');
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchThemePreferences()
         .then(() => {
             document.body.style.display = 'block';
         });
+});
 
 // Function for loading theme settings
 function fetchThemePreferences() {
@@ -38,29 +39,43 @@ function applyThemePreferences(data) {
     root.style.fontSize = data.font_size;
     root.style.setProperty('--primary-color-hue', data.primary_color);
 
-    const themeMappings = {
-        light: { lightness: ['95%', '100%', '0%'] },  // [lightColorLightness, whiteColorLightness, darkColorLightness]
-        dim: { lightness: ['15%', '20%', '95%'] },
-        dark: { lightness: ['0%', '10%', '95%'] },
-    };
+    const theme = data.theme;
+    let lightColorLightness, whiteColorLightness, darkColorLightness;
 
-    const { lightness } = themeMappings[data.theme] || themeMappings.light; // default to light if theme not found
-    root.style.setProperty('--light-color-lightness', lightness[0]);
-    root.style.setProperty('--white-color-lightness', lightness[1]);
-    root.style.setProperty('--dark-color-lightness', lightness[2]);
+    if (theme === "light") {
+        lightColorLightness = '95%';
+        whiteColorLightness = '100%';
+        darkColorLightness = '0%';
+    } else if (theme === "dim") {
+        lightColorLightness = '15%';
+        whiteColorLightness = '20%';
+        darkColorLightness = '95%';
+    } else if (theme === "dark") {
+        lightColorLightness = '0%';
+        whiteColorLightness = '10%';
+        darkColorLightness = '95%';
+    }
 
-    console.log('Applied color lightness settings:', { lightness });
+    root.style.setProperty('--light-color-lightness', lightColorLightness);
+    root.style.setProperty('--white-color-lightness', whiteColorLightness);
+    root.style.setProperty('--dark-color-lightness', darkColorLightness);
+
+    console.log('Applied color lightness settings:', {
+        lightColorLightness,
+        whiteColorLightness,
+        darkColorLightness
+    });
 
     document.querySelectorAll('.choose-bg div').forEach(div => div.classList.remove('active'));
-    const activeBg = document.querySelector(`.bg-${data.theme === "light" ? 1 : data.theme === "dim" ? 2 : 3}`);
+    const activeBg = document.querySelector(`.bg-${theme === "light" ? 1 : theme === "dim" ? 2 : 3}`);
     if (activeBg) {
         activeBg.classList.add('active');
     } else {
-        console.warn('No active background element found for theme:', data.theme);
+        console.warn('No active background element found for theme:', theme);
     }
 }
 
-// Opens Modal and closes
+// Opens Modal
 function openThemeModal() {
     themeModal.style.display = 'grid';
 }
@@ -71,81 +86,10 @@ function closeThemeModal(e) {
     }
 }
 
-// Handle theme font size
-fontSize.forEach(size => {
-    size.addEventListener('click', () => {
-        removeSizeSelectors();
-        size.classList.toggle('active'); // Toggle active class
+theme.addEventListener('click', openThemeModal);
+themeModal.addEventListener('click', closeThemeModal);
 
-        const fontSizeMappings = {
-            'font-size-1': '10px',
-            'font-size-2': '13px',
-            'font-size-3': '16px',
-            'font-size-4': '18px',
-        };
-
-        const newFontSize = Object.entries(fontSizeMappings).find(([className]) => size.classList.contains(className));
-        if (newFontSize) {
-            root.style.fontSize = newFontSize[1];
-            // Set sticky positions based on size
-            const stickyPositions = {
-                'font-size-1': ['5.4rem', '5.4rem'],
-                'font-size-2': ['5.4rem', '-7rem'],
-                'font-size-3': ['-2rem', '-17rem'],
-                'font-size-4': ['-5rem', '-25rem']
-            };
-            const positions = stickyPositions[newFontSize[0]];
-            if (positions) {
-                root.style.setProperty('----sticky-top-left', positions[0]);
-                root.style.setProperty('----sticky-top-right', positions[1]);
-            }
-
-            sendThemePreferences();
-        }
-    });
-});
-
-// Color palette handling
-colorPalette.forEach(color => {
-    color.addEventListener('click', () => {
-        changeActiveColor();
-
-        const primaryHueMappings = {
-            'color-1': 252,
-            'color-2': 52,
-            'color-3': 352,
-            'color-4': 152,
-            'color-5': 202
-        };
-
-        const selectedColor = Object.keys(primaryHueMappings).find(classKey => color.classList.contains(classKey));
-        if (selectedColor) {
-            root.style.setProperty('--primary-color-hue', primaryHueMappings[selectedColor]);
-            color.classList.add('active');
-            sendThemePreferences();
-        }
-    });
-});
-
-// Background change handling
-const backgrounds = {
-    Bg1: { lightness: ['95%', '98%', '0%'], element: Bg1 },
-    Bg2: { lightness: ['15%', '20%', '95%'], element: Bg2 },
-    Bg3: { lightness: ['0%', '10%', '95%'], element: Bg3 },
-};
-
-Object.entries(backgrounds).forEach(([key, { lightness, element }]) => {
-    element.addEventListener('click', () => {
-        // Set active class
-        Object.values(backgrounds).forEach(bg => bg.element.classList.remove('active'));
-        element.classList.add('active');
-
-        changeBackground(...lightness);
-        sendThemePreferences();
-    });
-});
-
-// Utility functions
+// Remove active class from spans or font size selectors
 function removeSizeSelectors() {
     fontSize.forEach(size => {
         size.classList.remove('active');
@@ -153,8 +97,19 @@ function removeSizeSelectors() {
 }
 
 function getCookie(name) {
-    const cookieValue = document.cookie.split('; ').find(row => row.startsWith(name + '='));
-    return cookieValue ? decodeURIComponent(cookieValue.split('=')[1]) : null;
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+
+    return cookieValue;
 }
 
 // Send theme preferences to the server
@@ -183,14 +138,93 @@ function sendThemePreferences() {
             console.error('Failed to save theme preferences.');
         }
     });
+};
+
+// Event handler for changing font size
+fontSize.forEach(size => {
+    size.addEventListener('click', () => {
+        removeSizeSelectors();
+        let fontSize;
+        size.classList.toggle('active');
+
+        if (size.classList.contains('font-size-1')) {
+            fontSize = '10px';
+            root.style.setProperty('----sticky-top-left', '5.4rem');
+            root.style.setProperty('----sticky-top-right', '5.4rem');
+        } else if (size.classList.contains('font-size-2')) {
+            fontSize = '13px';
+            root.style.setProperty('----sticky-top-left', '5.4rem');
+            root.style.setProperty('----sticky-top-right', '-7rem');
+        } else if (size.classList.contains('font-size-3')) {
+            fontSize = '16px';
+            root.style.setProperty('----sticky-top-left', '-2rem');
+            root.style.setProperty('----sticky-top-right', '-17rem');
+        } else if (size.classList.contains('font-size-4')) {
+            fontSize = '18px';
+            root.style.setProperty('----sticky-top-left', '-5rem');
+            root.style.setProperty('----sticky-top-right', '-25rem');
+        }
+
+        root.style.fontSize = fontSize;
+        sendThemePreferences();
+    });
+});
+
+function changeActiveColor() {
+    colorPalette.forEach(colorPicker => {
+        colorPicker.classList.remove('active');
+    });
 }
 
-// Handling modal display
-theme.addEventListener('click', openThemeModal);
-themeModal.addEventListener('click', closeThemeModal);
+colorPalette.forEach(color => {
+    color.addEventListener('click', () => {
+        let primaryHue;
+        changeActiveColor();
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchThemePreferences().then(() => {
-        document.body.style.display = 'block';
+        if (color.classList.contains('color-1')) {
+            primaryHue = 252;
+        } else if (color.classList.contains('color-2')) {
+            primaryHue = 52;
+        } else if (color.classList.contains('color-3')) {
+            primaryHue = 352;
+        } else if (color.classList.contains('color-4')) {
+            primaryHue = 152;
+        } else if (color.classList.contains('color-5')) {
+            primaryHue = 202;
+        }
+
+        color.classList.add('active');
+        root.style.setProperty('--primary-color-hue', primaryHue);
+        sendThemePreferences();
     });
+});
+
+function changeBackground(lightColorLightness, whiteColorLightness, darkColorLightness) {
+    root.style.setProperty('--light-color-lightness', lightColorLightness);
+    root.style.setProperty('--white-color-lightness', whiteColorLightness);
+    root.style.setProperty('--dark-color-lightness', darkColorLightness);
+}
+
+Bg1.addEventListener('click', () => {
+    Bg1.classList.add('active');
+    Bg2.classList.remove('active');
+    Bg3.classList.remove('active');
+    changeBackground('95%', '98%', '0%');
+    sendThemePreferences();
+});
+
+Bg2.addEventListener('click', () => {
+    Bg2.classList.add('active');
+    Bg1.classList.remove('active');
+    Bg3.classList.remove('active');
+    changeBackground('15%', '20%', '95%');
+    sendThemePreferences();
+});
+
+Bg3.addEventListener('click', () => {
+    Bg3.classList.add('active');
+    Bg1.classList.remove('active');
+    Bg2.classList.remove('active');
+    changeBackground('0%', '10%', '95%');
+    sendThemePreferences();
 });
