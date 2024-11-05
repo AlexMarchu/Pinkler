@@ -1,0 +1,14 @@
+{% extends 'users/auth_base.html' %}
+
+{% block title %}
+    <title>Сброс пароля</title>
+{% endblock %}
+
+{% block container-content %}
+    <h2>Ошибка</h2>
+    <p>К сожалению, указанного вами адреса электронной почты не существует в нашей базе данных.</p>
+    <p>Пожалуйста, проверьте правильность введенного адреса или попробуйте снова.</p>
+    <div class="auth-link">
+        <p><a href="{% url 'password_reset' %}">Вернуться к сбросу пароля</a></p>
+    </div>
+{% endblock %}

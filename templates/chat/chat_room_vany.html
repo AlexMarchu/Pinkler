@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">
+        <img src="use_it.png" alt="User Avatar" class="chat-avatar">
+        <span class="chat-username">Руслан Зинатуллин 👌</span>
+    </div>
+    <div id="chat-log">
+        <!-- Пример сообщений -->
+        <div class="chat-message received">
+            <div class="message">Привет, как дела?</div>
+        </div>
+        <div class="chat-message sent">
+            <div class="message">Привет, всё отлично, как у тебя?</div>
+        </div>
+    </div>
+    <div class="chat-input">
+        <button id="attachment-button"></button>
+        <input id="chat-message-input" type="text" placeholder="Введите сообщение...">
+        <button id="emoji-button"></button>
+        <button id="chat-message-submit"></button>
+    </div>
+</div>
+</body>
+</html>

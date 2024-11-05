@@ -5,45 +5,107 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    {{ room_name|json_script:"room-name" }}
-    <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+<textarea id="chat-log" cols="100" rows="20" readonly></textarea><br>
+<input id="chat-message-input" type="text" size="100"><br>
+<input id="chat-message-submit" type="button" value="Send">
+<input id="chat-image-input" type="file" accept="image/png, image/jpeg"><br>
+{{ room_name|json_script:"room-name" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
+    function fetchMessages() {
+        chatSocket.send(JSON.stringify({
+            'command': 'fetch_messages'
+        }));
+    }
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly :(');
-        };
+    chatSocket.onopen = function (e) {
+        fetchMessages();
+    };
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        console.log(data); // need for debug
+        if (data.command === 'new_message') {
+            const username = data.message.sender;
+            const messageContent = data.message.content;
+            const timestamp = data.message.timestamp;
+            const image = data.message.image;
+
+            let messageText = `[${timestamp}] ${username}: ${messageContent}\n`;
+            if (image) {
+                messageText += `Image: ${image}\n`;
             }
-        };
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
+            document.querySelector('#chat-log').value += messageText;
+        } else if (data.command === 'fetch_messages') {
+            document.querySelector('#chat-log').value = '';
+            data.messages.forEach(msg => {
+                let msgText = `[${msg.timestamp}] ${msg.sender}: ${msg.content}\n`;
+                if (msg.image) {
+                    msgText += `Image: ${msg.image}\n`;  // need for debug
+                }
+                document.querySelector('#chat-log').value += msgText;
+            });
+        }
+    };
+
+
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly :(');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // Enter, return key
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        const imageInputDom = document.querySelector('#chat-image-input');
+        const imageFile = imageInputDom.files[0];
+
+        let imageData = '';
+        if (imageFile) {
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                imageData = reader.result;
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'image': imageData,
+                    'command': 'new_message',
+                }));
+                messageInputDom.value = '';
+                imageInputDom.value = '';
+                // need for debug
+                // document.querySelector('#chat-log').value += `Sent: ${message}\n`;
+            }
+
+            reader.readAsDataURL(imageFile);
+        } else {
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
+                'command': 'new_message',
             }));
             messageInputDom.value = '';
-        };
-    </script>
+            // need for debug
+            // document.querySelector('#chat-log').value += `Sent: ${message}\n`;
+        }
+    };
+
+
+</script>
 </body>
 </html>

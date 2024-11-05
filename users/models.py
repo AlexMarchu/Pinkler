@@ -12,6 +12,7 @@ class PinklerUser(AbstractUser):
         ("Женский", "Ж"),
     )
 
+    email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     phone_number = models.CharField(max_length=12, unique=True, blank=True, null=True)
     sex = models.CharField(max_length=7, choices=SEX_CHOICES, default="М")

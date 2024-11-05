@@ -41,7 +41,7 @@ function applyThemePreferences(data) {
 
     const theme = data.theme;
     let lightColorLightness, whiteColorLightness, darkColorLightness;
-    
+
     if (theme === "light") {
         lightColorLightness = '95%';
         whiteColorLightness = '100%';
@@ -65,7 +65,7 @@ function applyThemePreferences(data) {
         whiteColorLightness,
         darkColorLightness
     });
-    
+
     document.querySelectorAll('.choose-bg div').forEach(div => div.classList.remove('active'));
     const activeBg = document.querySelector(`.bg-${theme === "light" ? 1 : theme === "dim" ? 2 : 3}`);
     if (activeBg) {
