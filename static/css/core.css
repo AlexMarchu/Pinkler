@@ -35,8 +35,7 @@ body {
     color: var(--color-dark);
     background: var(--color-light);
     overflow-x: hidden;
-    visibility: hidden;
-
+    display: none;
 }
 
 /* =============== General styles ============== */
@@ -44,8 +43,16 @@ body {
     width: 80%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 18vw auto 20vw;
+    grid-template-columns: 19vw auto 19vw;
     position: relative;
+}
+
+.left {
+    justify-self: left;
+}
+
+.right {
+    justify-self: end;
 }
 
 img {
@@ -105,13 +112,17 @@ img {
 }
 
 .btn-primary {
-    font-size: 0.98rem;
+    font-size: 1.08rem;
     background: var(--color-primary);
     color: var(--color-white);
 }
 
 .text-muted {
     color: var(--color-grey);
+}
+
+.text-semibold {
+    font-size: 600;
 }
 
 .uil {
