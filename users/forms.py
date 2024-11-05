@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, SetPasswordForm
 
 from .models import PinklerUser
 
@@ -112,3 +112,32 @@ class PinklerUserAuthenticationForm(AuthenticationForm):
     class Meta:
         model = PinklerUser
         fields = ('username', 'password')
+
+
+class PinklerUserPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        label='Адрес электронной почты',
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'Ваш email',
+            'required': 'required'
+        })
+    )
+
+
+class PinklerUserSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='Новый пароль',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Новый пароль',
+            'required': 'required',
+            'autofocus': 'autofocus'
+        })
+    )
+
+    new_password2 = forms.CharField(
+        label='Подтвердите новый пароль',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Подтвердите новый пароль',
+            'required': 'required'
+        })
+    )
