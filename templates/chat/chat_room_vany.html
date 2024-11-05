@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Chat Room</title>
-    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 </head>
 <body>
 <div class="chat-container">
@@ -12,20 +13,134 @@
         <span class="chat-username">Руслан Зинатуллин 👌</span>
     </div>
     <div id="chat-log">
-        <!-- Пример сообщений -->
-        <div class="chat-message received">
-            <div class="message">Привет, как дела?</div>
-        </div>
-        <div class="chat-message sent">
-            <div class="message">Привет, всё отлично, как у тебя?</div>
-        </div>
+        <!-- Сообщения будут добавляться сюда динамически -->
     </div>
     <div class="chat-input">
         <button id="attachment-button"></button>
+        <input type="file" id="chat-image-input" accept="image/png, image/jpeg" style="display: none;">
         <input id="chat-message-input" type="text" placeholder="Введите сообщение...">
-        <button id="emoji-button"></button>
-        <button id="chat-message-submit"></button>
+        <button id="chat-message-submit">Отправить</button>
     </div>
 </div>
+{{ room_name|json_script:"room-name" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+
+    function fetchMessages() {
+        chatSocket.send(JSON.stringify({
+            'command': 'fetch_messages'
+        }));
+    }
+
+    chatSocket.onopen = function (e) {
+        fetchMessages();
+    };
+
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+
+        if (data.command === 'new_message') {
+            const username = data.message.sender;
+            const messageContent = data.message.content;
+            const timestamp = data.message.timestamp;
+            const image = data.message.image;
+
+            // Создаем элемент сообщения
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message sent'; // Корректно отображаем полученное сообщение
+
+            // Текст сообщения
+            let messageText = `<div class="message">[${timestamp}] ${username}: ${messageContent}</div>`;
+            messageDiv.innerHTML = messageText;
+
+            // Если есть изображение, добавляем его ниже текста сообщения
+            if (image) {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'message'; // Добавляем класс для стилей
+                imageDiv.innerHTML = `<img src="${image}" alt="Image" style="max-width: 100%; border-radius: 10px;"/>`;
+                // messageDiv.appendChild(imageDiv); // Добавляем div с изображением к сообщению
+                document.getElementById('chat-log').appendChild(imageDiv);
+            }
+
+            document.getElementById('chat-log').appendChild(messageDiv); // Добавляем сообщение в чат
+            document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight; // Прокрутка вниз
+        } else if (data.command === 'fetch_messages') {
+            const chatLog = document.getElementById('chat-log');
+            chatLog.innerHTML = ''; // Очистка перед добавлением новых сообщений
+            data.messages.forEach(msg => {
+                let msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-message received';
+
+                // Текст сообщения
+                msgDiv.innerHTML = `<div class="message">[${msg.timestamp}] ${msg.sender}: ${msg.content}</div>`;
+
+                // Если есть изображение, добавляем его
+                if (msg.image) {
+                    const imageDiv = document.createElement('div');
+                    imageDiv.className = 'message';
+                    imageDiv.innerHTML = `<img src="${msg.image}" alt="Image" style="max-width: 100%; border-radius: 10px;"/>`;
+                    chatLog.appendChild(imageDiv);
+                }
+
+                chatLog.appendChild(msgDiv);
+            });
+            chatLog.scrollTop = chatLog.scrollHeight; // Прокрутка вниз
+        }
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly :(');
+    };
+
+    // Обработка нажатия на кнопку для выбора файла
+    document.getElementById('attachment-button').onclick = function() {
+        document.getElementById('chat-image-input').click();
+    };
+
+    document.getElementById('chat-message-input').focus();
+    document.getElementById('chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // Enter (return key)
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        const imageInputDom = document.querySelector('#chat-image-input');
+        const imageFile = imageInputDom.files[0];
+
+        let imageData = '';
+        if (imageFile) {
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                imageData = reader.result;
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'image': imageData,
+                    'command': 'new_message',
+                }));
+                messageInputDom.value = '';
+                imageInputDom.value = '';
+            }
+
+            reader.readAsDataURL(imageFile);
+        } else {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'command': 'new_message',
+            }));
+            messageInputDom.value = '';
+        }
+    };
+</script>
 </body>
 </html>
