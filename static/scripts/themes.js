@@ -9,15 +9,15 @@ const Bg3 = document.querySelector('.bg-3');
 const root = document.querySelector(':root');
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchThemePreferences()
+    fetchThemePreference()
         .then(() => {
             document.body.style.display = 'block';
         });
 });
 
 // Function for loading theme preference
-function fetchThemePreferences() {
-    return fetch('/accounts/get-theme-preferences/')
+function fetchThemePreference() {
+    return fetch('/accounts/get-theme-preference/')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Bad response: ' + response.statusText);
@@ -25,16 +25,16 @@ function fetchThemePreferences() {
             return response.json();
         })
         .then(data => {
-            applyThemePreferences(data);
+            applyThemePreference(data);
         })
         .catch(error => {
-            console.error('Failed to retrieve theme preferences: ', error);
+            console.error('Failed to retrieve theme preference: ', error);
         });
 }
 
 // Applying the received theme settings
-function applyThemePreferences(data) {
-    console.log('Received theme preferences:', data);
+function applyThemePreference(data) {
+    console.log('Received theme preference: ', data);
 
     root.style.fontSize = data.font_size;
     root.style.setProperty('--primary-color-hue', data.primary_color);
@@ -113,14 +113,14 @@ function getCookie(name) {
 }
 
 // Send theme preferences to the server
-function sendThemePreferences() {
+function sendThemePreference() {
     const activeBg = document.querySelector('.choose-bg .active');
     const theme = activeBg ? activeBg.dataset.theme : '';
     const fontSize = root.style.fontSize;
     const primaryColor = getComputedStyle(root).getPropertyValue('--primary-color-hue');
     const csrftoken = getCookie('csrftoken');
 
-    fetch('/accounts/save-theme-preferences/', {
+    fetch('/accounts/save-theme-preference/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -133,9 +133,9 @@ function sendThemePreferences() {
         })
     }).then(response => {
         if (response.ok) {
-            console.log('Theme preferences saved successfully.');
+            console.log('Theme preference saved successfully.');
         } else {
-            console.error('Failed to save theme preferences.');
+            console.error('Failed to save theme preference.');
         }
     });
 };
@@ -166,7 +166,7 @@ fontSize.forEach(size => {
         }
 
         root.style.fontSize = fontSize;
-        sendThemePreferences();
+        sendThemePreference();
     });
 });
 
@@ -195,7 +195,7 @@ colorPalette.forEach(color => {
 
         color.classList.add('active');
         root.style.setProperty('--primary-color-hue', primaryHue);
-        sendThemePreferences();
+        sendThemePreference();
     });
 });
 
@@ -209,8 +209,8 @@ Bg1.addEventListener('click', () => {
     Bg1.classList.add('active');
     Bg2.classList.remove('active');
     Bg3.classList.remove('active');
-    changeBackground('95%', '98%', '0%');
-    sendThemePreferences();
+    changeBackground('95%', '100%', '0%');
+    sendThemePreference();
 });
 
 Bg2.addEventListener('click', () => {
@@ -218,7 +218,7 @@ Bg2.addEventListener('click', () => {
     Bg1.classList.remove('active');
     Bg3.classList.remove('active');
     changeBackground('15%', '20%', '95%');
-    sendThemePreferences();
+    sendThemePreference();
 });
 
 Bg3.addEventListener('click', () => {
@@ -226,5 +226,5 @@ Bg3.addEventListener('click', () => {
     Bg1.classList.remove('active');
     Bg2.classList.remove('active');
     changeBackground('0%', '10%', '95%');
-    sendThemePreferences();
+    sendThemePreference();
 });

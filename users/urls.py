@@ -12,6 +12,6 @@ urlpatterns = [
     path('password_reset/confirm/<uidb64>/<token>/', PinklerUserPasswordResetConfirmView.as_view(),
          name='password_reset_confirm'),
     path('password_reset/complete', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    path('save-theme-preferences/', save_theme_preference, name='save_theme_preference'),
-    path('get-theme-preferences/', get_theme_preference, name='get_theme_preference'),
+    path('save-theme-preference/', save_theme_preference, name='save_theme_preference'),
+    path('get-theme-preference/', get_theme_preference, name='get_theme_preference'),
 ]
