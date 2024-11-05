@@ -8,6 +8,7 @@
 <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br>
 <input id="chat-message-input" type="text" size="100"><br>
 <input id="chat-message-submit" type="button" value="Send">
+<input id="chat-image-input" type="file" accept="image/png, image/jpeg"><br>
 {{ room_name|json_script:"room-name" }}
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
@@ -32,19 +33,32 @@
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
+        console.log(data); // need for debug
         if (data.command === 'new_message') {
             const username = data.message.sender;
             const messageContent = data.message.content;
             const timestamp = data.message.timestamp;
+            const image = data.message.image;
 
-            document.querySelector('#chat-log').value += `[${timestamp}] ${username}: ${messageContent}\n`;
+            let messageText = `[${timestamp}] ${username}: ${messageContent}\n`;
+            if (image) {
+                messageText += `Image: ${image}\n`;
+            }
+
+            document.querySelector('#chat-log').value += messageText;
         } else if (data.command === 'fetch_messages') {
             document.querySelector('#chat-log').value = '';
             data.messages.forEach(msg => {
-                document.querySelector('#chat-log').value += `[${msg.timestamp}] ${msg.sender}: ${msg.content}\n`;
+                let msgText = `[${msg.timestamp}] ${msg.sender}: ${msg.content}\n`;
+                if (msg.image) {
+                    msgText += `Image: ${msg.image}\n`;  // need for debug
+                }
+                document.querySelector('#chat-log').value += msgText;
             });
         }
     };
+
+
 
     chatSocket.onclose = function (e) {
         console.error('Chat socket closed unexpectedly :(');
@@ -60,12 +74,38 @@
     document.querySelector('#chat-message-submit').onclick = function (e) {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'command': 'new_message',
-        }));
-        messageInputDom.value = '';
+        const imageInputDom = document.querySelector('#chat-image-input');
+        const imageFile = imageInputDom.files[0];
+
+        let imageData = '';
+        if (imageFile) {
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                imageData = reader.result;
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'image': imageData,
+                    'command': 'new_message',
+                }));
+                messageInputDom.value = '';
+                imageInputDom.value = '';
+                // need for debug
+                // document.querySelector('#chat-log').value += `Sent: ${message}\n`;
+            }
+
+            reader.readAsDataURL(imageFile);
+        } else {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'command': 'new_message',
+            }));
+            messageInputDom.value = '';
+            // need for debug
+            // document.querySelector('#chat-log').value += `Sent: ${message}\n`;
+        }
     };
+
+
 </script>
 </body>
 </html>

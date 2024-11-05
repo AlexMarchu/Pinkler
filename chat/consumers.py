@@ -20,7 +20,13 @@ class ChatConsumer(WebsocketConsumer):
 
     def new_message(self, data):
         sender_instance = self.scope['user']
-        message = Message.objects.create(sender=sender_instance, content=data['message'])
+        message_content = data.get('message', '')
+        image_data = data.get('image', '')
+
+        message = Message(sender=sender_instance, content=message_content)
+        if image_data:
+            message.image = self.save_image(image_data)
+        message.save()
 
         content = {
             'command': 'new_message',
@@ -35,13 +41,22 @@ class ChatConsumer(WebsocketConsumer):
         return {
             'sender': message.sender.username,
             'content': message.content,
-            'timestamp': str(message.timestamp)
+            'timestamp': str(message.timestamp),
+            'image': message.image.url if message.image else None
         }
 
     commands = {
         'fetch_messages': fetch_messages,
         'new_message': new_message,
     }
+
+    def save_image(self, image_data):
+        import base64
+        from django.core.files.base import ContentFile
+
+        format, imgstr = image_data.split(';base64,')
+        ext = format.split('/')[-1]
+        return ContentFile(base64.b64decode(imgstr), name=f'image.{ext}')
 
     def connect(self):
         try:
