@@ -7,6 +7,6 @@ urlpatterns = [
     path('register/', PinklerUserRegistrationView.as_view(), name='register'),
     path('login/', PinklerUserAuthenticationView.as_view(), name='login'),
     path('confirm_email/<uuid:token>/', EmailConfirmationView.as_view(), name='confirm_email'),
-    path('save-theme-preference/', save_theme_preference, name='save_theme_preference'),
-    path('get-theme-preference/', get_theme_preference, name='get_theme_preference'),
+    path('save-theme-preferences/', save_theme_preference, name='save_theme_preferences'),
+    path('get-theme-preferences/', get_theme_preference, name='get_theme_preferences'),
 ]

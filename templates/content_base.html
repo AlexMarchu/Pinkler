@@ -13,7 +13,7 @@
         <nav class="upper-panel">
             <div class="grid-container">
                 <!----------------- LOGO -------------------->
-                <h2 class="logo">pinkler<div id="point"></div></h2>
+                <div class="dummy"></div>
                 <!----------------- SEARCH INPUТ -------------------->
                 <div class="middle-bar">
                     <div class="search-input">
@@ -25,6 +25,7 @@
                         <span><i class="uil uil-bell"><small class="notification-count">?</small></i></span>
                     </a>
                 </div>
+                <div class="dummy"></div>
             </div>
         </nav>
         <!----------------- MAIN -------------------->
@@ -38,7 +39,7 @@
                         </div>
                         <div class="handle">
                             <h4>{{ user.username }}</h4>
-                            <p class="muted">{{ user.email }}</p>
+                            <p class="text-muted">{{ user.email }}</p>
                         </div>
                     </a>
                     <!----------------- SIDEBAR -------------------->
@@ -65,7 +66,7 @@
                         </a>
                     </div>
                     <!----------------- CREATE POST -------------------->
-                    <button class="btn btn-primary text-semibold">Создать пост</button>
+                    <button class="btn btn-primary">Создать пост</button>
                 </div>
                 
                 <!----------------- MIDDLE -------------------->
@@ -111,12 +112,12 @@
                                 </div>
                                 <div class="handle">
                                     <h4>mesenev</h4>
-                                    <p class="text-muted">8 общих друзей</p>
+                                    <p class="text-muted">9 общих друзей</p>
                                 </div>
                             </div>
                             <div class="actions">
-                                <button class="btn btn-primary">Принять</button>
-                                <button class="btn">Отклонить</button>
+                                <button class="btn btn-primary"><i class="uil uil-check"></i></button>
+                                <button class="btn"><i class="uil uil-times"></i></button>
                             </div>
                         </div>
                     </div>
@@ -171,6 +172,6 @@
                 </div>
             </div>
         </div>
-        <script src="{% static 'scripts/index.js' %}"></script>
+        <script src="{% static 'scripts/core.js' %}"></script>
     </body>
 </html>

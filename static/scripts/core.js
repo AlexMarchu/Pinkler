@@ -1,4 +1,4 @@
-const theme = document.querySelector('#theme-button');
+const themeButton = document.querySelector('#theme-button');
 const themeModal = document.querySelector('.customize-theme');
 const fontSize = document.querySelectorAll('.choose-size span');
 const colorPalette = document.querySelectorAll('.choose-color span');
@@ -6,7 +6,7 @@ const Bg1 = document.querySelector('.bg-1');
 const Bg2 = document.querySelector('.bg-2');
 const Bg3 = document.querySelector('.bg-3');
 
-var root = document.querySelector(':root');
+const root = document.querySelector(':root');
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchThemePreferences()
@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// Function for loading theme settings
+// Function for loading theme preference
 function fetchThemePreferences() {
-    return fetch('/accounts/get-theme-preference/')
+    return fetch('/accounts/get-theme-preferences/')
         .then(response => {
             if (!response.ok) {
-                throw new Error('Theme response was bad: ' + response.statusText);
+                throw new Error('Bad response: ' + response.statusText);
             }
             return response.json();
         })
@@ -71,7 +71,7 @@ function applyThemePreferences(data) {
     if (activeBg) {
         activeBg.classList.add('active');
     } else {
-        console.warn('No active background element found for theme:', theme);
+        console.error('No background active element found for theme: ' + theme);
     }
 }
 
@@ -86,7 +86,7 @@ function closeThemeModal(e) {
     }
 }
 
-theme.addEventListener('click', openThemeModal);
+themeButton.addEventListener('click', openThemeModal);
 themeModal.addEventListener('click', closeThemeModal);
 
 // Remove active class from spans or font size selectors
@@ -120,7 +120,7 @@ function sendThemePreferences() {
     const primaryColor = getComputedStyle(root).getPropertyValue('--primary-color-hue');
     const csrftoken = getCookie('csrftoken');
 
-    fetch('/accounts/save-theme-preference/', {
+    fetch('/accounts/save-theme-preferences/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -40,19 +40,10 @@ body {
 
 /* =============== General styles ============== */
 .grid-container {
-    width: 80%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 19vw auto 19vw;
+    grid-template-columns: auto 40rem auto;
     position: relative;
-}
-
-.left {
-    justify-self: left;
-}
-
-.right {
-    justify-self: end;
 }
 
 img {
@@ -66,6 +57,13 @@ img {
     overflow: hidden;
 }
 
+.chats {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+}
+
 .chat-item {
     cursor: pointer;
     display: flex;
@@ -75,14 +73,6 @@ img {
     border-radius: 0.7rem;
     padding: 0.6rem 0.2rem;
     transition: all 200ms ease;
-}
-
-.chats, .right .chats {
-    display: flex;
-    flex-direction: column;
-    background: var(--color-white);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
 }
 
 .chats .chat-item h4 {
@@ -112,17 +102,13 @@ img {
 }
 
 .btn-primary {
-    font-size: 1.08rem;
+    font-size: 1.1rem;
     background: var(--color-primary);
     color: var(--color-white);
 }
 
 .text-muted {
     color: var(--color-grey);
-}
-
-.text-semibold {
-    font-size: 600;
 }
 
 .uil {
@@ -183,6 +169,7 @@ img {
 }
 
 .upper-panel .middle-bar {
+    width: 100%;
     display: flex;
 }
 
@@ -224,6 +211,8 @@ main .grid-container {
 
 /* =============== Left ============== */
 .left {
+    justify-self: right;
+    width: 21.4rem;
     height: max-content;
     position: sticky;
     top: 5.4rem;
@@ -239,11 +228,23 @@ main .grid-container {
     width: 100%;
 }
 
+.left .profile-card h4 {
+    font-size: 1.1rem;
+}
+
+.left .profile-card .handle p {
+    max-width: 15.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* =============== Sidebar ============== */
 .left .sidebar {
     margin-top: 1rem;
     background: var(--color-white);
     border-radius: var(--card-border-radius);
+    padding: 0.6rem;
 }
 
 .left .sidebar .sidebar-item {
@@ -251,8 +252,9 @@ main .grid-container {
     align-items: center;
     height: 4rem;
     cursor: pointer;
-    transition: all 300ms ease;
+    transition: all 200ms ease;
     position: relative;
+    border-radius: 0.7rem;
 }
 
 .left .sidebar .sidebar-item:hover, .upper-panel .nofitications-item:hover {
@@ -317,10 +319,20 @@ main .grid-container {
     padding: 0.7rem 0.32rem;
 }
 
+/* =============== Right ============== */
+.right {
+    justify-self: left;
+    width: 21.4rem;
+}
+
 /* =============== Right chats styles ============== */
+.right .chats {
+    padding: 0.6rem;
+}
+
 .right .chats .heading {
     font-size: 1.1rem;
-    margin-bottom: 0.56rem;
+    margin: 0.4rem;
 }
 
 /* =============== Friend Requests ============== */
@@ -339,17 +351,38 @@ main .grid-container {
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-bottom: 0.7rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .right .friend-requests .request .info {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
 }
 
 .right .friend-requests .request .actions {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.right .friend-requests .request .actions .btn {
+    box-sizing: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0.5rem;
+}
+
+.right .friend-requests .request .actions .btn-primary i {
+    color: var(--color-white);
+}
+
+.right .friend-requests .request .handle p {
+    max-width: 8.4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* =============== Theme Customization ============== */
@@ -369,7 +402,7 @@ main .grid-container {
 
 .customize-theme .card {
     background: var(--color-white);
-    padding: 3rem;
+    padding: 1.6rem 3rem;
     width: 50%;
     border-radius: var(--card-border-radius);
     box-shadow: 0 0 1rem var(--color-primary);
