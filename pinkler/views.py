@@ -7,5 +7,14 @@ def landing_view(request):
     else:
         return redirect('accounts/register')
 
+
 def test(request):
     return render(request, 'users/token_invalid.html')
+
+
+def tmp_friends_view(request):
+    return render(request, 'friends/friends.html')
+
+
+def tmp_bookmarks_view(request):
+    return render(request, 'bookmarks/bookmarks.html')

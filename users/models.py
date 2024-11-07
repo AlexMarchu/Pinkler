@@ -18,7 +18,8 @@ class PinklerUser(AbstractUser):
     sex = models.CharField(max_length=7, choices=SEX_CHOICES, default="М")
     status = models.TextField(blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='users/avatars/', default='users/avatars/default_avatar.png', blank=True, null=True)
+    avatar = models.ImageField(upload_to='users/avatars/', default='users/avatars/default_avatar.png', blank=True,
+                               null=True)
 
     def __str__(self):
         return self.username
@@ -40,6 +41,7 @@ class EmailConfirmationToken(models.Model):
 
     def __repr__(self):
         return f'EmailConfirmationToken(user={self.user}, token={self.token}, created_at={self.created_at})'
+
 
 class UserThemePreference(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="theme_preference")

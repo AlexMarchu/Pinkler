@@ -144,6 +144,10 @@ class PasswordResetCompleteView(TemplateView):
     template_name = 'users/password_reset_complete.html'
 
 
+def profile_view(request, username):
+    return render(request, 'profiles/profile.html', {})
+
+
 @csrf_exempt
 def save_theme_preference(request):
     if request.method == 'POST':
