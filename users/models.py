@@ -18,7 +18,7 @@ class PinklerUser(AbstractUser):
     sex = models.CharField(max_length=7, choices=SEX_CHOICES, default="М")
     status = models.TextField(blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='users/avatars/', default='images/avatars/man.png', blank=True, null=True)
+    avatar = models.ImageField(upload_to='users/avatars/', default='users/avatars/default_avatar.png', blank=True, null=True)
 
     def __str__(self):
         return self.username

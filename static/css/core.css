@@ -233,8 +233,12 @@ main .grid-container {
     border-radius: var(--card-border-radius);
     display: flex;
     align-items: center;
-    column-gap: 1rem;
+    column-gap: 0.8rem;
     width: 100%;
+}
+
+.left .profile-card .profile-photo {
+    width: 3rem;
 }
 
 .left .profile-card h4 {

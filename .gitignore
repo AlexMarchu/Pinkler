@@ -10,7 +10,13 @@
 __pycache__/
 local_settings.py
 db.sqlite3
-media
+
+media/*
+media/users/*
+media/users/avatars/*
+!media/users
+!media/users/avatars
+!media/users/avatars/default_avatar.png
 
 ### Linux ###
 *~
