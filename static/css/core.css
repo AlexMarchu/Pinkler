@@ -445,8 +445,12 @@ main .grid-container {
     padding: 0.2rem 0.5rem;
 }
 
-.right .friend-requests .request .actions i {
+.right .friend-requests .request .actions .accept-request i {
     color: var(--color-white);
+}
+
+.right .friend-requests .request .actions .reject-request i {
+    color: var(--color-black);
 }
 
 .right .friend-requests .request .handle p {
