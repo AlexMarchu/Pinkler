@@ -10,7 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('users.urls')),
     path('feed/', include('feed.urls')),
-    path('chat/', include('chat.urls', namespace='chat')),
+    path('chats/', include('chat.urls', namespace='chat')),
     path('test/', test, name='test'),
 ]
 

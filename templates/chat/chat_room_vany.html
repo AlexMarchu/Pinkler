@@ -9,8 +9,8 @@
 <body>
 <div class="chat-container">
     <div class="chat-header">
-        <img src="use_it.png" alt="User Avatar" class="chat-avatar">
-        <span class="chat-username">Руслан Зинатуллин 👌</span>
+        <img src="{{ user.avatar.url }}" alt="User Avatar" class="chat-avatar">
+        <span class="chat-username">{{ user.username }} 🌊</span>
     </div>
     <div id="chat-log">
         <!-- Сообщения будут добавляться сюда динамически -->
