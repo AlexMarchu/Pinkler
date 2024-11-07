@@ -19,6 +19,12 @@ body {
     width: 340px;
 }
 
+.container ul {
+    list-style-type: none;
+    text-align: center;
+    padding: 0;
+}
+
 .container h2 {
     text-align: center;
     margin-top: 0;
@@ -60,22 +66,17 @@ input[type="submit"]:hover {
 
 .container .auth-link {
     font-size: 13pt;
-    margin-top: 10px;
+    margin-top: 18px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 8px;
 }
 
 .container .auth-link p {
-    margin: 4px;
+    margin: 3px;
 }
 
 .container .auth-link a {
     color: rgb(75, 75, 243);
-}
-
-.container .capture {
-    text-align: center;
 }

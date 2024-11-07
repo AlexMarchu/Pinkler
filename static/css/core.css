@@ -62,6 +62,7 @@ img {
     flex-direction: column;
     background: var(--color-white);
     border-radius: var(--card-border-radius);
+    padding: 0.6rem;
 }
 
 .chat-item {
@@ -91,7 +92,7 @@ img {
     display: inline-block;
     padding: 0.6rem 2rem;
     font-weight: 500;
-    border-radius: 2rem;
+    border-radius: 1.4rem;
     cursor: pointer;
     transition: all 200ms ease;
     font-size: 0.94rem;
@@ -132,7 +133,7 @@ img {
 .search-input {
     width: 100%;
     background: var(--color-light);
-    border-radius: 1.5rem;
+    border-radius: 1.1rem;
     display: flex;
     align-items: center;
     padding-left: 0.4rem;
@@ -173,11 +174,19 @@ img {
     display: flex;
 }
 
+.upper-panel .dummy {
+    width: 22.1rem;
+}
+
+.upper-panel .logo-wrapper {
+    justify-self: right;
+}
+
 .upper-panel .logo #point {
-    position: absolute;
+    position: relative;
     background: var(--color-primary);
     border-radius: 50%;
-    top: 0.74rem;
+    top: -1.65rem;
     left: 0.96rem;
     width: 0.30rem;
     height: 0.30rem;
@@ -194,7 +203,7 @@ img {
     margin-left: 0.4rem;
     padding: 0.6rem 0.7rem 0.3rem 0.7rem;
     cursor: pointer;
-    transition: all 300ms ease;
+    transition: all 200ms ease;
     position: relative;
     border-radius: 35%;
 }
@@ -229,10 +238,11 @@ main .grid-container {
 }
 
 .left .profile-card h4 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
 }
 
 .left .profile-card .handle p {
+    font-size: 1.08rem;
     max-width: 15.6rem;
     white-space: nowrap;
     overflow: hidden;
@@ -270,33 +280,6 @@ main .grid-container {
     font-size: 1rem;
 }
 
-.left .sidebar .active {
-    background: var(--color-light);
-}
-
-.left .sidebar .active i, .left .sidebar .active h3 {
-    color: var(--color-primary);
-}
-
-.left .sidebar .active::before {
-    content: "";
-    display: block;
-    width: 0.5rem;
-    height: 100%;
-    position: absolute;
-    background: var(--color-primary);
-}
-
-.left .sidebar .sidebar-item:first-child.active {
-    border-top-left-radius: var(--card-border-radius);
-    overflow: hidden;
-}
-
-.left .sidebar .sidebar-item:last-child.active {
-    border-bottom-left-radius: var(--card-border-radius);
-    overflow: hidden;
-}
-
 .left .btn {
     margin-top: 1rem;
     width: 100%;
@@ -305,18 +288,110 @@ main .grid-container {
     margin-bottom: 0.7rem;
 }
 
-/* =============== Middle chats styles ============== */
+/* =============== Middle chats ============== */
 .middle .chats .heading {
     font-size: 1.26rem;
+    margin: 0.4rem;
 }
 
 .middle .chats .search-input {
-    margin: 0.6rem 0;
+    margin-top: 0.2rem;
+    margin-bottom: 0.6rem;
 }
 
 .middle .chats .search-input input[type="search"] {
     font-size: 1.05rem;
-    padding: 0.7rem 0.32rem;
+    padding: 0.8rem 0.32rem;
+}
+
+/* =============== Profile ============== */
+.middle .profile .profile-card {
+    position: relative;
+    margin-top: 1.6rem;
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+    align-items: center;
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: 0.6rem 1rem 0.6rem 0.6rem;
+}
+
+.middle .profile .profile-card .profile-photo {
+    position: absolute;
+    width: 7rem;
+    top: -1.6rem;
+    padding: 0.3rem;
+    background: var(--color-white);
+    box-sizing: content-box;
+}
+
+.middle .profile .profile-card .handle {
+    margin-left: 7.8rem;
+}
+
+.middle .profile .profile-card .handle h4 {
+    font-size: 1.15rem;
+}
+
+.middle .profile .profile-card .actions {
+    display: flex;
+    column-gap: 0.5rem;
+}
+
+.middle .profile .profile-card .actions .btn {
+    width: 2rem;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.middle .profile .profile-card .actions .btn i {
+    font-size: 1.5rem;
+    color: var(--color-light);
+}
+
+.middle .profile .tabs {
+    position: relative;
+    margin-top: 1.2rem;
+    display: flex;
+    background-color: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: 0.7rem; 
+}
+
+.middle .profile .tabs .tab-switch {
+    display: none;
+}
+
+.middle .profile .tabs .tab-label {
+    position: relative;
+    padding: 0.7rem;
+    cursor: pointer;
+    transition: all 200ms ease;
+    font-size: 1.08rem;
+    font-weight: 500;
+}
+
+.profile .tab .tab-content {
+    position: absolute;
+    top: 2.8rem;
+    left: 0;
+    opacity: 0;
+    padding: 0.6rem;
+    transition: all 200ms ease;
+}
+.tab-switch + .tab-label {
+    color: var(--color-grey);
+}
+
+.tab-switch:checked + .tab-label {
+    color: var(--color-dark);
+}
+
+.tab-switch:checked + label + .tab-content {
+    opacity: 1;
 }
 
 /* =============== Right ============== */
@@ -326,10 +401,6 @@ main .grid-container {
 }
 
 /* =============== Right chats styles ============== */
-.right .chats {
-    padding: 0.6rem;
-}
-
 .right .chats .heading {
     font-size: 1.1rem;
     margin: 0.4rem;
@@ -374,7 +445,7 @@ main .grid-container {
     padding: 0.2rem 0.5rem;
 }
 
-.right .friend-requests .request .actions .btn-primary i {
+.right .friend-requests .request .actions i {
     color: var(--color-white);
 }
 

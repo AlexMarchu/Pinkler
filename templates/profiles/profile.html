@@ -1,0 +1,32 @@
+{% extends 'content_base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="profile">
+        <div class="profile-card">
+            <div class="profile-photo">
+                <img src="{% static 'images/avatars/man.png' %}">
+            </div>
+            <div class="handle">
+                <h4>wyborn</h4>
+                <p class="text-muted">Whereas disregard and contempt for human rights have resulted</p>
+            </div>
+            <div class="actions">
+                <button class="btn"><i class="uil uil-comment-edit"></i></button>
+                <button class="btn"><i class="uil uil-user-plus"></i></button>
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab">
+                <input type="radio" class="tab-switch" id="posts" name="css-tabs" checked>
+                <label for="posts" class="tab-label">Посты</label>
+                <div class="tab-content">Посты...</div>
+            </div>
+            <div class="tab">
+                <input type="radio" class="tab-switch" id="friends" name="css-tabs">
+                <label for="friends" class="tab-label">Друзья</label>
+                <div class="tab-content">Друзья...</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

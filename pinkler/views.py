@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 
 def landing_view(request):
@@ -6,3 +6,6 @@ def landing_view(request):
         return redirect('feed/')
     else:
         return redirect('accounts/register')
+
+def test(request):
+    return render(request, 'users/token_invalid.html')
