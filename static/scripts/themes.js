@@ -37,7 +37,34 @@ function applyThemePreference(data) {
     console.log('Received theme preference: ', data);
 
     root.style.fontSize = data.font_size;
+
+    fontSize.forEach(size => size.classList.remove('active'));
+    if (data.font_size === '10px') {
+        document.querySelector('.font-size-1').classList.add('active');
+    } else if (data.font_size === '13px') {
+        document.querySelector('.font-size-2').classList.add('active');
+    } else if (data.font_size === '16px') {
+        document.querySelector('.font-size-3').classList.add('active');
+    } else if (data.font_size === '18px') {
+        document.querySelector('.font-size-4').classList.add('active');
+    }
+
+
     root.style.setProperty('--primary-color-hue', data.primary_color);
+
+
+    colorPalette.forEach(color => color.classList.remove('active'));
+    if (data.primary_color === '252') {
+        document.querySelector('.color-1').classList.add('active');
+    } else if (data.primary_color === '52') {
+        document.querySelector('.color-2').classList.add('active');
+    } else if (data.primary_color === '352') {
+        document.querySelector('.color-3').classList.add('active');
+    } else if (data.primary_color === '152') {
+        document.querySelector('.color-4').classList.add('active');
+    } else if (data.primary_color === '202') {
+        document.querySelector('.color-5').classList.add('active');
+    }
 
     const theme = data.theme;
     let lightColorLightness, whiteColorLightness, darkColorLightness;
