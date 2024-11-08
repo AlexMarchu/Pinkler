@@ -12,7 +12,7 @@ class Message(models.Model):
 
     @staticmethod
     def load_last_30_messages():
-        return Message.objects.order_by('timestamp').all()[:50]
+        return Message.objects.order_by('-timestamp').all()[:50][::-1]
 
     def __str__(self):
         return f'Message from {self.sender} to {self.receiver}: {self.content}'

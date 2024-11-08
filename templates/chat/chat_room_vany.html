@@ -9,8 +9,8 @@
 <body>
 <div class="chat-container">
     <div class="chat-header">
-        <img src="use_it.png" alt="User Avatar" class="chat-avatar">
-        <span class="chat-username">Руслан Зинатуллин 👌</span>
+        <img src="{{ user.avatar.url }}" alt="User Avatar" class="chat-avatar">
+        <span class="chat-username">{{ user.username }} 🌊</span>
     </div>
     <div id="chat-log">
         <!-- Сообщения будут добавляться сюда динамически -->
@@ -46,6 +46,7 @@
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
+        const chatLog = document.getElementById('chat-log');
 
         if (data.command === 'new_message') {
             const username = data.message.sender;
@@ -53,36 +54,32 @@
             const timestamp = data.message.timestamp;
             const image = data.message.image;
 
-            // Создаем элемент сообщения
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'chat-message sent'; // Корректно отображаем полученное сообщение
+            messageDiv.className = 'chat-message';
+            messageDiv.classList.add(username === '{{ user.username }}' ? 'sent' : 'received');
 
-            // Текст сообщения
             let messageText = `<div class="message">[${timestamp}] ${username}: ${messageContent}</div>`;
             messageDiv.innerHTML = messageText;
 
-            // Если есть изображение, добавляем его ниже текста сообщения
             if (image) {
                 const imageDiv = document.createElement('div');
-                imageDiv.className = 'message'; // Добавляем класс для стилей
+                imageDiv.className = 'message';
                 imageDiv.innerHTML = `<img src="${image}" alt="Image" style="max-width: 100%; border-radius: 10px;"/>`;
-                // messageDiv.appendChild(imageDiv); // Добавляем div с изображением к сообщению
-                document.getElementById('chat-log').appendChild(imageDiv);
+                chatLog.appendChild(imageDiv);
             }
 
-            document.getElementById('chat-log').appendChild(messageDiv); // Добавляем сообщение в чат
-            document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight; // Прокрутка вниз
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+
         } else if (data.command === 'fetch_messages') {
-            const chatLog = document.getElementById('chat-log');
-            chatLog.innerHTML = ''; // Очистка перед добавлением новых сообщений
+            chatLog.innerHTML = '';
             data.messages.forEach(msg => {
-                let msgDiv = document.createElement('div');
-                msgDiv.className = 'chat-message received';
+                let messageDiv = document.createElement('div');
+                messageDiv.className = 'chat-message';
+                messageDiv.classList.add(msg.sender === '{{ user.username }}' ? 'sent' : 'received');
 
-                // Текст сообщения
-                msgDiv.innerHTML = `<div class="message">[${msg.timestamp}] ${msg.sender}: ${msg.content}</div>`;
+                messageDiv.innerHTML = `<div class="message">[${msg.timestamp}] ${msg.sender}: ${msg.content}</div>`;
 
-                // Если есть изображение, добавляем его
                 if (msg.image) {
                     const imageDiv = document.createElement('div');
                     imageDiv.className = 'message';
@@ -90,17 +87,19 @@
                     chatLog.appendChild(imageDiv);
                 }
 
-                chatLog.appendChild(msgDiv);
+                chatLog.appendChild(messageDiv);
             });
-            chatLog.scrollTop = chatLog.scrollHeight; // Прокрутка вниз
+
+            chatLog.scrollTop = chatLog.scrollHeight;
         }
     };
+
+
 
     chatSocket.onclose = function (e) {
         console.error('Chat socket closed unexpectedly :(');
     };
 
-    // Обработка нажатия на кнопку для выбора файла
     document.getElementById('attachment-button').onclick = function() {
         document.getElementById('chat-image-input').click();
     };

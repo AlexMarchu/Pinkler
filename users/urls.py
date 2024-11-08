@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import PinklerUserAuthenticationView, PinklerUserRegistrationView, EmailConfirmationView, \
     PinklerUserPasswordResetView, PinklerUserPasswordResetConfirmView, PasswordResetCompleteView
-from .views import save_theme_preference, get_theme_preference
+from .views import save_theme_preference, get_theme_preference, profile_view
 
 urlpatterns = [
     path('register/', PinklerUserRegistrationView.as_view(), name='register'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('password_reset/confirm/<uidb64>/<token>/', PinklerUserPasswordResetConfirmView.as_view(),
          name='password_reset_confirm'),
     path('password_reset/complete', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('<str:username>', profile_view, {}),
     path('save-theme-preference/', save_theme_preference, name='save_theme_preference'),
     path('get-theme-preference/', get_theme_preference, name='get_theme_preference'),
 ]
