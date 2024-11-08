@@ -284,6 +284,7 @@ img {
 }
 
 .left .profile-card h4 {
+    color: var(--color-dark);
     font-size: 1.15rem;
 }
 

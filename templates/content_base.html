@@ -5,6 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{% static 'images/icons/favicon.png' %}">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
         <link rel="stylesheet" href="{% static 'css/core.css' %}">
         {% block title %}
@@ -14,8 +15,8 @@
         <!----------------- UPPER PANEL -------------------->
         <nav class="upper-panel">
             <div class="grid-container">
+                <!----------------- LOGO -------------------->
                 <div class="dummy logo-wrapper">
-                    <!----------------- LOGO -------------------->
                     <h2 class="logo">pinkler<div id="point"></div></h2>
                 </div>
                 <!----------------- SEARCH INPUТ -------------------->
@@ -37,7 +38,7 @@
             <div class="grid-container">
                 <div class="left">
                     <!----------------- PROFILE CARD -------------------->
-                    <a class="profile-card">
+                    <a class="profile-card" href="{% url 'profile' user.username %}">
                         <div class="profile-photo">
                             <img src="{{ user.avatar.url }}">
                         </div>

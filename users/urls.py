@@ -14,5 +14,5 @@ urlpatterns = [
     path('password_reset/complete', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('save-theme-preference/', save_theme_preference, name='save_theme_preference'),
     path('get-theme-preference/', get_theme_preference, name='get_theme_preference'),
-    path('<str:username>/', profile_view),
+    path('<str:username>/', profile_view, name='profile'),
 ]

@@ -1,6 +1,10 @@
 {% extends 'content_base.html' %}
 {% load static %}
 
+{% block title %}
+    <title>{{ profile_data.username }}</title>
+{% endblock %}
+
 {% block content %}
     <div class="profile">
         <div class="profile-card">
