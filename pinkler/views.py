@@ -8,4 +8,4 @@ def landing_view(request):
         return redirect('accounts/register')
 
 def test(request):
-    return render(request, 'users/token_invalid.html')
+    return render(request, 'friends/friends.html')

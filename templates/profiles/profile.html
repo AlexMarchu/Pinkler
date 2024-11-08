@@ -4,12 +4,14 @@
 {% block content %}
     <div class="profile">
         <div class="profile-card">
-            <div class="profile-photo">
-                <img src="{% static 'images/avatars/man.png' %}">
-            </div>
-            <div class="handle">
-                <h4>wyborn</h4>
-                <p class="text-muted">Whereas disregard and contempt for human rights have resulted</p>
+            <div class="info">
+                <div class="profile-photo">
+                    <img src="{% static 'images/avatars/default_avatar.png' %}">
+                </div>
+                <div class="handle">
+                    <h4>wyborn</h4>
+                    <p class="text-muted">Whereas disregard and contempt.</p>
+                </div>
             </div>
             <div class="actions">
                 <button class="btn"><i class="uil uil-comment-edit"></i></button>
@@ -18,14 +20,34 @@
         </div>
         <div class="tabs">
             <div class="tab">
-                <input type="radio" class="tab-switch" id="posts" name="css-tabs" checked>
-                <label for="posts" class="tab-label">Посты</label>
-                <div class="tab-content">Посты...</div>
+                <input type="radio" class="tab-switch" id="bio" name="css-tabs" checked>
+                <label for="bio" class="tab-label"><i class="uil uil-info-circle"></i>Информация</label>
+                <div class="tab-content bio-list">
+                    <label class="bio-item"><i class="uil uil-lock"></i><span class="title">Админ:</span>true</label>
+                    <label class="bio-item"><i class="uil uil-phone"></i><span class="title">Телефон:</span> +7914567890</label>
+                    <label class="bio-item"><i class="uil uil-calendar-alt"></i><span class="title">День рождения:</span> 19.09.2005</label>
+                    <label class="bio-item"><i class="uil uil-clock"></i><span class="title">Дата регистрации:</span> 07.11.2024</label>
+                </div>
+            </div>
+            <div class="tab">
+                <input type="radio" class="tab-switch" id="posts" name="css-tabs">
+                <label for="posts" class="tab-label"><i class="uil uil-clipboard-notes"></i>Посты</label>
+                <div class="tab-content">
+                    
+                </div>
             </div>
             <div class="tab">
                 <input type="radio" class="tab-switch" id="friends" name="css-tabs">
-                <label for="friends" class="tab-label">Друзья</label>
-                <div class="tab-content">Друзья...</div>
+                <label for="friends" class="tab-label"><i class="uil uil-users-alt"></i>Друзья</label>
+                <div class="tab-content users-list">
+                    <div class="search-input">
+                        <i class="uil uil-search"></i>
+                        <input type="search" placeholder="Поиск..." id="user-friends-search">
+                    </div>
+                    {% include 'includes/users_list.html' %}
+                    {% include 'includes/users_list.html' %}
+                    {% include 'includes/users_list.html' %}
+                </div>
             </div>
         </div>
     </div>

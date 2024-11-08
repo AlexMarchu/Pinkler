@@ -1,1 +1,15 @@
 {% extends 'content_base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="friends users-list">
+        <h3 class="heading">Друзья</h3>
+        <div class="search-input">
+            <i class="uil uil-search"></i>
+            <input type="search" placeholder="Поиск...">
+        </div>
+        {% include 'includes/users_list.html' %}
+        {% include 'includes/users_list.html' %}
+        {% include 'includes/users_list.html' %}
+    </div>
+{% endblock %}

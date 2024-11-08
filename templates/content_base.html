@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
         <link rel="stylesheet" href="{% static 'css/core.css' %}">
+        {% block title %}
+        {% endblock %}
     </head>
     <body>
         <!----------------- UPPER PANEL -------------------->
@@ -60,7 +62,7 @@
                         </a>
                         <a class="sidebar-item">
                             <span><i class="uil uil-bookmark"></i></span>
-                            <h3>Закладки</h3>
+                            <h3>Избранное</h3>
                         </a>
                         <a class="sidebar-item" id="theme-button">
                             <span><i class="uil uil-palette"></i></span>
@@ -80,7 +82,7 @@
                 <!----------------- RIGHT -------------------->
                 <div class="right">
                     <!----------------- CHATS -------------------->
-                    <div class="chats">
+                    <div class="chats-list">
                         <h4 class="heading">Недавние сообщения</h4>
                         <!----------------- CHAT -------------------->
                         <div class="chat-item">
@@ -110,7 +112,7 @@
                         <div class="request">
                             <div class="info">
                                 <div class="profile-photo">
-                                    <img src="">
+                                    <img src="{% static 'images/avatars/default_avatar.png' %}">
                                 </div>
                                 <div class="handle">
                                     <h4>mesenev</h4>
