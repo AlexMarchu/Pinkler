@@ -25,6 +25,7 @@
     text-decoration: none;
     list-style: none;
     border: none;
+    transition: background 200ms ease;
 }
 
 body {
@@ -302,6 +303,8 @@ img {
 }
 
 .sidebar .sidebar-item {
+    color: var(--color-dark);
+    text-decoration: none;
     display: flex;
     align-items: center;
     height: 4rem;
@@ -550,9 +553,10 @@ img {
 .customize-theme .card {
     background: var(--color-white);
     padding: 1.6rem 3rem;
-    width: 50%;
+    width: 50rem;
     border-radius: 1rem;
     box-shadow: 0 0 1rem var(--color-primary);
+    transition: box-shadow 200ms ease;
 }
 
 .customize-theme .card p {

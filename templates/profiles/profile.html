@@ -6,11 +6,11 @@
         <div class="profile-card">
             <div class="info">
                 <div class="profile-photo">
-                    <img src="{% static 'images/avatars/default_avatar.png' %}">
+                    <img src="{{ profile_data.avatar.url }}">
                 </div>
                 <div class="handle">
-                    <h4>wyborn</h4>
-                    <p class="text-muted">Whereas disregard and contempt.</p>
+                    <h4>{{ profile_data.username }}</h4>
+                    <p class="text-muted">{{ profile_data.status }}</p>
                 </div>
             </div>
             <div class="actions">
@@ -23,10 +23,10 @@
                 <input type="radio" class="tab-switch" id="bio" name="css-tabs" checked>
                 <label for="bio" class="tab-label"><i class="uil uil-info-circle"></i>Информация</label>
                 <div class="tab-content bio-list">
-                    <label class="bio-item"><i class="uil uil-lock"></i><span class="title">Админ:</span>true</label>
-                    <label class="bio-item"><i class="uil uil-phone"></i><span class="title">Телефон:</span> +7914567890</label>
-                    <label class="bio-item"><i class="uil uil-calendar-alt"></i><span class="title">День рождения:</span> 19.09.2005</label>
-                    <label class="bio-item"><i class="uil uil-clock"></i><span class="title">Дата регистрации:</span> 07.11.2024</label>
+                    <label class="bio-item"><i class="uil uil-lock"></i><span class="title">Админ:</span>{{ profile_data.is_staff }}</label>
+                    <label class="bio-item"><i class="uil uil-phone"></i><span class="title">Телефон:</span>{{ profile_data.phone_number|default_if_none:'Не указано' }}</label>
+                    <label class="bio-item"><i class="uil uil-calendar-alt"></i><span class="title">День рождения:</span>{{ profile_data.birthday|default_if_none:'Не указано' }}</label>
+                    <label class="bio-item"><i class="uil uil-clock"></i><span class="title">Дата регистрации:</span>{{ profile_data.date_joined|date }}</label>
                 </div>
             </div>
             <div class="tab">

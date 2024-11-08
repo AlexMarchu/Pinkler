@@ -48,19 +48,19 @@
                     </a>
                     <!----------------- SIDEBAR -------------------->
                     <div class="sidebar">
-                        <a class="sidebar-item">
+                        <a class="sidebar-item url-item" href="{% url 'feed' %}">
                             <span><i class="uil uil-home"></i></span>
                             <h3>Главная</h3>
                         </a>
-                        <a class="sidebar-item">
+                        <a class="sidebar-item url-item" href="{% url 'chat:chats' %}">
                             <span><i class="uil uil-envelope-alt"><small class="notification-count">?</small></i></span>
                             <h3>Сообщения</h3>
                         </a>
-                        <a class="sidebar-item">
+                        <a class="sidebar-item url-item" href="{% url 'friends' %}">
                             <span><i class="uil uil-users-alt"><small class="notification-count">?</small></i></span>
                             <h3>Друзья</h3>
                         </a>
-                        <a class="sidebar-item">
+                        <a class="sidebar-item url-item" href="{% url 'bookmarks' %}">
                             <span><i class="uil uil-bookmark"></i></span>
                             <h3>Избранное</h3>
                         </a>

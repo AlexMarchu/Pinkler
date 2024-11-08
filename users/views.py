@@ -145,7 +145,8 @@ class PasswordResetCompleteView(TemplateView):
 
 
 def profile_view(request, username):
-    return render(request, 'profiles/profile.html', {})
+    profile_data = PinklerUser.objects.get(username=username)
+    return render(request, 'profiles/profile.html', {'profile_data': profile_data})
 
 
 @csrf_exempt
