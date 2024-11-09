@@ -38,7 +38,7 @@
             <div class="grid-container">
                 <div class="left">
                     <!----------------- PROFILE CARD -------------------->
-                    <a class="profile-card" href="{% url 'profile' user.username %}">
+                    <a class="profile-card url-item" url="/accounts/{{ user.username }}">
                         <div class="profile-photo">
                             <img src="{{ user.avatar.url }}">
                         </div>
@@ -49,19 +49,19 @@
                     </a>
                     <!----------------- SIDEBAR -------------------->
                     <div class="sidebar">
-                        <a class="sidebar-item url-item" href="{% url 'feed' %}">
+                        <a class="sidebar-item url-item" url="/feed">
                             <span><i class="uil uil-home"></i></span>
                             <h3>Главная</h3>
                         </a>
-                        <a class="sidebar-item url-item" href="{% url 'chat:chats' %}">
+                        <a class="sidebar-item url-item" url="/chats">
                             <span><i class="uil uil-envelope-alt"><small class="notification-count">?</small></i></span>
                             <h3>Сообщения</h3>
                         </a>
-                        <a class="sidebar-item url-item" href="{% url 'friends' %}">
+                        <a class="sidebar-item url-item" url="/friends">
                             <span><i class="uil uil-users-alt"><small class="notification-count">?</small></i></span>
                             <h3>Друзья</h3>
                         </a>
-                        <a class="sidebar-item url-item" href="{% url 'bookmarks' %}">
+                        <a class="sidebar-item url-item" url="/bookmarks">
                             <span><i class="uil uil-bookmark"></i></span>
                             <h3>Избранное</h3>
                         </a>
@@ -178,5 +178,6 @@
             </div>
         </div>
         <script src="{% static 'scripts/themes.js' %}"></script>
+        <script src="{% static 'scripts/core.js' %}"></script>
     </body>
 </html>

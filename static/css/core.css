@@ -49,7 +49,7 @@ img {
     margin: 0 auto;
     display: grid;
     grid-template-columns: auto 40rem auto;
-    column-gap: 1.6rem;
+    column-gap: 1.2rem;
 }
 
 .profile-photo img {
@@ -269,6 +269,7 @@ img {
 }
 
 .left .profile-card {
+    cursor: pointer;
     padding: 1rem;
     background: var(--color-white);
     border-radius: 1rem;
