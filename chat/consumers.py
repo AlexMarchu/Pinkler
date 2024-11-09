@@ -40,7 +40,7 @@ class ChatConsumer(WebsocketConsumer):
     def message_to_json(self, message):
         return {
             'sender': message.sender.username,
-            'content': message.content,
+            'content': self.replace_emoji_codes(message.content),
             'timestamp': str(message.timestamp),
             'image': message.image.url if message.image else None
         }
@@ -49,6 +49,28 @@ class ChatConsumer(WebsocketConsumer):
         'fetch_messages': fetch_messages,
         'new_message': new_message,
     }
+
+    emoji_dict = {
+        ':smile:': '😊', ':sad:': '😢', ':laugh:': '😂', ':heart:': '❤️', ':thumbsup:': '👍',
+        ':poop:': '💩', ':alien:': '👾', ':eyes:': '👀', ':cool:': '😎', ':cry:': '😭',
+        ':love:': '😍', ':angry:': '😡', ':think:': '🤔', ':kiss:': '😘', ':star_struck:': '🤩',
+        ':salute:': '🫡', ':surprised:': '🫢', ':peek:': '🫣', ':raised_eyebrow:': '🤨', ':neutral:': '😐',
+        ':sleeping:': '😴', ':drooling:': '🤤', ':vomit:': '🤮', ':exploding_head:': '🤯', ':mask:': '😷',
+        ':party:': '🥳', ':nerd:': '🤓', ':tears_of_joy:': '🥹', ':imp:': '👿', ':devil:': '😈',
+        ':cursing:': '🤬', ':angel:': '😇', ':upside_down:': '🙃', ':wave:': '👋', ':ok:': '👌',
+        ':call:': '🤙', ':rock:': '🤟', ':pinched:': '🤌', ':up:': '👆', ':down:': '👇',
+        ':left:': '👈', ':right:': '👉', ':middle_finger:': '🖕', ':thumb_down:': '👎', ':pray:': '🙏',
+        ':handshake:': '🤝', ':nails:': '💅', ':muscle:': '💪', ':pregnant:': '🤰', ':ninja:': '🥷',
+        ':dancer:': '💃', ':rose:': '🌹', ':blossom:': '🌸', ':wilted:': '🥀', ':wolf:': '🐺',
+        ':beer:': '🍺', ':wine:': '🍷', ':sparkles:': '✨', ':money_with_wings:': '💸', ':chart_up:': '📈',
+        ':chart_down:': '📉', ':moai:': '🗿', ':cat:': '🐱', ':book:': '📚'
+    }
+
+    def replace_emoji_codes(self, message):
+        for code, emoji in self.emoji_dict.items():
+            message = message.replace(code, emoji)
+        print(message)
+        return message
 
     def save_image(self, image_data):
         import base64
@@ -96,5 +118,4 @@ class ChatConsumer(WebsocketConsumer):
 
         # Send message to WebSocket
         self.send(text_data=json.dumps(message))
-
 
