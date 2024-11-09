@@ -1,0 +1,27 @@
+{% extends 'content_base.html' %}
+
+{% block title %}
+    <title>Поиск</title>
+{% endblock %}
+
+{% block content %}
+    <div class="search">
+        <div class="tabs">
+            <h3 class="heading">Результаты поиска</h3>
+            <div class="tab">
+                <input type="radio" class="tab-switch" id="posts" name="css-tabs" checked>
+                <label for="posts" class="tab-label"><i class="uil uil-clipboard-notes"></i>Посты</label>
+                <div class="tab-content">
+                    
+                </div>
+            </div>
+            <div class="tab">
+                <input type="radio" class="tab-switch" id="people" name="css-tabs">
+                <label for="people" class="tab-label"><i class="uil uil-users-alt"></i>Люди</label>
+                <div class="tab-content users-list">
+                    {% include 'includes/users_list.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

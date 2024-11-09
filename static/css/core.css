@@ -208,6 +208,53 @@ img {
     color: var(--color-black);
 }
 
+.tabs {
+    position: relative;
+    display: flex;
+    background-color: var(--color-white);
+    border-radius: 1rem;
+    padding: 0.7rem;
+    column-gap: 1.2rem;
+    align-items: center;
+}
+
+.tabs .tab-switch {
+    display: none;
+}
+
+.tabs .tab-label {
+    position: relative;
+    cursor: pointer;
+    transition: all 200ms ease;
+    font-size: 1.03rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 0.1rem;
+}
+
+.tabs .tab-content {
+    width: 100%;
+    position: absolute;
+    top: 4.1rem;
+    left: 0;
+    opacity: 0;
+    padding: 0.6rem;
+    transition: all 200ms ease;
+}
+
+.tabs .tab-switch + .tab-label {
+    color: var(--color-grey);
+}
+
+.tabs .tab-switch:checked + .tab-label, .tabs .tab-switch:checked + .tab-label i {
+    color: var(--color-dark);
+}
+
+.tabs .tab-switch:checked + label + .tab-content {
+    opacity: 1;
+}
+
 .upper-panel {
     width: 100%;
     background: var(--color-white);
@@ -298,7 +345,7 @@ img {
 }
 
 .sidebar {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
     background: var(--color-white);
     border-radius: 1rem;
     padding: 0.6rem;
@@ -338,8 +385,12 @@ img {
 }
 
 .middle .heading {
-    font-size: 1.26rem;
-    margin: 0.4rem;
+    font-size: 1.2rem;
+    margin-left: 0.4rem;
+}
+
+.middle .chats-list .heading {
+    margin: 0.3rem 0.3rem 0.3rem 0.4rem;
 }
 
 .middle .search-input {
@@ -406,50 +457,7 @@ img {
 }
 
 .profile .tabs {
-    position: relative;
     margin-top: 0.8rem;
-    display: flex;
-    background-color: var(--color-white);
-    border-radius: 1rem;
-    padding: 0.7rem;
-    column-gap: 1.2rem;
-}
-
-.profile .tabs .tab-switch {
-    display: none;
-}
-
-.profile .tabs .tab-label {
-    position: relative;
-    cursor: pointer;
-    transition: all 200ms ease;
-    font-size: 1.03rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    column-gap: 0.1rem;
-}
-
-.profile .tabs .tab-content {
-    width: 100%;
-    position: absolute;
-    top: 4.1rem;
-    left: 0;
-    opacity: 0;
-    padding: 0.6rem;
-    transition: all 200ms ease;
-}
-
-.profile .tabs .tab-switch + .tab-label {
-    color: var(--color-grey);
-}
-
-.profile .tabs .tab-switch:checked + .tab-label, .profile .tabs .tab-switch:checked + .tab-label i {
-    color: var(--color-dark);
-}
-
-.profile .tabs .tab-switch:checked + label + .tab-content {
-    opacity: 1;
 }
 
 .profile .tabs .bio-list {

@@ -21,3 +21,7 @@ def tmp_friends_view(request):
 @login_required(login_url='/accounts/register/')
 def tmp_bookmarks_view(request):
     return render(request, 'bookmarks/bookmarks.html')
+
+@login_required(login_url='/accounts/register/')
+def tmp_search_view(request):
+    return render(request, 'search/search.html')
