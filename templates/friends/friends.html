@@ -8,12 +8,125 @@
 {% block content %}
     <div class="friends users-list">
         <h3 class="heading">Друзья</h3>
+
         <div class="search-input">
             <i class="uil uil-search"></i>
-            <input type="search" placeholder="Поиск...">
+            <form method="get" action="{% url 'friends:search_friends' %}">
+                <input type="search" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
+                <button type="submit" class="btn btn-primary">Поиск</button>
+            </form>
         </div>
-        {% include 'includes/users_list.html' %}
-        {% include 'includes/users_list.html' %}
-        {% include 'includes/users_list.html' %}
+
+        {% if users %}
+            <h4>Результаты поиска:</h4>
+            {% for user in users %}
+                <div class="user-item">
+                    <div class="info">
+                        <div class="profile-photo">
+                            <img src="{{ user.avatar.url }}" alt="{{ user.username }}">
+                        </div>
+                        <div class="handle">
+                            <h4>{{ user.username }}</h4>
+                            <p class="text-muted">{{ user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        {% if user.id in sent_requests_users %}
+                            <button class="btn btn-warning">Запрос отправлен</button>
+                        {% elif user.id in received_requests_users %}
+                        {% for req in received_requests %}
+                            {% if req.created_by.id == user.id %}
+                                <button class="btn btn-primary accept-friend-request-button" data-request-id="{{ req.id }}">
+                                    Принять
+                                </button>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% elif user.id in accepted_sent_requests %}
+                            <button class="btn btn-warning">В друзьях</button>
+
+                        {% elif user.id in accepted_received_requests %}
+                            <button class="btn btn-warning">В друзьях</button>
+
+                        {% else %}
+                            <button class="btn btn-primary add-friend-button" data-user-id="{{ user.id }}">
+                                Добавить в друзья
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Нет пользователей, соответствующих запросу.</p>
+        {% endif %}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('.users-list').addEventListener('click', function (event) {
+                if (event.target && event.target.classList.contains('add-friend-button')) {
+                    const userId = event.target.dataset.userId;
+
+                    fetch(`/friends/send-request/${userId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.success);
+                            event.target.textContent = 'Запрос отправлен';
+                            event.target.disabled = true;
+                        } else if (data.error) {
+                            alert(data.error);
+                        }
+                    })
+                    .catch(error => console.error('Ошибка при запросе:', error));
+                }
+
+                if (event.target && event.target.classList.contains('accept-friend-request-button')) {
+                    const requestId = event.target.dataset.requestId;
+                    console.log(event.target);
+                    console.log(event.target.dataset);
+
+                    if (!requestId) {
+                        console.error('Ошибка: requestId не задан или равен null/undefined');
+                        return;
+                    }
+
+                    console.log('RequestId:', requestId);
+
+                    fetch(`/friends/accept-request/${requestId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.success);
+                            event.target.textContent = 'Запрос принят';
+                            event.target.disabled = true;
+                        } else if (data.error) {
+                            alert(data.error);
+                        }
+                    })
+                    .catch(error => console.error('Ошибка при принятии запроса:', error));
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

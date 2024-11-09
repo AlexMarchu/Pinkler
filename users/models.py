@@ -20,12 +20,30 @@ class PinklerUser(AbstractUser):
     birthday = models.DateField(blank=True, null=True)
     avatar = models.ImageField(upload_to='users/avatars/', default='users/avatars/default_avatar.png', blank=True,
                                null=True)
+    friends = models.ManyToManyField("self", blank=True)
+
+
 
     def __str__(self):
         return self.username
 
     def __repr__(self):
         return self.__str__()
+
+    def add_friend(self, friend):
+        """Добавить пользователя в друзья."""
+        if friend != self:
+            self.friends.add(friend)
+            friend.friends.add(self)
+
+    def remove_friend(self, friend):
+        """Удалить пользователя из друзей."""
+        self.friends.remove(friend)
+        friend.friends.remove(self)
+
+    def is_friends_with(self, friend):
+        """Проверить, являются ли пользователи друзьями."""
+        return self.friends.filter(id=friend.id).exists()
 
 
 class EmailConfirmationToken(models.Model):
