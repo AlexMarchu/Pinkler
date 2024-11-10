@@ -3,8 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 
 from .models import PinklerUser, UserThemePreference
 
-
-
 class PinklerUserAdmin(UserAdmin):
     model = PinklerUser
 
@@ -21,5 +19,3 @@ class UserThemePreferenceAdmin(admin.ModelAdmin):
 
 admin.site.register(UserThemePreference, UserThemePreferenceAdmin)
 admin.site.register(PinklerUser, PinklerUserAdmin)
-
-

@@ -16,10 +16,14 @@
                 </div>
             </div>
             <div class="tab">
-                <input type="radio" class="tab-switch" id="people" name="css-tabs">
-                <label for="people" class="tab-label"><i class="uil uil-users-alt"></i>Люди</label>
+                <input type="radio" class="tab-switch" id="users" name="css-tabs">
+                <label for="users" class="tab-label"><i class="uil uil-users-alt"></i>Люди</label>
                 <div class="tab-content users-list">
-                    {% include 'includes/users_list.html' %}
+                    {% if users %}
+                        {% include 'includes/users_list.html' %}
+                    {% else %}
+                        <label class="fallback-label">Ничего не найдено...</label>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -13,11 +13,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 
 from .forms import PinklerUserCreationForm, PinklerUserAuthenticationForm, PinklerUserPasswordResetForm
 from .forms import PinklerUserSetPasswordForm
 from .models import PinklerUser, EmailConfirmationToken, UserThemePreference
-
+from friends.models import FriendshipRequest
 
 class PinklerUserRegistrationView(generic.CreateView):
     form_class = PinklerUserCreationForm
@@ -133,7 +134,6 @@ class PinklerUserPasswordResetView(generic.View):
 
         return render(request, self.template_name, {'form': form})
 
-
 class PinklerUserPasswordResetConfirmView(PasswordResetConfirmView):
     form_class = PinklerUserSetPasswordForm
     template_name = 'users/password_reset_confirm.html'
@@ -143,13 +143,18 @@ class PinklerUserPasswordResetConfirmView(PasswordResetConfirmView):
 class PasswordResetCompleteView(TemplateView):
     template_name = 'users/password_reset_complete.html'
 
-
+@login_required(login_url='/accounts/login/')
 def profile_view(request, username):
-    profile_data = PinklerUser.objects.get(username=username)
-    return render(request, 'profiles/profile.html', {'profile_data': profile_data})
+    profile_owner = PinklerUser.objects.get(username=username)
+    owner_friends = profile_owner.friends.all()
+    self_friends = request.user.friends.all()
+    self_requested = FriendshipRequest.objects.filter(created_by=request.user, status='pending')
+    return render(request, 'profiles/profile.html', 
+        {'profile_owner': profile_owner, 'owner_friends': owner_friends, 'self_friends': self_friends, 'self_requested': self_requested})
 
 
 @csrf_exempt
+@login_required(login_url='/accounts/login/')
 def save_theme_preference(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -166,7 +171,7 @@ def save_theme_preference(request):
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'}, status=400)
 
-
+@login_required(login_url='/accounts/login/')
 def get_theme_preference(request):
     user = request.user
     theme_preference = UserThemePreference.objects.get(user=user)

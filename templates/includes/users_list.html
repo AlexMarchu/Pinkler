@@ -1,17 +1,29 @@
-{% load static %}
-
-<div class="user-item">
-    <div class="info">
-        <div class="profile-photo">
-            <img src="{% static 'images/avatars/default_avatar.png' %}">
-        </div>
-        <div class="handle">
-            <h4>wyborn</h4>
-            <p class="text-muted">9 общих друзей</p>
+{% for user_ in users %}
+    <div class="user-item">
+        <a class="info url-item" url="/accounts/{{ user_.username }}">
+            <div class="profile-photo">
+                <img src="{{ user_.avatar.url }}">
+            </div>
+            <div class="handle">
+                <h4>{{ user_.username }}</h4>
+                <p class="text-muted">#TODO</p>
+            </div>
+        </a>
+        <div class="actions">
+            <button class="btn"><i class="uil uil-comment-edit"></i></button>
+            {% if user_ in self_friends %}
+                <button class="btn btn-primary remove-friend-btn" user-id="{{ user_.id }}">
+                    <i class="uil uil-user-times"></i>
+                </button>
+            {% elif user_ in self_requested %}
+                <button class="btn btn-primary cancel-friend-request-btn" user-id="{{ user_.id }}">
+                    <i class="uil uil-user-exclamation"></i>
+                </button>
+            {% else %}
+                <button class="btn btn-primary add-friend-btn" user-id="{{ user_.id }}">
+                    <i class="uil uil-user-plus"></i>
+                </button>
+            {% endif %}
         </div>
     </div>
-    <div class="actions">
-        <button class="btn"><i class="uil uil-comment-edit"></i></button>
-        <button class="btn"><i class="uil uil-user-times"></i></button>
-    </div>
-</div>
+{% endfor %}

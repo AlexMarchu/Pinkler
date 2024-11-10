@@ -1,5 +1,6 @@
-const defaultUrlItems = document.querySelectorAll('.url-item');
 const content = document.querySelector('.middle');
+const globalSearchForm = document.querySelector('#global-search form');
+const globalSearchInput = document.querySelector('#global-search input');
 
 function retrieveUrlDataAndReplaceContent(url) {
     fetch(url)
@@ -12,7 +13,7 @@ function retrieveUrlDataAndReplaceContent(url) {
             document.title = newDocument.title;
             content.innerHTML = newContent.innerHTML;
 
-            const scripts = newDocument.querySelectorAll('.middle script');
+            const scripts = document.querySelectorAll('.middle script');
             scripts.forEach(script => {
                 const newScript = content.createElement('script');
                 newScript.textContent = script.textContent;
@@ -20,10 +21,10 @@ function retrieveUrlDataAndReplaceContent(url) {
                 content.appendChild(newScript);
             });
 
-            const urlItems = newDocument.querySelectorAll('.middle .url-item');
+            const urlItems = document.querySelectorAll('.middle .url-item');
             urlItems.forEach(urlItem => {
                 urlItem.addEventListener('click', () => {
-                    goToUrl(urlItem);
+                    goToUrl(urlItem.getAttribute('url'));
                 });
             });
         })
@@ -42,12 +43,116 @@ function backToUrl(url) {
     retrieveUrlDataAndReplaceContent(url);
 }
 
-defaultUrlItems.forEach(urlItem => {
+document.querySelectorAll('.url-item').forEach(urlItem => {
     urlItem.addEventListener('click', () => {
         goToUrl(urlItem.getAttribute('url'));
+        globalSearchInput.value = '';
     });
 });
 
 window.addEventListener('popstate', (event) => {
     backToUrl(document.location.pathname);
 });
+
+globalSearchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(globalSearchForm);
+    const searchParams = new URLSearchParams(formData);
+    goToUrl(`/search/?${searchParams.toString()}`);
+});
+
+function removeUserFromFriends(userId) {
+    console.log('remove');
+}
+
+function addUserToFriends(userId) {
+    console.log('add');
+}
+
+function cancelFriendRequestToUser(userId) {
+    console.log('cancel');
+}
+
+document.querySelectorAll('.remove-friend-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        removeUserFromFriends(button.getAttribute('user-id'));
+    });
+});
+
+document.querySelectorAll('.cancel-friend-request-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        cancelFriendRequestToUser(button.getAttribute('user-id'));
+    });
+});
+
+document.querySelectorAll('.add-friend-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        addUserToFriends(button.getAttribute('user-id'));
+    });
+});
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     document.querySelector('.users-list').addEventListener('click', function (event) {
+//         if (event.target && event.target.classList.contains('add-friend-button')) {
+//             const userId = event.target.dataset.userId;
+
+//             fetch(`/friends/send-request/${userId}/`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'X-CSRFToken': '{{ csrf_token }}',
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({})
+//             })
+//             .then(response => response.json())
+//             .then(data => {
+//                 if (data.success) {
+//                     alert(data.success);
+//                     event.target.textContent = 'Запрос отправлен';
+//                     event.target.disabled = true;
+//                 } else if (data.error) {
+//                     alert(data.error);
+//                 }
+//             })
+//             .catch(error => console.error('Ошибка при запросе:', error));
+//         }
+
+//         if (event.target && event.target.classList.contains('accept-friend-request-button')) {
+//             const requestId = event.target.dataset.requestId;
+//             console.log(event.target);
+//             console.log(event.target.dataset);
+
+//             if (!requestId) {
+//                 console.error('Ошибка: requestId не задан или равен null/undefined');
+//                 return;
+//             }
+
+//             console.log('RequestId:', requestId);
+
+//             fetch(`/friends/accept-request/${requestId}/`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'X-CSRFToken': '{{ csrf_token }}',
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({})
+//             })
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error(`HTTP error! status: ${response.status}`);
+//                 }
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 if (data.success) {
+//                     alert(data.success);
+//                     event.target.textContent = 'Запрос принят';
+//                     event.target.disabled = true;
+//                 } else if (data.error) {
+//                     alert(data.error);
+//                 }
+//             })
+//             .catch(error => console.error('Ошибка при принятии запроса:', error));
+//         }
+//     });
+// });

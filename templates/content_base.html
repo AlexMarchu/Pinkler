@@ -21,9 +21,11 @@
                 </div>
                 <!----------------- SEARCH INPUТ -------------------->
                 <div class="middle-bar">
-                    <div class="search-input">
+                    <div class="search-input" id="global-search">
                         <i class="uil uil-search"></i>
-                        <input type="search" placeholder="Поиск...">
+                        <form method="GET">
+                            <input type="search" name="q" value="{{ request.GET.q }}" autocomplete="off" placeholder="Поиск...">
+                        </form>
                     </div>
                     <!----------------- NOTIFICATIONS -------------------->
                     <a class="nofitications-item">
@@ -177,7 +179,7 @@
                 </div>
             </div>
         </div>
-        <script src="{% static 'scripts/themes.js' %}"></script>
         <script src="{% static 'scripts/core.js' %}"></script>
+        <script src="{% static 'scripts/themes.js' %}"></script>
     </body>
 </html>

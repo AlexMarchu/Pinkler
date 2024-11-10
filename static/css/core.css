@@ -79,6 +79,10 @@ img {
     color: var(--color-white);
 }
 
+.url-item {
+    cursor: pointer;
+}
+
 .text-muted {
     color: var(--color-grey);
 }
@@ -87,6 +91,10 @@ img {
     font-size: 1.4rem;
     color: var(--color-grey);
     position: relative;
+}
+
+.middle .fallback-label {
+    margin: 0.3rem 0.3rem 0.3rem 0.5rem;
 }
 
 .notification-count {
@@ -109,6 +117,10 @@ img {
     align-items: center;
     padding-left: 0.4rem;
     padding-right: 0.4rem;
+}
+
+#global-search form {
+    width: 100%;
 }
 
 .search-input input[type="search"] {
@@ -206,6 +218,11 @@ img {
 .user-item .actions .btn i {
     font-size: 1.3rem;
     color: var(--color-black);
+}
+
+.user-item .actions .btn-primary i {
+    font-size: 1.3rem;
+    color: var(--color-white);
 }
 
 .tabs {
@@ -454,6 +471,11 @@ img {
 .profile .profile-card .actions .btn i {
     font-size: 1.4rem;
     color: var(--color-black);
+}
+
+.profile .profile-card .actions .btn-primary i {
+    font-size: 1.4rem;
+    color: var(--color-white);
 }
 
 .profile .tabs {

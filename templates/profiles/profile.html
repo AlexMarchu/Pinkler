@@ -1,8 +1,7 @@
 {% extends 'content_base.html' %}
-{% load static %}
 
 {% block title %}
-    <title>{{ profile_data.username }}</title>
+    <title>{{ profile_owner.username }}</title>
 {% endblock %}
 
 {% block content %}
@@ -10,16 +9,32 @@
         <div class="profile-card">
             <div class="info">
                 <div class="profile-photo">
-                    <img src="{{ profile_data.avatar.url }}">
+                    <img src="{{ profile_owner.avatar.url }}">
                 </div>
                 <div class="handle">
-                    <h4>{{ profile_data.username }}</h4>
-                    <p class="text-muted">{{ profile_data.status }}</p>
+                    <h4>{{ profile_owner.username }}</h4>
+                    <p class="text-muted">{{ profile_owner.status }}</p>
                 </div>
             </div>
             <div class="actions">
-                <button class="btn"><i class="uil uil-comment-edit"></i></button>
-                <button class="btn"><i class="uil uil-user-plus"></i></button>
+                {% if user != profile_owner %}
+                    <button class="btn"><i class="uil uil-comment-edit"></i></button>
+                    {% if profile_owner in self_friends %}
+                        <button class="btn btn-primary remove-friend-btn" user-id="{{ profile_owner.id }}">
+                            <i class="uil uil-user-times"></i>
+                        </button>
+                    {% elif profile_owner in self_requested %}
+                        <button class="btn btn-primary cancel-friend-request-btn" user-id="{{ profile_owner.id }}">
+                            <i class="uil uil-user-exclamation"></i>
+                        </button>
+                    {% else %}
+                        <button class="btn btn-primary add-friend-btn" user-id="{{ profile_owner.id }}">
+                            <i class="uil uil-user-plus"></i>
+                        </button>
+                    {% endif %}
+                {% else %}
+                    <button class="btn"><i class="uil uil-edit-alt"></i></button>
+                {% endif %}
             </div>
         </div>
         <div class="tabs">
@@ -27,10 +42,10 @@
                 <input type="radio" class="tab-switch" id="bio" name="css-tabs" checked>
                 <label for="bio" class="tab-label"><i class="uil uil-info-circle"></i>Информация</label>
                 <div class="tab-content bio-list">
-                    <label class="bio-item"><i class="uil uil-shield"></i><span class="title">Админ:</span>{{ profile_data.is_staff|yesno:'Да,Нет' }}</label>
-                    <label class="bio-item"><i class="uil uil-phone"></i><span class="title">Телефон:</span>{{ profile_data.phone_number|default_if_none:'Не указано' }}</label>
-                    <label class="bio-item"><i class="uil uil-calendar-alt"></i><span class="title">День рождения:</span>{{ profile_data.birthday|default_if_none:'Не указано' }}</label>
-                    <label class="bio-item"><i class="uil uil-clock"></i><span class="title">Дата регистрации:</span>{{ profile_data.date_joined|date }}</label>
+                    <label class="bio-item"><i class="uil uil-shield"></i><span class="title">Админ:</span>{{ profile_owner.is_staff|yesno:'Да,Нет' }}</label>
+                    <label class="bio-item"><i class="uil uil-phone"></i><span class="title">Телефон:</span>{{ profile_owner.phone_number|default_if_none:'Не указано' }}</label>
+                    <label class="bio-item"><i class="uil uil-calendar-alt"></i><span class="title">День рождения:</span>{{ profile_owner.birthday|default_if_none:'Не указано' }}</label>
+                    <label class="bio-item"><i class="uil uil-clock"></i><span class="title">Дата регистрации:</span>{{ profile_owner.date_joined|date }}</label>
                 </div>
             </div>
             <div class="tab">
@@ -44,13 +59,15 @@
                 <input type="radio" class="tab-switch" id="friends" name="css-tabs">
                 <label for="friends" class="tab-label"><i class="uil uil-users-alt"></i>Друзья</label>
                 <div class="tab-content users-list">
-                    <div class="search-input">
-                        <i class="uil uil-search"></i>
-                        <input type="search" placeholder="Поиск..." id="user-friends-search">
-                    </div>
-                    {% include 'includes/users_list.html' %}
-                    {% include 'includes/users_list.html' %}
-                    {% include 'includes/users_list.html' %}
+                    {% if owner_friends %}
+                        <div class="search-input">
+                            <i class="uil uil-search"></i>
+                            <input type="search" placeholder="Поиск...">
+                        </div>
+                        {% include 'includes/users_list.html' with users=owner_friends %}
+                    {% else %}
+                        <label class="fallback-label">У данного пользователя нет друзей...</label>
+                    {% endif %}
                 </div>
             </div>
         </div>
