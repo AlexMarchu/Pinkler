@@ -69,7 +69,6 @@ class ChatConsumer(WebsocketConsumer):
     def replace_emoji_codes(self, message):
         for code, emoji in self.emoji_dict.items():
             message = message.replace(code, emoji)
-        print(message)
         return message
 
     def save_image(self, image_data):

@@ -12,23 +12,26 @@
             <i class="uil uil-search"></i>
             <input type="search" placeholder="Поиск...">
         </div>
-        <div class="chat-item">
-            <div class="profile-photo">
-                <img src="">
-            </div>
-            <div class="handle">
-                <h4>wyborn</h4>
-                <p class="text-muted">WASSUP!</p>
-            </div>
-        </div>
-        <div class="chat-item">
-            <div class="profile-photo">
-                <img src="">
-            </div>
-            <div class="handle">
-                <h4>kurylov89iq</h4>
-                <p class="text-muted">А вот я думаю...</p>
-            </div>
-        </div>
+            {% if self_chats %}
+                {% for chat_ in self_chats %}
+                    <div class="chat-item">
+                        <div class="profile-photo">
+                            {% for participant_ in chat_.participants.all %}
+                                {% if participant_.pk != request.user.pk %}
+                                    <img src="{{ participant_.avatar.url }}">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="handle">
+                            {% for participant_ in chat_.participants.all %}
+                                {% if participant_.pk != request.user.pk %}
+                                    <h4>{{ participant_.username }}</h4>
+                                    <p class="text-muted"># TODO</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
     </div>
 {% endblock %}
