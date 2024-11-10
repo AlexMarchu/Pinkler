@@ -12,4 +12,6 @@ def room(request, room_name):
 
 @login_required(login_url='/accounts/login/')
 def chats(request):
-    return render(request, 'chat/chats.html', {})
+    self_chats = request.user.chats.all() # request.user.chats.distinct()
+    context = {'self_chats': self_chats}
+    return render(request, 'chat/chats.html', context)
