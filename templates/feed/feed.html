@@ -28,6 +28,14 @@
                         <!-- display "just now" if post was creted just now -->
                     </div>
                 </div>
+                <form class="bookmark-form" method="POST" data-url="{% url 'feed:bookmark-view' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{obj.id}}">
+                    <button type="submit" class="bookmark" style="background-color: var(--color-white)">
+                        <i class="uil uil-bookmark-full {% if user in obj.bookmark.all %} bookmarked {% endif %}"></i>
+                    </button>
+                </form>
+                
             </div>
 
             {% if obj.image %}

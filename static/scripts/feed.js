@@ -24,6 +24,32 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function() {
+    console.log("Script did!");
+    $('.bookmark-form').on('submit', function(event) {
+        event.preventDefault();
+        const form = $(this);
+        const url = form.data('url');
+        
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: form.serialize(),
+            success: function(response) {
+                const bookmarkIcon = form.find('i');
+
+                if (response.bookmarked) {
+                    bookmarkIcon.addClass('bookmarked');
+                } else {
+                    bookmarkIcon.removeClass('bookmarked');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Ошибка при добавлении закладки:', error);
+            }
+        });
+    });
+});
 
 document.getElementById('file-upload').addEventListener('change', function(event) {
     const file = event.target.files[0];

@@ -76,3 +76,24 @@ def like_unlike_post(request):
             'liked': liked,
             'number_of_likes': post_obj.liked.count(),
         })
+
+@login_required(login_url='/accounts/register/')
+def bookmark_view(request):
+    post_id = request.POST.get('post_id')
+    user = request.user
+
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id=post_id)
+        pinkler_user = PinklerUser.objects.get(username=user.username)
+
+        if pinkler_user in post_obj.bookmark.all():
+            post_obj.bookmark.remove(pinkler_user)
+            bookmarked = False
+        else:
+            post_obj.bookmark.add(pinkler_user)
+            bookmarked = True
+            
+        post_obj.save()
+
+    return JsonResponse({'bookmarked': bookmarked})
