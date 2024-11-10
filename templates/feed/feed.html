@@ -54,18 +54,18 @@
                     </form>
                 </div>
             </div>
-            <div class="comm">
-                <form action="" method="POST" class="ui form">
-                    {% csrf_token %}
-                    <input type="hidden" name="post_id" value="{{obj.id}}">
-                    {{comment_form}}
-                    <button class="btn btn-primary" name="comment_button">comment</button>
-                </form>
-            </div>
             <div class="see-comments">
                 <button class="cmt_btn ui button mb-5">show / hide comments</button>
                 <div class="comment-box" style="display: none;">
                     {% include 'feed/comments_list.html' with post=obj %}
+                </div>
+                <div class="comment">
+                    <form action="" method="POST" class="ui form">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{obj.id}}">
+                        {{comment_form}}
+                        <button class="btn btn-primary" name="comment_button">comment</button>
+                    </form>
                 </div>
             </div>
         </div>

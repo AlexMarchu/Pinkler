@@ -101,3 +101,33 @@
     margin: 10px 0; 
     border-radius: 5px;
 }
+
+.feed .see-comments .cmt_btn {
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--color-dark);
+}
+
+.feed .see-comments .cmt_btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.feed .see-comments .comment .form-comment {
+    flex-grow: 1;
+    width: 29rem;
+    border: 0.1rem solid #ccc;
+    padding: 10px;
+    margin: 10px 0; 
+    border-radius: 5px;
+    background-color: var(--color-white);
+    color: var(--color-dark);
+}
+ 
+.feed .see-comments .comment .ui {
+    display: flex;
+    align-items: center;
+}
+
+.feed .see-comments .comment .btn {
+    margin: 0 10px;
+}
