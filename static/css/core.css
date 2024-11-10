@@ -553,7 +553,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.2rem 0.5rem;
+    padding: 0.3rem 0.6rem;
 }
 
 .right .friend-requests .request .actions .accept-request i {
@@ -565,7 +565,7 @@ img {
 }
 
 .right .friend-requests .request .handle p {
-    max-width: 8.4rem;
+    max-width: 8rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
