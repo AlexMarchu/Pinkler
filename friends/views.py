@@ -63,5 +63,5 @@ def friends_view(request):
     self_friends = request.user.friends.all()
     self_pending = FriendshipRequest.objects.filter(created_for=request.user, status=FriendshipRequest.SENT).values_list('created_by', flat=True)
     self_requested = FriendshipRequest.objects.filter(created_by=request.user, status=FriendshipRequest.SENT).values_list('created_for', flat=True)
-    context = {'self_friends': self_friends, 'self_requested': self_requested, 'self_pending': self_pending}
+    context = {'self_friends': self_friends, 'self_pending': self_pending, 'self_requested': self_requested}
     return render(request, 'friends/friends.html', context)

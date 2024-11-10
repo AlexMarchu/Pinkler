@@ -23,8 +23,10 @@
                 <input type="radio" class="tab-switch" id="pending" name="css-tabs">
                 <label for="pending" class="tab-label"><i class="uil uil-corner-down-right-alt"></i>Входящие</label>
                 <div class="tab-content users-list">
-                    {% if self_friends %}
-                        {% include 'includes/users_list.html' with users=self_pending %}
+                    {% if self_pending %}
+                        {% for user_ in self_pending %}
+                            {% include 'includes/friend_request.html' with user_=user_ %}
+                        {% endfor %}
                     {% else %}
                         <label class="fallback-label">У вас нет входящих заявок в друзья...</label>
                     {% endif %}
@@ -34,8 +36,25 @@
                 <input type="radio" class="tab-switch" id="requests" name="css-tabs">
                 <label for="requests" class="tab-label"><i class="uil uil-clock"></i>Исходящие</label>
                 <div class="tab-content users-list">
-                    {% if self_friends %}
-                        {% include 'includes/users_list.html' with users=self_requested %}
+                    {% if self_requested %}
+                        {% for user_ in self_requested %}
+                            <div class="user-item friend-request">
+                                <div class="info url-item" url="/accounts/{{ user_.username }}">
+                                    <div class="profile-photo">
+                                        <img src="">
+                                    </div>
+                                    <div class="handle">
+                                        <h4>{{ user_.username }}</h4>
+                                        <p class="text-muted">#TODO</p>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn cancel-friend-request-btn" user-id="{{ user_.id }}">
+                                        <i class="uil uil-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
                     {% else %}
                         <label class="fallback-label">У вас нет исходящих заявок в друзья...</label>
                     {% endif %}

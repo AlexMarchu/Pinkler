@@ -1,0 +1,19 @@
+<div class="user-item friend-request">
+    <div class="info url-item" url="/accounts/{{ user_.username }}">
+        <div class="profile-photo">
+            <img src="{{ user_.avatar.url }}">
+        </div>
+        <div class="handle">
+            <h4>{{ user_.username }}</h4>
+            <p class="text-muted">#TODO</p>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="btn btn-primary accept-friend-request-btn" user-id="{{ user_.id }}">
+            <i class="uil uil-check"></i>
+        </button>
+        <button class="btn reject-friend-request-btn" user-id="{{ user_.id }}">
+            <i class="uil uil-times"></i>
+        </button>
+    </div>
+</div>

@@ -27,6 +27,7 @@ function retrieveUrlDataAndReplaceContent(url) {
                     goToUrl(urlItem.getAttribute('url'));
                 });
             });
+            setupFriendsEventListeners();
         })
         .catch(error => console.error(`Failed to retrieve ${url} data : `, error));
 }
@@ -41,6 +42,58 @@ function goToUrl(url) {
 
 function backToUrl(url) {
     retrieveUrlDataAndReplaceContent(url);
+}
+
+function acceptFriendRequestFromUser(userId) {
+    console.log('accept');
+}
+
+function rejectFriendRequestFromUser(userId) {
+    console.log('reject');
+}
+
+function removeUserFromFriends(userId) {
+    console.log('remove');
+}
+
+function addUserToFriends(userId) {
+    console.log('add');
+}
+
+function cancelFriendRequestToUser(userId) {
+    console.log('cancel');
+}
+
+function setupFriendsEventListeners() {
+    document.querySelectorAll('.accept-friend-request-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            acceptFriendRequestFromUser(button.getAttribute('user-id'));
+        });
+    });
+
+    document.querySelectorAll('.reject-friend-request-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            rejectFriendRequestFromUser(button.getAttribute('user-id'));
+        });
+    });
+
+    document.querySelectorAll('.remove-friend-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            removeUserFromFriends(button.getAttribute('user-id'));
+        });
+    });
+    
+    document.querySelectorAll('.cancel-friend-request-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            cancelFriendRequestToUser(button.getAttribute('user-id'));
+        });
+    });
+    
+    document.querySelectorAll('.add-friend-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            addUserToFriends(button.getAttribute('user-id'));
+        });
+    });
 }
 
 document.querySelectorAll('.url-item').forEach(urlItem => {
@@ -61,35 +114,7 @@ globalSearchForm.addEventListener('submit', (event) => {
     goToUrl(`/search/?${searchParams.toString()}`);
 });
 
-function removeUserFromFriends(userId) {
-    console.log('remove');
-}
-
-function addUserToFriends(userId) {
-    console.log('add');
-}
-
-function cancelFriendRequestToUser(userId) {
-    console.log('cancel');
-}
-
-document.querySelectorAll('.remove-friend-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        removeUserFromFriends(button.getAttribute('user-id'));
-    });
-});
-
-document.querySelectorAll('.cancel-friend-request-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        cancelFriendRequestToUser(button.getAttribute('user-id'));
-    });
-});
-
-document.querySelectorAll('.add-friend-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        addUserToFriends(button.getAttribute('user-id'));
-    });
-});
+setupFriendsEventListeners();
 
 // document.addEventListener('DOMContentLoaded', function () {
 //     document.querySelector('.users-list').addEventListener('click', function (event) {
