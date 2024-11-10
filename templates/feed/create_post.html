@@ -1,0 +1,18 @@
+<div class="create-post">
+    <form action="" method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{post_form.content}}
+        <div id="file-preview" class="preview" style="display: none;">
+            <button type="button" id="remove-file" class="dash">✖</button>
+            <img id="preview-image" src="" alt="Предварительный просмотр" />
+        </div>
+        <div class="create-buttons">
+            <input type="file" id="file-upload" name="image" style="display: none;" />
+            <label for="file-upload" class="btn btn-primary">Выбрать файл</label>
+            <div id="file-name" class="mt-2"></div>
+            <div class="post-button">
+                <button type="submit" class="btn btn-primary" name="post_button">Post</button>
+            </div>
+        </div>
+    </form>
+</div>

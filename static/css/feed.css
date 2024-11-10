@@ -1,0 +1,103 @@
+.middle .create-post {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    background: var(--color-white);
+    padding: 0.4rem var(--card-padding);
+    border-radius: var(--border-radius);
+}
+
+.middle .create-post .form-control {
+    resize: none;
+    width: 100%;
+    justify-self: start;
+    padding-left: 1rem;
+    background: transparent;
+    color: var(--color-dark);
+    margin-right: 1rem;
+}
+
+.middle .create-post .post-form {
+    width: 100%;
+    justify-self: start;
+    padding-left: 1rem;
+    background: transparent;
+    color: var(--color-dark);
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+
+.middle .create-post .create-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.middle .create-post .preview {
+    width: 100%;
+}
+
+.middle .feed {
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.middle .feed .head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.middle .feed .user {
+    display: flex;
+    gap: 1rem;
+}
+
+.middle .feed .photo {
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    margin: 0.7rem 0;
+}
+
+.middle .feed .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    margin: 0.6rem 0;
+}
+
+.dash {
+    background: none; 
+    background-color: rgba(0, 0, 0, 0);
+    border: none; 
+    cursor: pointer; 
+    position: absolute;
+    align-items: right;
+}
+.liked {
+    color: red;
+}
+
+
+.feed .see-comments .comment-box .comment .head-comment {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.feed .see-comments .comment-box .comment .head-comment .profile-photo{
+    display: flex;
+    gap: 1rem;
+    width: 2.7rem;
+}
+.feed .see-comments .comment-box .comment {
+    border: 0.1rem solid #ccc;
+    padding: 10px;
+    margin: 10px 0; 
+    border-radius: 5px;
+}

@@ -1,0 +1,11 @@
+{% for comm in post.comments.all %}
+    <div class="comment">
+        <div class="head-comment">
+            <div class="profile-photo"><img src="{{ comm.user.avatar.url }}"></div>
+            <h3>{{ comm.user }}</h3>
+        </div>
+        <div class='caption'>{{ comm.body }}</div>
+    </div>
+{% empty %}
+    <p>Комментариев нет.</p>
+{% endfor %}
