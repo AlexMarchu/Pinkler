@@ -13,10 +13,8 @@ User = get_user_model()
 class ChatConsumer(WebsocketConsumer):
 
     def fetch_messages(self, data):
-        # chat = get_object_or_404(Chat, pk=data['room_name'])
-        chat = get_object_or_404(Chat, pk=5)
+        chat = get_object_or_404(Chat, pk=data['chat_id'])
         print(data)
-        # messages = load_last_50_messages(data['room_name'])
         messages = chat.load_last_50_messages()
         print(messages)
         content = {
@@ -30,8 +28,7 @@ class ChatConsumer(WebsocketConsumer):
         message_content = data.get('message', '')
         image_data = data.get('image', '')
 
-        # chat = get_object_or_404(Chat, pk=data['room_name'])
-        chat = get_object_or_404(Chat, pk=5)
+        chat = get_object_or_404(Chat, pk=data['chat_id'])
 
         message = Message(sender=sender_instance, content=message_content)
         if image_data:
@@ -92,8 +89,8 @@ class ChatConsumer(WebsocketConsumer):
 
     def connect(self):
         try:
-            self.room_name = self.scope['url_route']['kwargs']['room_name']
-            self.room_group_name = f'chat_{self.room_name}'
+            self.chat_id = self.scope['url_route']['kwargs']['chat_id']
+            self.room_group_name = f'chat_{self.chat_id}'
 
             async_to_sync(self.channel_layer.group_add)(self.room_group_name, self.channel_name)
             self.accept()

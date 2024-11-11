@@ -12,9 +12,13 @@
             </div>
             {% endif %}
             <div class="info">
-                <h3>{{obj.author.username}}</h3>
-                <p>{{obj.author}} - {{obj.created | timesince}} ago</p>
-                <!-- display "just now" if post was creted just now -->
+                <h3>{{ obj.author.username }}</h3>
+            
+                {% if obj.created_just_now %}
+                    <p>{{ obj.author }} - только что</p>
+                {% else %}
+                    <p>{{ obj.author }} - {{ obj.created|timesince }} назад</p>
+                {% endif %}
             </div>
         </div>
         <form class="bookmark-form" method="POST" data-url="{% url 'feed:bookmark-view' %}">
@@ -52,7 +56,7 @@
         </div>
     </div>
     <div class="see-comments">
-        <button class="cmt_btn ui button mb-5">show / hide comments</button>
+        <button class="cmt_btn ui button mb-5" style="font-family: 'Nunito', sans-serif;">Показать/спрятать комментарии</button>
         <div class="comment-box" style="display: none;">
             {% include 'feed/comments_list.html' with post=obj %}
         </div>
@@ -61,7 +65,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="post_id" value="{{obj.id}}">
                 {{comment_form}}
-                <button class="btn btn-primary" name="comment_button">comment</button>
+                <button class="btn btn-primary" name="comment_button">отправить</button>
             </form>
         </div>
     </div>

@@ -11,6 +11,7 @@ class PostModelForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': 'Напишите что-нибудь...',
+                'id':'post-form-content'
             }),
             'image': forms.ClearableFileInput(attrs={
                 'class': 'form-control-file',
@@ -28,7 +29,7 @@ class CommentModelForm(forms.ModelForm):
     body = forms.CharField(
         label='',
         widget=forms.TextInput(attrs={
-            'placeholder': 'Add a comment',
+            'placeholder': 'Написать комментарий...',
             'class': 'form-comment'
         })
     )

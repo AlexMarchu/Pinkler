@@ -118,8 +118,6 @@
 }
 
 #chat-message-submit {
-    background-image: url('send_button_icon.png');
-    background-color: transparent;
     background-size: cover;
     background-position: center;
     width: 55px;
@@ -137,7 +135,6 @@
 
 /* Основные стили для кнопки скрепки */
 #attachment-button {
-    background-image: url('vectorpaint.svg');
     background-size: cover;
     background-position: center;
     width: 30px;

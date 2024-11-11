@@ -14,17 +14,13 @@
         </div>
         {% if self_chats_and_last_messages %}
             {% for chat_, last_message_ in self_chats_and_last_messages %}
-                <div class="chat-item">
-                    <div class="profile-photo">
-                        {% for participant_ in chat_.participants.all %}
-                            {% if participant_.pk != request.user.pk %}
+                {% for participant_ in chat_.participants.all %}
+                    {% if participant_.pk != request.user.pk %}
+                        <div class="chat-item" user-id="{{ participant_.id }}">
+                            <div class="profile-photo">
                                 <img src="{{ participant_.avatar.url }}">
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="handle">
-                        {% for participant_ in chat_.participants.all %}
-                            {% if participant_.pk != request.user.pk %}
+                            </div>
+                            <div class="handle">
                                 <h4>{{ participant_.username }}</h4>
                                 <p class="text-muted">
                                     {% if last_message_ %}
@@ -33,10 +29,10 @@
                                         Нет сообщений
                                     {% endif %}
                                 </p>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
         {% endif %}
     </div>

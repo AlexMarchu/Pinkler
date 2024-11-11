@@ -1,21 +1,36 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
 from .models import Chat
 
+User = get_user_model()
+
 
 def load_last_50_messages(room_name):
     chat = get_object_or_404(Chat, pk=5)
-    # return chat.load_last_50_messages()
     return chat.messages.order_by('-timestamp').all()[:50]
 
 
-def index(request):
-    return render(request, 'chat/index.html', {})
+def get_chat_id(request, user_id):
+    current_user = request.user
 
+    current_user_chats = Chat.objects.filter(participants=current_user)
+    chat = current_user_chats.filter(participants__id=user_id).first()
 
-def room(request, room_name):
-    return render(request, 'chat/chat_room_vany.html', {'room_name': room_name})
+    if chat:
+        return JsonResponse({
+            'chat_id': chat.pk,
+        })
+    else:
+        new_chat = Chat.objects.create()
+        new_chat.participants.add(current_user)
+        new_chat.participants.add(get_object_or_404(User, id=user_id))
+
+        return JsonResponse({
+            'chat_id': new_chat.pk,
+        })
 
 
 @login_required(login_url='/accounts/login/')
@@ -27,6 +42,6 @@ def chats_view(request):
 
 
 @login_required(login_url='/accounts/login/')
-def chat_room_view(request, room_name):
-    context = {'room_name': room_name}
+def chat_room_view(request, chat_id):
+    context = {'chat_id': chat_id}
     return render(request, 'chat/chat_room.html', context)
