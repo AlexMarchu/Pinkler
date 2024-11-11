@@ -1,7 +1,7 @@
 {% extends 'content_base.html' %}
 
 {% block title %}
-<title>{{ room_name }}</title>
+<title>{{ chat_id }}</title>
 {% endblock %}
 
 {% block content %}
@@ -20,22 +20,22 @@
         <button id="chat-message-submit">Отправить</button>
     </div>
 </div>
-{{ room_name|json_script:"room-name" }}
+{{ chat_id|json_script:"chat_id" }}
 <script>
-    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    const chatId = JSON.parse(document.getElementById('chat_id').textContent);
 
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
         + '/ws/chat/'
-        + roomName
+        + chatId
         + '/'
     );
 
     function fetchMessages() {
         chatSocket.send(JSON.stringify({
             'command': 'fetch_messages',
-            'room_name': roomName,
+            'chat_id': chatId,
         }));
     }
 
@@ -125,6 +125,7 @@
                     'message': message,
                     'image': imageData,
                     'command': 'new_message',
+                    'chat_id': chatId,
                 }));
                 messageInputDom.value = '';
                 imageInputDom.value = '';
@@ -135,6 +136,7 @@
             chatSocket.send(JSON.stringify({
                 'message': message,
                 'command': 'new_message',
+                'chat_id': chatId,
             }));
             messageInputDom.value = '';
         }
