@@ -8,13 +8,15 @@ class PostModelForm(forms.ModelForm):
         model = Post
         fields = ('content', 'image')
         widgets = {
-            'content': forms.Textarea(attrs={'class': 'form-control',
-                'placeholder': 'What\'s on your mind?',
+            'content': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Напишитне что-нибудь...',
             }),
             'image': forms.ClearableFileInput(attrs={
                 'class': 'form-control-file',
                 'id': 'file-upload',
-                'style': 'display: nine;'}),
+                'style': 'display: nine;'
+            }),
         }
 
     def __init__(self, *args, **kwargs):

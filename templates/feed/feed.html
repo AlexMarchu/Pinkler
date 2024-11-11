@@ -1,63 +1,49 @@
 {% extends 'content_base.html' %}
-{% load static %}
 
 {% block title %}
     <title>Главная</title>
 {% endblock %}
 
 {% block content %}
-    {% include 'feed/create_post.html' %}
-
-    {% for obj in query_set %}
-        <div class="feed">
-            <div class="head">
-                <div class="user">
-                    {% if obj.author.avatar %}
-                        <div class="profile-photo">
-                            <img src="{{obj.author.avatar.url}}">
-                        </div>
-
-                    {% else %}
-                    <div class="profile-photo">
-                        <img src="static/images/avatars/default_avatar.png">
-                    </div>
-                    {% endif %}
-                    <div class="info">
-                        <h3>{{obj.author.username}}</h3>
-                        <p>{{obj.author}} - {{obj.created | timesince}} ago</p>
-                        <!-- display "just now" if post was creted just now -->
-                    </div>
+    {% include 'includes/post_creation.html' %}
+    {% for post in query_set %}
+        <div class="post">
+            <div class="user-info url-item" url="/accounts/{{ post.author.username }}">
+                <div class="profile-photo">
+                    <img src="{{ post.author.avatar.url }}">
+                </div>
+                <div class="handle">
+                    <h4>{{ post.author.username }}</h4>
+                    <p class="text-muted">{{ post.created|timesince }} назад</p>
                 </div>
             </div>
 
-            {% if obj.image %}
-            <div class="photo">
-                <img src="{{obj.image.url}}">
-            </div>
+            {% if post.image %}
+                <div class="image">
+                    <img src="{{ post.image.url }}">
+                </div>
             {% endif %}
 
             <div class="caption">
-                <p>{{obj.content}}</p>
+                <p>{{ post.content }}</p>
             </div>
 
-            <div class="action-buttons">
-                <div class="interaction-buttons">
-                    <form class="like-form" method="POST" data-url="{% url 'feed:like-post-view' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="post_id" value="{{obj.id}}">
-                        <button type="submit" class="sth" style="background-color: rgba(0, 0, 0, 0);">
-                            <i class="uil uil-heart {% if user in obj.liked.all %} liked {% endif %}"></i>
-                        </button>
-                        <span class="like-count">{{ obj.liked.count }}</span>
-                        <span><i class="uil uil-comment-dots" style="background-color: rgba(0, 0, 0, 0);"></i></span>
-                        <span class="comments-count">{{ obj.comments.count }}</span>
-                    </form>
-                </div>
+            <div class="actions">
+                <form class="like-form" method="POST" data-url="{% url 'feed:like-post-view' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{post.id}}">
+                    <button type="submit" class="sth" style="background-color: rgba(0, 0, 0, 0);">
+                        <i class="uil uil-heart {% if user in post.liked.all %} liked {% endif %}"></i>
+                    </button>
+                    <span class="like-count">{{ post.liked.count }}</span>
+                    <span><i class="uil uil-comment-dots" style="background-color: rgba(0, 0, 0, 0);"></i></span>
+                    <span class="comments-count">{{ post.comments.count }}</span>
+                </form>
             </div>
             <div class="comm">
                 <form action="" method="POST" class="ui form">
                     {% csrf_token %}
-                    <input type="hidden" name="post_id" value="{{obj.id}}">
+                    <input type="hidden" name="post_id" value="{{post.id}}">
                     {{comment_form}}
                     <button class="btn btn-primary" name="comment_button">comment</button>
                 </form>
@@ -65,11 +51,10 @@
             <div class="see-comments">
                 <button class="cmt_btn ui button mb-5">show / hide comments</button>
                 <div class="comment-box" style="display: none;">
-                    {% include 'feed/comments_list.html' with post=obj %}
+                    {% include 'feed/comments_list.html' with post=post %}
                 </div>
             </div>
         </div>
-
     {% endfor %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}

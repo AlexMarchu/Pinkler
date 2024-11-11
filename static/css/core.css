@@ -15,9 +15,6 @@
     --color-danger: hsl(0, 95%, 65%);
     --color-dark: hsl(252, 30%, var(--dark-color-lightness));
     --color-black: hsl(252, 30%, 10%);
-
-    --card-border-radius: 1rem;
-    --card-padding: 1rem;
 }
 
 *, *::before, *::after {
@@ -160,7 +157,7 @@ img {
     transition: all 200ms ease;
 }
 
-.chats .chat-item:last-child {
+.chats-list .chat-item:last-child {
     margin: 0;
 }
 
@@ -183,13 +180,14 @@ img {
 .user-item {
     display: flex;
     margin-bottom: 0.2rem;
-    padding: 0.6rem 0.2rem;
+    padding: 0.2rem 0.2rem;
+    margin-bottom: 0.5rem;
     justify-content: space-between;
     align-items: center;
 }
 
 .user-item:last-child {
-    margin: 0;
+    margin-bottom: 0;
 }
 
 .user-item .info {
@@ -511,6 +509,9 @@ img {
 .right {
     justify-self: left;
     width: 21.4rem;
+    height: max-content;
+    position: sticky;
+    top: 5.4rem;
 }
 
 .right .chats-list .heading {
