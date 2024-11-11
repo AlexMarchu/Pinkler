@@ -1,4 +1,5 @@
 {% extends 'content_base.html' %}
+{% load static %}
 
 {% block title %}
     <title>Поиск</title>
@@ -12,7 +13,13 @@
                 <input type="radio" class="tab-switch" id="posts" name="css-tabs" checked>
                 <label for="posts" class="tab-label"><i class="uil uil-clipboard-notes"></i>Посты</label>
                 <div class="tab-content">
-                    
+                    {% if posts %}
+                        {% for obj in posts %}
+                            {% include 'feed/post.html' with obj=obj %}
+                        {% endfor %}
+                    {% else %}
+                        <label class="fallback-label">Ничего не найдено...</label>
+                    {% endif %}
                 </div>
             </div>
             <div class="tab">
@@ -28,4 +35,5 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}
