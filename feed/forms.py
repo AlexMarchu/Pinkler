@@ -11,6 +11,7 @@ class PostModelForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': 'Напишите что-нибудь...',
+                'id':'post-form-content'
             }),
             'image': forms.ClearableFileInput(attrs={
                 'class': 'form-control-file',

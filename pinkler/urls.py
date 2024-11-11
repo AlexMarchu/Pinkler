@@ -12,7 +12,6 @@ urlpatterns = [
     path('feed/', include('feed.urls')),
     path('chats/', include('chat.urls', namespace='chat')),
     path('friends/', include('friends.urls', namespace='friends')),
-    path('bookmarks/', tmp_bookmarks_view, name='bookmarks'),
     path('search/', include('search.urls')),
 ]
 
