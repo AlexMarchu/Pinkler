@@ -45,19 +45,89 @@ function backToUrl(url) {
 }
 
 function acceptFriendRequestFromUser(userId) {
-    console.log('accept');
+    console.log('User ID:', userId);
+
+    fetch(`/friends/get-request-id/${userId}/`, {
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.request_id) {
+            return fetch(`/friends/accept-request/${data.request_id}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            });
+        } else {
+            throw new Error('Запрос не найден');
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.success);
+            const button = document.querySelector(`.accept-friend-request-btn[user-id="${userId}"]`);
+            button.textContent = 'Друзья';
+            button.disabled = true;
+        } else if (data.error) {
+            alert(data.error);
+        }
+    })
+    .catch(error => console.error('Ошибка при принятии запроса:', error));
 }
+
 
 function rejectFriendRequestFromUser(userId) {
     console.log('reject');
 }
 
 function removeUserFromFriends(userId) {
-    console.log('remove');
+    fetch(`/friends/remove-friend/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(data.success);
+            document.querySelector(`button[user-id="${userId}"]`).closest('.friend-item').remove();
+        } else {
+            console.error(data.error);
+        }
+    })
+    .catch(error => console.error('Ошибка при удалении друга:', error));
 }
 
 function addUserToFriends(userId) {
-    console.log('add');
+    fetch(`/friends/send-request/${userId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.success);
+            const button = document.querySelector(`.add-friend-btn[user-id="${userId}"]`);
+            button.textContent = 'Запрос отправлен';
+            button.disabled = true;
+        } else if (data.error) {
+            alert(data.error);
+        }
+    })
+    .catch(error => console.error('Ошибка при отправке запроса:', error));
 }
 
 function cancelFriendRequestToUser(userId) {
@@ -67,7 +137,8 @@ function cancelFriendRequestToUser(userId) {
 function setupFriendsEventListeners() {
     document.querySelectorAll('.accept-friend-request-btn').forEach(button => {
         button.addEventListener('click', () => {
-            acceptFriendRequestFromUser(button.getAttribute('user-id'));
+            const requestId = button.getAttribute('user-id');
+            acceptFriendRequestFromUser(requestId);
         });
     });
 
@@ -82,13 +153,13 @@ function setupFriendsEventListeners() {
             removeUserFromFriends(button.getAttribute('user-id'));
         });
     });
-    
+
     document.querySelectorAll('.cancel-friend-request-btn').forEach(button => {
         button.addEventListener('click', () => {
             cancelFriendRequestToUser(button.getAttribute('user-id'));
         });
     });
-    
+
     document.querySelectorAll('.add-friend-btn').forEach(button => {
         button.addEventListener('click', () => {
             addUserToFriends(button.getAttribute('user-id'));
@@ -115,69 +186,3 @@ globalSearchForm.addEventListener('submit', (event) => {
 });
 
 setupFriendsEventListeners();
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.querySelector('.users-list').addEventListener('click', function (event) {
-//         if (event.target && event.target.classList.contains('add-friend-button')) {
-//             const userId = event.target.dataset.userId;
-
-//             fetch(`/friends/send-request/${userId}/`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'X-CSRFToken': '{{ csrf_token }}',
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify({})
-//             })
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     alert(data.success);
-//                     event.target.textContent = 'Запрос отправлен';
-//                     event.target.disabled = true;
-//                 } else if (data.error) {
-//                     alert(data.error);
-//                 }
-//             })
-//             .catch(error => console.error('Ошибка при запросе:', error));
-//         }
-
-//         if (event.target && event.target.classList.contains('accept-friend-request-button')) {
-//             const requestId = event.target.dataset.requestId;
-//             console.log(event.target);
-//             console.log(event.target.dataset);
-
-//             if (!requestId) {
-//                 console.error('Ошибка: requestId не задан или равен null/undefined');
-//                 return;
-//             }
-
-//             console.log('RequestId:', requestId);
-
-//             fetch(`/friends/accept-request/${requestId}/`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'X-CSRFToken': '{{ csrf_token }}',
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify({})
-//             })
-//             .then(response => {
-//                 if (!response.ok) {
-//                     throw new Error(`HTTP error! status: ${response.status}`);
-//                 }
-//                 return response.json();
-//             })
-//             .then(data => {
-//                 if (data.success) {
-//                     alert(data.success);
-//                     event.target.textContent = 'Запрос принят';
-//                     event.target.disabled = true;
-//                 } else if (data.error) {
-//                     alert(data.error);
-//                 }
-//             })
-//             .catch(error => console.error('Ошибка при принятии запроса:', error));
-//         }
-//     });
-// });
