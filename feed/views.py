@@ -7,7 +7,7 @@ from .forms import CommentModelForm, PostModelForm
 from .models import Post, Like
 
 
-@login_required(login_url='/accounts/register/')
+@login_required(login_url='/accounts/login/')
 def create_post_list(request):
     query_set = Post.objects.prefetch_related("comments").all()
     # comment_list = [post.comments.all() for post in query_set]
@@ -45,7 +45,7 @@ def create_post_list(request):
 
     return render(request, 'feed/feed.html', context)
 
-@login_required(login_url='/accounts/register/')
+@login_required(login_url='/accounts/login/')
 def like_unlike_post(request):
     user = request.user
     if request.method == 'POST':
@@ -77,7 +77,7 @@ def like_unlike_post(request):
             'number_of_likes': post_obj.liked.count(),
         })
 
-@login_required(login_url='/accounts/register/')
+@login_required(login_url='/accounts/login/')
 def bookmark_view(request):
     post_id = request.POST.get('post_id')
     user = request.user

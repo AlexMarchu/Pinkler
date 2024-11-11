@@ -43,17 +43,33 @@
                 <input type="radio" class="tab-switch" id="bio" name="css-tabs" checked>
                 <label for="bio" class="tab-label"><i class="uil uil-info-circle"></i>Информация</label>
                 <div class="tab-content bio-list">
-                    <label class="bio-item"><i class="uil uil-shield"></i><span class="title">Админ:</span>{{ profile_owner.is_staff|yesno:'Да,Нет' }}</label>
-                    <label class="bio-item"><i class="uil uil-phone"></i><span class="title">Телефон:</span>{{ profile_owner.phone_number|default_if_none:'Не указано' }}</label>
-                    <label class="bio-item"><i class="uil uil-calendar-alt"></i><span class="title">День рождения:</span>{{ profile_owner.birthday|default_if_none:'Не указано' }}</label>
-                    <label class="bio-item"><i class="uil uil-clock"></i><span class="title">Дата регистрации:</span>{{ profile_owner.date_joined|date }}</label>
+                    <label class="bio-item"><i class="uil uil-shield"></i>
+                        <span class="title">Админ:</span>{{ profile_owner.is_staff|yesno:'Да,Нет' }}
+                    </label>
+                    <label class="bio-item"><i class="uil uil-phone"></i>
+                        <span class="title">Телефон:</span>{{ profile_owner.phone_number|default_if_none:'Не указано' }}
+                    </label>
+                    <label class="bio-item"><i class="uil uil-calendar-alt"></i>
+                        <span class="title">День рождения:</span>{{ profile_owner.birthday|default_if_none:'Не указано' }}
+                    </label>
+                    <label class="bio-item"><i class="uil uil-clock"></i>
+                        <span class="title">Дата регистрации:</span>{{ profile_owner.date_joined|date }}
+                    </label>
                 </div>
             </div>
             <div class="tab">
                 <input type="radio" class="tab-switch" id="posts" name="css-tabs">
                 <label for="posts" class="tab-label"><i class="uil uil-clipboard-notes"></i>Посты</label>
                 <div class="tab-content">
-                    
+                    {% if owner_posts %}
+                        {% for post in owner_posts %}
+                            {% include 'feed/post.html' with obj=post %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="fallback-wrapper">
+                            <label class="fallback-label">У данного пользователя нет постов...</label>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="tab">
@@ -73,4 +89,5 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}

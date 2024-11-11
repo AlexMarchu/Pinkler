@@ -19,6 +19,7 @@ from .forms import PinklerUserCreationForm, PinklerUserAuthenticationForm, Pinkl
 from .forms import PinklerUserSetPasswordForm
 from .models import PinklerUser, EmailConfirmationToken, UserThemePreference
 from friends.models import FriendshipRequest
+from feed.models import Post
 
 class PinklerUserRegistrationView(generic.CreateView):
     form_class = PinklerUserCreationForm
@@ -146,11 +147,18 @@ class PasswordResetCompleteView(TemplateView):
 @login_required(login_url='/accounts/login/')
 def profile_view(request, username):
     profile_owner = PinklerUser.objects.get(username=username)
+    owner_posts = Post.objects.filter(author=profile_owner).prefetch_related("comments")
     owner_friends = profile_owner.friends.all()
     self_friends = request.user.friends.all()
-    self_requested = FriendshipRequest.objects.filter(created_by=request.user, status='pending')
-    return render(request, 'profiles/profile.html', 
-        {'profile_owner': profile_owner, 'owner_friends': owner_friends, 'self_friends': self_friends, 'self_requested': self_requested})
+    self_requested = FriendshipRequest.objects.filter(created_by=request.user, status=FriendshipRequest.SENT).values_list('created_for', flat=True)
+    context = {
+        'profile_owner': profile_owner,
+        'owner_posts': owner_posts,
+        'owner_friends': owner_friends,
+        'self_friends': self_friends,
+        'self_requested': self_requested
+    }
+    return render(request, 'profiles/profile.html', context)
 
 
 @csrf_exempt

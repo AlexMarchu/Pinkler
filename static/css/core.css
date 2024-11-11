@@ -98,6 +98,14 @@ img {
     margin: 0.3rem 0.3rem 0.3rem 0.5rem;
 }
 
+.middle .fallback-wrapper {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: 1rem;
+    padding: 0.6rem;
+}
+
 .notification-count {
     background: var(--color-danger);
     color: white;
@@ -257,8 +265,7 @@ img {
     position: absolute;
     top: 4.1rem;
     left: 0;
-    opacity: 0;
-    padding: 0.6rem;
+    display: none;
     transition: all 200ms ease;
 }
 
@@ -270,8 +277,20 @@ img {
     color: var(--color-dark);
 }
 
+.tabs .tab-switch + label + .tab-content {
+    display: none;
+}
+
 .tabs .tab-switch:checked + label + .tab-content {
-    opacity: 1;
+    display: block;
+}
+
+.tabs .tab-switch:checked + label + .users-list {
+    display: flex;
+}
+
+.tabs .tab-switch:checked + label + .bio-list {
+    display: flex;
 }
 
 .upper-panel {
