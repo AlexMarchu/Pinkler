@@ -12,8 +12,8 @@
             <i class="uil uil-search"></i>
             <input type="search" placeholder="Поиск...">
         </div>
-        {% if self_chats %}
-            {% for chat_ in self_chats %}
+        {% if self_chats_and_last_messages %}
+            {% for chat_, last_message_ in self_chats_and_last_messages %}
                 <div class="chat-item">
                     <div class="profile-photo">
                         {% for participant_ in chat_.participants.all %}
@@ -26,7 +26,13 @@
                         {% for participant_ in chat_.participants.all %}
                             {% if participant_.pk != request.user.pk %}
                                 <h4>{{ participant_.username }}</h4>
-                                <p class="text-muted">#TODO</p>
+                                <p class="text-muted">
+                                    {% if last_message_ %}
+                                        {{ last_message_.sender }}: {{ last_message_.content }}
+                                    {% else %}
+                                        Нет сообщений
+                                    {% endif %}
+                                </p>
                             {% endif %}
                         {% endfor %}
                     </div>

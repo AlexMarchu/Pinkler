@@ -21,7 +21,8 @@ def room(request, room_name):
 @login_required(login_url='/accounts/login/')
 def chats_view(request):
     self_chats = request.user.chats.all()  # request.user.chats.distinct()
-    context = {'self_chats': self_chats}
+    chats_and_last_messages = list((chat, chat.get_last_message()) for chat in self_chats)
+    context = {'self_chats_and_last_messages': chats_and_last_messages}
     return render(request, 'chat/chats.html', context)
 
 

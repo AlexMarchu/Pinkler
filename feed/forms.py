@@ -10,7 +10,7 @@ class PostModelForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Напишитне что-нибудь...',
+                'placeholder': 'Напишите что-нибудь...',
             }),
             'image': forms.ClearableFileInput(attrs={
                 'class': 'form-control-file',
