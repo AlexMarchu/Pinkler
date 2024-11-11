@@ -28,5 +28,8 @@ class Chat(models.Model):
     def load_last_50_messages(self):
         return self.messages.order_by('-timestamp').all()[:50][::-1]
 
+    def get_last_message(self):
+        return self.messages.order_by('-timestamp').first()
+
     def __str__(self):
         return f'Chat {self.pk}'

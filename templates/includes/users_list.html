@@ -14,16 +14,17 @@
                 <button class="btn btn-primary remove-friend-btn" user-id="{{ user_.id }}">
                     <i class="uil uil-user-times"></i>
                 </button>
-            {% elif user_ in self_requested %}
-                <button class="btn btn-primary cancel-friend-request-btn" user-id="{{ user_.id }}">
-                    <i class="uil uil-user-exclamation"></i>
+            {% elif user_.id in self_requested %}
+                <button class="btn btn-primary request-pending-btn" disabled>
+                    <i class="uil uil-user-check"></i> Запрос отправлен
                 </button>
             {% else %}
-                <button class="btn btn-primary add-friend-btn" user-id="{{ user_.id }}">
+                <button class="btn btn-primary add-friend-btn" user-id="{{ user_.id }}" onclick="addUserToFriends({{ user_.id }})">
                     <i class="uil uil-user-plus"></i>
                 </button>
             {% endif %}
-            <button class="btn"><i class="uil uil-comment-edit"></i></button>
+            <button class="btn message-btn" user-id="{{ user_.id }}"><i class="uil uil-comment-edit"></i></button>
         </div>
     </div>
 {% endfor %}
+

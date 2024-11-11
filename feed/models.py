@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.utils import timezone
 from users.models import PinklerUser
 
 LIKE_CHOISE = [
@@ -25,6 +26,9 @@ class Post(models.Model):
     
     def number_of_comments(self):
         return self.comment_set.all().count()
+    
+    def created_just_now(self):
+        return timezone.now() - self.created < timezone.timedelta(minutes=1)
     
     class Meta:
         ordering = ('-created', )

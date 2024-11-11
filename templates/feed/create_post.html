@@ -2,7 +2,7 @@
     <form action="" method="POST" class="post-form" enctype="multipart/form-data">
         {% csrf_token %}
         {{post_form.content}}
-        <div id="file-preview" class="preview" style="display: none;">
+        <div id="file-preview" class="preview" style="display: none; margin: 5px 0;">
             <button type="button" id="remove-file" class="dash">✖</button>
             <img id="preview-image" src="" alt="Предварительный просмотр" />
         </div>
