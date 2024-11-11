@@ -10,7 +10,6 @@ User = get_user_model()
 
 def load_last_50_messages(room_name):
     chat = get_object_or_404(Chat, pk=5)
-    # return chat.load_last_50_messages()
     return chat.messages.order_by('-timestamp').all()[:50]
 
 
@@ -34,10 +33,6 @@ def get_chat_id(request, user_id):
         })
 
 
-def index(request):
-    return render(request, 'chat/index.html', {})
-
-
 @login_required(login_url='/accounts/login/')
 def chats_view(request):
     self_chats = request.user.chats.all()  # request.user.chats.distinct()
@@ -47,9 +42,6 @@ def chats_view(request):
 
 
 @login_required(login_url='/accounts/login/')
-# def chat_room_view(request, room_name): OLD VERSION REMOVED
-#     context = {'room_name': room_name}
-#     return render(request, 'chat/chat_room.html', context)
 def chat_room_view(request, chat_id):
     context = {'chat_id': chat_id}
     return render(request, 'chat/chat_room.html', context)
