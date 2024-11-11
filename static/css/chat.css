@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-body {
-    font-family: 'Nunito', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f4f7f6;
-}
+/*body {*/
+/*    font-family: 'Nunito', sans-serif;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    height: 100vh;*/
+/*    margin: 0;*/
+/*    background-color: #f4f7f6;*/
+/*}*/
 
 .chat-container {
     width: 600px;
