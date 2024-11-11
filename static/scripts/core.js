@@ -2,6 +2,7 @@ const content = document.querySelector('.middle');
 const globalSearchForm = document.querySelector('#global-search form');
 const globalSearchInput = document.querySelector('#global-search input');
 
+
 function retrieveUrlDataAndReplaceContent(url) {
     fetch(url)
         .then(response => response.text())

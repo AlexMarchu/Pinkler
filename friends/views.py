@@ -69,6 +69,7 @@ def accept_friend_request(request, request_id):
         friendship_request.created_by.friends.add(friendship_request.created_for)
         friendship_request.created_for.friends.add(friendship_request.created_by)
 
+
         friendship_request.delete()
 
         return JsonResponse({'success': 'Запрос принят и вы теперь друзья!'})

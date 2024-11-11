@@ -4,6 +4,7 @@ from .views import friends_view, send_friend_request, accept_friend_request, rem
 
 app_name = 'friends'
 
+
 urlpatterns = [
     path('', friends_view, name='friends'),
     path('send-request/<int:user_id>/', send_friend_request, name='send_friend_request'),
