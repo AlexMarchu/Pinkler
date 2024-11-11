@@ -20,6 +20,7 @@ from .forms import PinklerUserSetPasswordForm
 from .models import PinklerUser, EmailConfirmationToken, UserThemePreference
 from friends.models import FriendshipRequest
 from feed.models import Post
+from feed.forms import CommentModelForm
 
 class PinklerUserRegistrationView(generic.CreateView):
     form_class = PinklerUserCreationForm
@@ -146,6 +147,7 @@ class PasswordResetCompleteView(TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def profile_view(request, username):
+    comment_form = CommentModelForm()
     profile_owner = PinklerUser.objects.get(username=username)
     owner_posts = Post.objects.filter(author=profile_owner).prefetch_related("comments")
     owner_friends = profile_owner.friends.all()
@@ -156,7 +158,8 @@ def profile_view(request, username):
         'owner_posts': owner_posts,
         'owner_friends': owner_friends,
         'self_friends': self_friends,
-        'self_requested': self_requested
+        'self_requested': self_requested,
+        'comment_form': comment_form
     }
     return render(request, 'profiles/profile.html', context)
 
