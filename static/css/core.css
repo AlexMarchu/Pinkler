@@ -15,9 +15,6 @@
     --color-danger: hsl(0, 95%, 65%);
     --color-dark: hsl(252, 30%, var(--dark-color-lightness));
     --color-black: hsl(252, 30%, 10%);
-
-    --card-border-radius: 1rem;
-    --card-padding: 1rem;
 }
 
 *, *::before, *::after {
@@ -101,6 +98,14 @@ img {
     margin: 0.3rem 0.3rem 0.3rem 0.5rem;
 }
 
+.middle .fallback-wrapper {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: 1rem;
+    padding: 0.6rem;
+}
+
 .notification-count {
     background: var(--color-danger);
     color: white;
@@ -160,7 +165,7 @@ img {
     transition: all 200ms ease;
 }
 
-.chats .chat-item:last-child {
+.chats-list .chat-item:last-child {
     margin: 0;
 }
 
@@ -183,13 +188,14 @@ img {
 .user-item {
     display: flex;
     margin-bottom: 0.2rem;
-    padding: 0.6rem 0.2rem;
+    padding: 0.2rem 0.2rem;
+    margin-bottom: 0.5rem;
     justify-content: space-between;
     align-items: center;
 }
 
 .user-item:last-child {
-    margin: 0;
+    margin-bottom: 0;
 }
 
 .user-item .info {
@@ -259,8 +265,7 @@ img {
     position: absolute;
     top: 4.1rem;
     left: 0;
-    opacity: 0;
-    padding: 0.6rem;
+    display: none;
     transition: all 200ms ease;
 }
 
@@ -272,8 +277,20 @@ img {
     color: var(--color-dark);
 }
 
+.tabs .tab-switch + label + .tab-content {
+    display: none;
+}
+
 .tabs .tab-switch:checked + label + .tab-content {
-    opacity: 1;
+    display: block;
+}
+
+.tabs .tab-switch:checked + label + .users-list {
+    display: flex;
+}
+
+.tabs .tab-switch:checked + label + .bio-list {
+    display: flex;
 }
 
 .upper-panel {
@@ -511,6 +528,9 @@ img {
 .right {
     justify-self: left;
     width: 21.4rem;
+    height: max-content;
+    position: sticky;
+    top: 5.4rem;
 }
 
 .right .chats-list .heading {
@@ -553,7 +573,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.2rem 0.5rem;
+    padding: 0.3rem 0.6rem;
 }
 
 .right .friend-requests .request .actions .accept-request i {
@@ -565,7 +585,7 @@ img {
 }
 
 .right .friend-requests .request .handle p {
-    max-width: 8.4rem;
+    max-width: 8rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -8,13 +8,15 @@ class PostModelForm(forms.ModelForm):
         model = Post
         fields = ('content', 'image')
         widgets = {
-            'content': forms.Textarea(attrs={'class': 'form-control',
-                'placeholder': 'What\'s on your mind?',
+            'content': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Напишитне что-нибудь...',
             }),
             'image': forms.ClearableFileInput(attrs={
                 'class': 'form-control-file',
                 'id': 'file-upload',
-                'style': 'display: nine;'}),
+                'style': 'display: nine;'
+            }),
         }
 
     def __init__(self, *args, **kwargs):
@@ -23,7 +25,14 @@ class PostModelForm(forms.ModelForm):
         self.fields['image'].label = ''
 
 class CommentModelForm(forms.ModelForm):
-    body = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Add a comment'}))
+    body = forms.CharField(
+        label='',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Add a comment',
+            'class': 'form-comment'
+        })
+    )
+    
     class Meta:
         model = Comment
         fields = ('body', )

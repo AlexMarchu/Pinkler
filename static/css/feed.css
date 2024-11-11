@@ -5,13 +5,14 @@
     justify-content: space-between;
     margin-top: 1rem;
     background: var(--color-white);
-    padding: 0.4rem var(--card-padding);
-    border-radius: var(--border-radius);
+    padding: 0.4rem 1rem;
+    border-radius: 1rem;
 }
 
 .middle .create-post .form-control {
     resize: none;
     width: 100%;
+    height: 8rem;
     justify-self: start;
     padding-left: 1rem;
     background: transparent;
@@ -21,6 +22,7 @@
 
 .middle .create-post .post-form {
     width: 100%;
+    align-items: center;
     justify-self: start;
     padding-left: 1rem;
     background: transparent;
@@ -41,16 +43,25 @@
 
 .middle .feed {
     background: var(--color-white);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
+    border-radius: 1rem;
+    padding: 1rem;
     margin: 1rem 0;
     font-size: 0.85rem;
     line-height: 1.5;
+    width: 100%;
+}
+
+.middle .profile .feed:first-child {
+    margin-top: 0;
 }
 
 .middle .feed .head {
     display: flex;
     justify-content: space-between;
+}
+
+.bookmarked {
+    color: gold;
 }
 
 .middle .feed .user {
@@ -59,7 +70,7 @@
 }
 
 .middle .feed .photo {
-    border-radius: var(--card-border-radius);
+    border-radius: 1rem;
     overflow: hidden;
     margin: 0.7rem 0;
 }
@@ -72,18 +83,28 @@
     margin: 0.6rem 0;
 }
 
-.dash {
-    background: none; 
-    background-color: rgba(0, 0, 0, 0);
-    border: none; 
-    cursor: pointer; 
-    position: absolute;
-    align-items: right;
+#file-preview {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    background-color: var(--color-dark)
 }
+#remove-file {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;  
+    font-size: 20px;
+    color: #ff0000;
+}
+
 .liked {
     color: red;
 }
-
 
 .feed .see-comments .comment-box .comment .head-comment {
     display: flex;
@@ -100,4 +121,34 @@
     padding: 10px;
     margin: 10px 0; 
     border-radius: 5px;
+}
+
+.feed .see-comments .cmt_btn {
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--color-dark);
+}
+
+.feed .see-comments .cmt_btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.feed .see-comments .comment .form-comment {
+    flex-grow: 1;
+    width: 29rem;
+    border: 0.1rem solid #ccc;
+    padding: 10px;
+    margin: 10px 0; 
+    border-radius: 5px;
+    background-color: var(--color-white);
+    color: var(--color-dark);
+}
+ 
+.feed .see-comments .comment .ui {
+    display: flex;
+    align-items: center;
+}
+
+.feed .see-comments .comment .btn {
+    margin: 0 10px;
 }
