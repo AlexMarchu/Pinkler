@@ -23,10 +23,10 @@ class Message(models.Model):
 
 class Chat(models.Model):
     participants = models.ManyToManyField(User, related_name='chats')
-    messages = models.ManyToManyField(Message, blank=True)
+    messages = models.ManyToManyField(Message, blank=True, related_name='messages')
 
     def load_last_50_messages(self):
-        return self.messages.objects.order_by('-timestamp').all()[:50][::-1]
+        return self.messages.order_by('-timestamp').all()[:50][::-1]
 
     def __str__(self):
         return f'Chat {self.pk}'
