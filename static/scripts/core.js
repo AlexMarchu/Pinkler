@@ -30,6 +30,7 @@ function retrieveUrlDataAndReplaceContent(url) {
             });
             setupChatItemListeners();
             setupFriendsEventListeners();
+            setupMessageBtnListeners();
         })
         .catch(error => console.error(`Failed to retrieve ${url} data : `, error));
 }
@@ -285,7 +286,53 @@ function setupFriendsEventListeners() {
 function setupChatItemListeners() {
     document.querySelectorAll('.chat-item').forEach(chatItem => {
         chatItem.addEventListener('click', () => {
-            goToUrl('/chats/lobby/');
+            const userId = chatItem.getAttribute('user-id');
+            fetch(`/chats/get-chat-id/${userId}/`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.chat_id) {
+                    goToUrl(`/chats/${data.chat_id}/`);
+                } else {
+                    console.error('ID чата не получен :(', data.error);
+                    alert('Не удалось получить ID чата');
+                }
+            })
+            .catch(error => {
+                console.error(`При запросе ID чата возникла ошибка: ${error}`);
+            });
+        });
+    });
+}
+
+function setupMessageBtnListeners() {
+    document.querySelectorAll('.message-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const userId = button.getAttribute('user-id');
+            fetch(`/chats/get-chat-id/${userId}/`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.chat_id) {
+                    goToUrl(`/chats/${data.chat_id}/`);
+                } else {
+                    console.error('ID чата не получен :(', data.error);
+                    alert('Не удалось получить ID чата');
+                }
+            })
+            .catch(error => {
+                console.error(`При запросе ID чата возникла ошибка: ${error}`);
+            });
         });
     });
 }
@@ -310,4 +357,4 @@ globalSearchForm.addEventListener('submit', (event) => {
 
 setupFriendsEventListeners();
 setupChatItemListeners();
-
+setupMessageBtnListeners();
