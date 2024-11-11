@@ -97,3 +97,32 @@ def bookmark_view(request):
         post_obj.save()
 
     return JsonResponse({'bookmarked': bookmarked})
+
+@login_required(login_url='/accounts/register/')
+def bookmarks_feed(request):
+    query_set = Post.objects.prefetch_related("comments").all()
+    pinkler_user = PinklerUser.objects.get(username=request.user.username)
+    comment_form = CommentModelForm()
+
+    if 'comment_button' in request.POST:
+        comment_form = CommentModelForm(request.POST)
+        if comment_form.is_valid():
+            instance = comment_form.save(commit=False)
+            instance.user = pinkler_user
+            instance.post = Post.objects.get(id=request.POST.get('post_id'))
+            instance.save()
+            comment_form = CommentModelForm()
+
+            query_set = Post.objects.prefetch_related("comments").all()
+            return redirect('feed:bookmarks')
+
+
+    context = {
+        'query_set': query_set, 
+        'pinkler_user': pinkler_user, 
+        'comment_form': comment_form,
+    }
+
+    return render(request, 'bookmarks/bookmarks.html', context)
+
+

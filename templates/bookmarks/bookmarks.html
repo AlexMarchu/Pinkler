@@ -1,5 +1,17 @@
 {% extends 'content_base.html' %}
+{% load static %}
 
 {% block title %}
     <title>Избраннное</title>
+{% endblock %}
+
+{% block content %}
+
+    {% for obj in query_set %}
+        {% if pinkler_user in obj.bookmark.all %}
+            {% include 'feed/post.html' with obj=obj %}
+        {% endif %}
+    {% endfor %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 {% endblock %}

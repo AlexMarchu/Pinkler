@@ -77,15 +77,23 @@ document.getElementById('remove-file').addEventListener('click', function() {
     filePreview.style.display = 'none'; 
 });
 
-    $( document ).ready(function() {
-        let display = false
-        $(".cmt_btn").click(function () {
-            if (display===false) {
-                $(this).next(".comment-box").show("slow");
-                display=true
-            } else {
-                $(this).next(".comment-box").hide("slow");
-                display=false
-            }  
-        });
+$( document ).ready(function() {
+    let display = false
+    $(".cmt_btn").click(function () {
+        if (display===false) {
+            $(this).next(".comment-box").show("slow");
+            display=true
+        } else {
+            $(this).next(".comment-box").hide("slow");
+            display=false
+        }  
     });
+});
+
+$(document).ready(function() {
+    // Обработчик клика по кнопке "Создать пост"
+    $("#create-post").click(function() {
+        // Перемещение фокуса на текстовое поле контента поста
+        $("#post-form-content").focus(); // Используйте ID поля
+    });
+});
