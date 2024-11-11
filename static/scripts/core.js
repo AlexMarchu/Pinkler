@@ -27,6 +27,7 @@ function retrieveUrlDataAndReplaceContent(url) {
                     goToUrl(urlItem.getAttribute('url'));
                 });
             });
+            setupChatItemListeners();
             setupFriendsEventListeners();
         })
         .catch(error => console.error(`Failed to retrieve ${url} data : `, error));
@@ -167,6 +168,14 @@ function setupFriendsEventListeners() {
     });
 }
 
+function setupChatItemListeners() {
+    document.querySelectorAll('.chat-item').forEach(chatItem => {
+        chatItem.addEventListener('click', () => {
+            goToUrl('/chats/lobby/');
+        });
+    });
+}
+
 document.querySelectorAll('.url-item').forEach(urlItem => {
     urlItem.addEventListener('click', () => {
         goToUrl(urlItem.getAttribute('url'));
@@ -186,4 +195,5 @@ globalSearchForm.addEventListener('submit', (event) => {
 });
 
 setupFriendsEventListeners();
+setupChatItemListeners();
 
