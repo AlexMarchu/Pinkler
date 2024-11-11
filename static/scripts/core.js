@@ -186,3 +186,4 @@ globalSearchForm.addEventListener('submit', (event) => {
 });
 
 setupFriendsEventListeners();
+

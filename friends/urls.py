@@ -10,3 +10,4 @@ urlpatterns = [
     path('remove-friend/<int:user_id>/', remove_friend, name='remove_friend'),
     path('get-request-id/<int:user_id>/', get_request_id, name='get_request_id'),
 ]
+

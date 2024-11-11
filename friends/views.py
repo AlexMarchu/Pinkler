@@ -10,6 +10,7 @@ from friends.models import FriendshipRequest
 
 
 
+
 @csrf_exempt
 @login_required(login_url='/accounts/login/')
 def get_request_id(request, user_id):
