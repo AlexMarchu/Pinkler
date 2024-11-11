@@ -1,14 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
-<textarea id="chat-log" cols="100" rows="20" readonly></textarea><br>
-<input id="chat-message-input" type="text" size="100"><br>
-<input id="chat-message-submit" type="button" value="Send">
-<input id="chat-image-input" type="file" accept="image/png, image/jpeg"><br>
+{% extends 'content_base.html' %}
+
+{% block title %}
+<title>{{ room_name }}</title>
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="chat-header">
+        <img src="{{ user.avatar.url }}" alt="User Avatar" class="chat-avatar">
+        <span class="chat-username">{{ user.username }} 🌊</span>
+    </div>
+    <div id="chat-log">
+        <!-- Сообщения будут добавляться сюда динамически -->
+    </div>
+    <div class="chat-input">
+        <button id="attachment-button"></button>
+        <input type="file" id="chat-image-input" accept="image/png, image/jpeg" style="display: none;">
+        <input id="chat-message-input" type="text" placeholder="Введите сообщение...">
+        <button id="chat-message-submit">Отправить</button>
+    </div>
+</div>
 {{ room_name|json_script:"room-name" }}
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
@@ -23,7 +34,8 @@
 
     function fetchMessages() {
         chatSocket.send(JSON.stringify({
-            'command': 'fetch_messages'
+            'command': 'fetch_messages',
+            'room_name': roomName,
         }));
     }
 
@@ -33,28 +45,51 @@
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        console.log(data); // need for debug
+        const chatLog = document.getElementById('chat-log');
+
         if (data.command === 'new_message') {
             const username = data.message.sender;
             const messageContent = data.message.content;
             const timestamp = data.message.timestamp;
             const image = data.message.image;
 
-            let messageText = `[${timestamp}] ${username}: ${messageContent}\n`;
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            messageDiv.classList.add(username === '{{ user.username }}' ? 'sent' : 'received');
+
+            let messageText = `<div class="message">[${timestamp}] ${username}: ${messageContent}</div>`;
+            messageDiv.innerHTML = messageText;
+
             if (image) {
-                messageText += `Image: ${image}\n`;
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'message';
+                imageDiv.innerHTML = `<img src="${image}" alt="Image" style="max-width: 100%; border-radius: 10px;"/>`;
+                chatLog.appendChild(imageDiv);
             }
 
-            document.querySelector('#chat-log').value += messageText;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+
         } else if (data.command === 'fetch_messages') {
-            document.querySelector('#chat-log').value = '';
+            chatLog.innerHTML = '';
             data.messages.forEach(msg => {
-                let msgText = `[${msg.timestamp}] ${msg.sender}: ${msg.content}\n`;
+                let messageDiv = document.createElement('div');
+                messageDiv.className = 'chat-message';
+                messageDiv.classList.add(msg.sender === '{{ user.username }}' ? 'sent' : 'received');
+
+                messageDiv.innerHTML = `<div class="message">[${msg.timestamp}] ${msg.sender}: ${msg.content}</div>`;
+
                 if (msg.image) {
-                    msgText += `Image: ${msg.image}\n`;  // need for debug
+                    const imageDiv = document.createElement('div');
+                    imageDiv.className = 'message';
+                    imageDiv.innerHTML = `<img src="${msg.image}" alt="Image" style="max-width: 100%; border-radius: 10px;"/>`;
+                    chatLog.appendChild(imageDiv);
                 }
-                document.querySelector('#chat-log').value += msgText;
+
+                chatLog.appendChild(messageDiv);
             });
+
+            chatLog.scrollTop = chatLog.scrollHeight;
         }
     };
 
@@ -64,9 +99,13 @@
         console.error('Chat socket closed unexpectedly :(');
     };
 
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function (e) {
-        if (e.keyCode === 13) {  // Enter, return key
+    document.getElementById('attachment-button').onclick = function() {
+        document.getElementById('chat-image-input').click();
+    };
+
+    document.getElementById('chat-message-input').focus();
+    document.getElementById('chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // Enter (return key)
             document.querySelector('#chat-message-submit').click();
         }
     };
@@ -89,8 +128,6 @@
                 }));
                 messageInputDom.value = '';
                 imageInputDom.value = '';
-                // need for debug
-                // document.querySelector('#chat-log').value += `Sent: ${message}\n`;
             }
 
             reader.readAsDataURL(imageFile);
@@ -100,12 +137,7 @@
                 'command': 'new_message',
             }));
             messageInputDom.value = '';
-            // need for debug
-            // document.querySelector('#chat-log').value += `Sent: ${message}\n`;
         }
     };
-
-
 </script>
-</body>
-</html>
+{% endblock %}

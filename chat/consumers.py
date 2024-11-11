@@ -2,8 +2,10 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
-from .models import Message
+from .models import Message, Chat
+from .views import load_last_50_messages
 
 User = get_user_model()
 
@@ -11,7 +13,12 @@ User = get_user_model()
 class ChatConsumer(WebsocketConsumer):
 
     def fetch_messages(self, data):
-        messages = Message.load_last_30_messages()
+        # chat = get_object_or_404(Chat, pk=data['room_name'])
+        chat = get_object_or_404(Chat, pk=5)
+        print(data)
+        # messages = load_last_50_messages(data['room_name'])
+        messages = chat.load_last_50_messages()
+        print(messages)
         content = {
             'command': 'fetch_messages',
             'messages': self.messages_to_json(messages)
@@ -23,10 +30,14 @@ class ChatConsumer(WebsocketConsumer):
         message_content = data.get('message', '')
         image_data = data.get('image', '')
 
+        # chat = get_object_or_404(Chat, pk=data['room_name'])
+        chat = get_object_or_404(Chat, pk=5)
+
         message = Message(sender=sender_instance, content=message_content)
         if image_data:
             message.image = self.save_image(image_data)
         message.save()
+        chat.messages.add(message)
 
         content = {
             'command': 'new_message',
@@ -69,7 +80,6 @@ class ChatConsumer(WebsocketConsumer):
     def replace_emoji_codes(self, message):
         for code, emoji in self.emoji_dict.items():
             message = message.replace(code, emoji)
-        print(message)
         return message
 
     def save_image(self, image_data):
@@ -83,7 +93,7 @@ class ChatConsumer(WebsocketConsumer):
     def connect(self):
         try:
             self.room_name = self.scope['url_route']['kwargs']['room_name']
-            self.room_group_name = 'chat_%s' % self.room_name
+            self.room_group_name = f'chat_{self.room_name}'
 
             async_to_sync(self.channel_layer.group_add)(self.room_group_name, self.channel_name)
             self.accept()

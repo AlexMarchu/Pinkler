@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
         <link rel="stylesheet" href="{% static 'css/core.css' %}">
         <link rel="stylesheet" href="{% static 'css/feed.css' %}">
+        <link rel="stylesheet" href="{% static 'css/chat.css' %}">
         {% block title %}
         {% endblock %}
     </head>
@@ -41,7 +42,7 @@
             <div class="grid-container">
                 <div class="left">
                     <!----------------- PROFILE CARD -------------------->
-                    <a class="profile-card url-item" url="/accounts/{{ user.username }}">
+                    <a class="profile-card url-item" url="/accounts/{{ user.username }}/">
                         <div class="profile-photo">
                             <img src="{{ user.avatar.url }}">
                         </div>
@@ -183,5 +184,6 @@
         <script src="{% static 'scripts/core.js' %}"></script>
         <script src="{% static 'scripts/themes.js' %}"></script>
         <script src="{% static 'scripts/feed.js' %}"></script>
+<!--        <script src="{% static 'scripts/chat.js' %}"></script>-->
     </body>
 </html>
