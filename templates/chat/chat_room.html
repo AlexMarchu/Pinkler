@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-<title>{{ chat_id }}</title>
+<title>{{ companion.username }}</title>
 {% endblock %}
 
 {% block content %}
@@ -80,7 +80,8 @@
                 messageDiv.className = 'chat-message';
                 messageDiv.classList.add(msg.sender === '{{ user.username }}' ? 'sent' : 'received');
 
-                messageDiv.innerHTML = `<div class="message">[${msg.timestamp}] ${msg.sender}: ${msg.content}</div>`;
+                // messageDiv.innerHTML = `<div class="message">[${msg.timestamp}] ${msg.sender}: ${msg.content}</div>`;
+                messageDiv.innerHTML = `<div class="message">${msg.content}</div>`;
 
                 if (msg.image) {
                     const imageDiv = document.createElement('div');
