@@ -2,8 +2,8 @@ const content = document.querySelector('.middle');
 const globalSearchForm = document.querySelector('#global-search form');
 const globalSearchInput = document.querySelector('#global-search input');
 
-function retrieveUrlDataAndReplaceContent(url) {
-    fetch(url)
+async function retrieveUrlDataAndReplaceContent(url) {
+    await fetch(url)
         .then(response => response.text())
         .then(html => {
             const parser = new DOMParser();
@@ -37,16 +37,16 @@ function retrieveUrlDataAndReplaceContent(url) {
         .catch(error => console.error(`Failed to retrieve ${url} data : `, error));
 }
 
-function goToUrl(url) {
+async function goToUrl(url) {
     if (document.location.pathname == url) {
         return;
     }
-    retrieveUrlDataAndReplaceContent(url);
+    await retrieveUrlDataAndReplaceContent(url);
     history.pushState({}, '', url);
 }
 
-function backToUrl(url) {
-    retrieveUrlDataAndReplaceContent(url);
+async function backToUrl(url) {
+    await retrieveUrlDataAndReplaceContent(url);
 }
 
 function loadChats() {
@@ -383,6 +383,15 @@ globalSearchForm.addEventListener('submit', (event) => {
     const formData = new FormData(globalSearchForm);
     const searchParams = new URLSearchParams(formData);
     goToUrl(`/search/?${searchParams.toString()}`);
+});
+
+async function focusOnPostCreation() {
+    await goToUrl('/feed/');
+    document.querySelector('#post-form-content').focus();
+}
+
+document.querySelector("#create-post").addEventListener('click', () => {
+    focusOnPostCreation();
 });
 
 loadChats();

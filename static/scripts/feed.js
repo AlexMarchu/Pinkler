@@ -93,10 +93,10 @@ $( document ).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    // Обработчик клика по кнопке "Создать пост"
-    $("#create-post").click(function() {
-        // Перемещение фокуса на текстовое поле контента поста
-        $("#post-form-content").focus(); // Используйте ID поля
-    });
-});
+// $(document).ready(function() {
+//     // Обработчик клика по кнопке "Создать пост"
+//     $("#create-post").click(function() {
+//         // Перемещение фокуса на текстовое поле контента поста
+//         $("#post-form-content").focus(); // Используйте ID поля
+//     });
+// });
