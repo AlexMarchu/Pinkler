@@ -59,5 +59,7 @@ def chats_view(request):
 
 @login_required(login_url='/accounts/login/')
 def chat_room_view(request, chat_id):
-    context = {'chat_id': chat_id}
+    chat = Chat.objects.get(id=chat_id)
+    companion = chat.participants.exclude(id=request.user.id)[0]
+    context = {'chat_id': chat_id, 'companion': companion}
     return render(request, 'chat/chat_room.html', context)
