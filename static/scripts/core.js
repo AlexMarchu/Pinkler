@@ -327,7 +327,8 @@ function setupChatItemListeners() {
             .then(response => response.json())
             .then(data => {
                 if (data.chat_id) {
-                    goToUrl(`/chats/${data.chat_id}/`);
+                    // goToUrl(`/chats/${data.chat_id}/`);
+                    window.location.href = `/chats/${data.chat_id}/`;
                 } else {
                     console.error('ID чата не получен :(', data.error);
                     alert('Не удалось получить ID чата');
@@ -354,7 +355,8 @@ function setupMessageBtnListeners() {
             .then(response => response.json())
             .then(data => {
                 if (data.chat_id) {
-                    goToUrl(`/chats/${data.chat_id}/`);
+                    // goToUrl(`/chats/${data.chat_id}/`);
+                    window.location.href = `/chats/${data.chat_id}/`;
                 } else {
                     console.error('ID чата не получен :(', data.error);
                     alert('Не удалось получить ID чата');
