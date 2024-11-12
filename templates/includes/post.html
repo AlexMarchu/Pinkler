@@ -1,9 +1,9 @@
-<div class="feed">
+<div class="post">
     <div class="head">
         <div class="user">
             {% if obj.author.avatar %}
                 <div class="profile-photo">
-                    <img src="{{obj.author.avatar.url}}">
+                    <img src="{{ obj.author.avatar.url }}">
                 </div>
 
             {% else %}
@@ -12,12 +12,12 @@
             </div>
             {% endif %}
             <div class="info">
-                <h3>{{ obj.author.username }}</h3>
+                <h4>{{ obj.author.username }}</h4>
             
                 {% if obj.created_just_now %}
-                    <p>{{ obj.author }} - только что</p>
+                    <p class="text-muted">только что</p>
                 {% else %}
-                    <p>{{ obj.author }} - {{ obj.created|timesince }} назад</p>
+                    <p class="text-muted">{{ obj.created|timesince }} назад</p>
                 {% endif %}
             </div>
         </div>
@@ -42,18 +42,16 @@
     </div>
 
     <div class="action-buttons">
-        <div class="interaction-buttons">
-            <form class="like-form" method="POST" data-url="{% url 'feed:like-post-view' %}">
-                {% csrf_token %}
-                <input type="hidden" name="post_id" value="{{obj.id}}">
-                <button type="submit" class="sth" style="background-color: rgba(0, 0, 0, 0);">
-                    <i class="uil uil-heart {% if user in obj.liked.all %} liked {% endif %}"></i>
-                </button>
-                <span class="like-count">{{ obj.liked.count }}</span>
-                <span><i class="uil uil-comment-dots" style="background-color: rgba(0, 0, 0, 0);"></i></span>
-                <span class="comments-count">{{ obj.comments.count }}</span>
-            </form>
-        </div>
+        <form class="like-form" method="POST" data-url="{% url 'feed:like-post-view' %}">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value="{{ obj.id }}">
+            <button type="submit" class="sth" style="background-color: rgba(0, 0, 0, 0);">
+                <i class="uil uil-heart {% if user in obj.liked.all %} liked {% endif %}"></i>
+            </button>
+            <span class="like-count">{{ obj.liked.count }}</span>
+            <span><i class="uil uil-comment-dots" style="background-color: rgba(0, 0, 0, 0);"></i></span>
+            <span class="comments-count">{{ obj.comments.count }}</span>
+        </form>
     </div>
     <div class="see-comments">
         <button class="cmt_btn ui button mb-5" style="font-family: 'Nunito', sans-serif;">Показать/спрятать комментарии</button>

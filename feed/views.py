@@ -98,7 +98,7 @@ def bookmark_view(request):
 
     return JsonResponse({'bookmarked': bookmarked})
 
-@login_required(login_url='/accounts/register/')
+@login_required(login_url='/accounts/login/')
 def bookmarks_feed(request):
     query_set = Post.objects.prefetch_related("comments").all()
     pinkler_user = PinklerUser.objects.get(username=request.user.username)

@@ -1,9 +1,14 @@
+.feed {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.8rem;
+}
+
 .middle .create-post {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1rem;
     background: var(--color-white);
     padding: 0.4rem 1rem;
     border-radius: 1rem;
@@ -41,46 +46,56 @@
     width: 100%;
 }
 
-.middle .feed {
+.middle .post {
     background: var(--color-white);
     border-radius: 1rem;
-    padding: 1rem;
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5;
+    padding: 0.9rem;
     width: 100%;
 }
 
-.middle .profile .feed:first-child {
+.middle .profile .post:first-child {
     margin-top: 0;
 }
 
-.middle .feed .head {
+.middle .post .head {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.middle .post .user p {
+    font-size: 0.9rem;
 }
 
 .bookmarked {
     color: gold;
 }
 
-.middle .feed .user {
+.middle .post .user {
     display: flex;
-    gap: 1rem;
+    gap: 0.6rem;
 }
 
-.middle .feed .photo {
+.middle .post .photo {
     border-radius: 1rem;
     overflow: hidden;
-    margin: 0.7rem 0;
+    margin: 0.6rem 0;
 }
 
-.middle .feed .action-buttons {
+.middle .post .action-buttons i {
+    font-size: 1.3rem;
+}
+
+.middle .post .action-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.1rem;
-    margin: 0.6rem 0;
+    font-size: 1.06rem;
+    margin: 0.4rem 0;
+}
+
+.middle .post .action-buttons .sth {
+    cursor: pointer;
 }
 
 #file-preview {
@@ -91,6 +106,7 @@
     border-radius: 1rem;
     background-color: var(--color-dark)
 }
+
 #remove-file {
     position: absolute;
     top: 5px;
@@ -106,34 +122,36 @@
     color: red;
 }
 
-.feed .see-comments .comment-box .comment .head-comment {
+.post .see-comments .comment-box .comment .head-comment {
     display: flex;
     gap: 1rem;
     align-items: center;
 }
-.feed .see-comments .comment-box .comment .head-comment .profile-photo{
+
+.post .see-comments .comment-box .comment .head-comment .profile-photo{
     display: flex;
     gap: 1rem;
     width: 2.7rem;
 }
-.feed .see-comments .comment-box .comment {
+
+.post .see-comments .comment-box .comment {
     border: 0.1rem solid #ccc;
     padding: 10px;
     margin: 10px 0; 
     border-radius: 5px;
 }
 
-.feed .see-comments .cmt_btn {
+.post .see-comments .cmt_btn {
     background-color: rgba(0, 0, 0, 0);
     color: var(--color-dark);
 }
 
-.feed .see-comments .cmt_btn:focus {
+.post .see-comments .cmt_btn:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.feed .see-comments .comment .form-comment {
+.post .see-comments .comment .form-comment {
     flex-grow: 1;
     width: 29rem;
     border: 0.1rem solid #ccc;
@@ -144,11 +162,11 @@
     color: var(--color-dark);
 }
  
-.feed .see-comments .comment .ui {
+.post .see-comments .comment .ui {
     display: flex;
     align-items: center;
 }
 
-.feed .see-comments .comment .btn {
+.post .see-comments .comment .btn {
     margin: 0 10px;
 }

@@ -2,7 +2,6 @@ const content = document.querySelector('.middle');
 const globalSearchForm = document.querySelector('#global-search form');
 const globalSearchInput = document.querySelector('#global-search input');
 
-
 function retrieveUrlDataAndReplaceContent(url) {
     fetch(url)
         .then(response => response.text())
@@ -16,7 +15,7 @@ function retrieveUrlDataAndReplaceContent(url) {
 
             const scripts = document.querySelectorAll('.middle script');
             scripts.forEach(script => {
-                const newScript = content.createElement('script');
+                const newScript = document.createElement('script');
                 newScript.textContent = script.textContent;
                 newScript.src = script.src;
                 content.appendChild(newScript);

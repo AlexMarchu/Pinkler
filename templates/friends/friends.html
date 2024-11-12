@@ -21,7 +21,7 @@
             </div>
             <div class="tab">
                 <input type="radio" class="tab-switch" id="pending" name="css-tabs">
-                <label for="pending" class="tab-label"><i class="uil uil-corner-down-right-alt"></i>Входящие</label>
+                <label for="pending" class="tab-label"><i class="uil uil-arrow-growth"></i>Входящие</label>
                 <div class="tab-content users-list">
                     {% if self_pending %}
                         {% for user_ in self_pending %}
@@ -35,7 +35,7 @@
             </div>
             <div class="tab">
                 <input type="radio" class="tab-switch" id="requests" name="css-tabs">
-                <label for="requests" class="tab-label"><i class="uil uil-clock"></i>Исходящие</label>
+                <label for="requests" class="tab-label"><i class="uil uil-chart-down"></i>Исходящие</label>
                 <div class="tab-content users-list">
                     {% if self_requested %}
                         {% for user_ in self_requested %}

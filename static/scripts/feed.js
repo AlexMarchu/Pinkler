@@ -51,31 +51,34 @@ $(document).ready(function() {
     });
 });
 
-document.getElementById('file-upload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const previewImage = document.getElementById('preview-image');
-    const filePreview = document.getElementById('file-preview');
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImage.src = e.target.result; 
-            filePreview.style.display = 'block'; 
+if (document.getElementById('file-upload')) {
+    document.getElementById('file-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const previewImage = document.getElementById('preview-image');
+        const filePreview = document.getElementById('file-preview');
+    
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result; 
+                filePreview.style.display = 'block'; 
+            }
+            reader.readAsDataURL(file);
+        } else {
+            filePreview.style.display = 'none'; 
         }
-        reader.readAsDataURL(file);
-    } else {
+    });
+}
+
+if (document.getElementById('remove-file')) {
+    document.getElementById('remove-file').addEventListener('click', function() {
+        const fileUpload = document.getElementById('file-upload');
+        const filePreview = document.getElementById('file-preview');
+    
+        fileUpload.value = '';
         filePreview.style.display = 'none'; 
-    }
-});
-
-
-document.getElementById('remove-file').addEventListener('click', function() {
-    const fileUpload = document.getElementById('file-upload');
-    const filePreview = document.getElementById('file-preview');
-
-    fileUpload.value = '';
-    filePreview.style.display = 'none'; 
-});
+    });
+}
 
 $( document ).ready(function() {
     let display = false
