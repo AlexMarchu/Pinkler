@@ -33,6 +33,18 @@ async function retrieveUrlDataAndReplaceContent(url) {
             setupChatItemListeners();
             setupFriendsEventListeners();
             setupMessageBtnListeners();
+
+            if (document.getElementById('profile-avatar')) {
+                document.getElementById('profile-avatar').addEventListener('click', function() {
+                    document.getElementById('avatar-input').click();
+                });
+            }
+            
+            if (document.getElementById('avatar-input')) {
+                document.getElementById('avatar-input').addEventListener('change', function() {
+                    updateProfileAvatar(this);
+                });
+            }
         })
         .catch(error => console.error(`Failed to retrieve ${url} data : `, error));
 }
@@ -400,3 +412,15 @@ loadChats();
 setupFriendsEventListeners();
 setupChatItemListeners();
 setupMessageBtnListeners();
+
+if (document.getElementById('profile-avatar')) {
+    document.getElementById('profile-avatar').addEventListener('click', function() {
+        document.getElementById('avatar-input').click();
+    });
+}
+
+if (document.getElementById('avatar-input')) {
+    document.getElementById('avatar-input').addEventListener('change', function() {
+        updateProfileAvatar(this);
+    });
+}
