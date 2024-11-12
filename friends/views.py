@@ -121,7 +121,8 @@ def cancel_friend_request(request, user_id):
         if request.method != "POST":
             return JsonResponse({'error': 'Invalid request method.'}, status=405)
 
-        friendship_request = get_object_or_404(FriendshipRequest, id=user_id)
+        friendship_request = get_object_or_404(FriendshipRequest, 
+            created_for_id=user_id, created_by_id=request.user.id, status=FriendshipRequest.SENT)
 
         if friendship_request.created_by != request.user:
             return JsonResponse({'error': 'Unauthorized request.'}, status=403)

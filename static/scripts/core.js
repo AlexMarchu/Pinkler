@@ -254,43 +254,27 @@ function cancelFriendRequestToUser(userId) {
     }
     console.log('User ID:', userId);
 
-    fetch(`/friends/get-request-id/${userId}/`, {
-        method: 'GET',
+    fetch(`/friends/cancel-request/${userId}/`, {
+        method: 'POST',
         headers: {
+            'Content-Type': 'application/json',
             'X-CSRFToken': '{{ csrf_token }}'
         }
     })
     .then(response => response.json())
     .then(data => {
-        if (data.request_id) {
-            fetch(`/friends/cancel-request/${data.request_id}/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Запрос отклонен');
-                    const requestElement = document.querySelector(`.cancel-friend-request-btn[user-id="${userId}"]`);
-                    if (requestElement) {
-                        requestElement.closest('.user-item.friend-request').remove();
-                    }
-                } else {
-                    console.log('Ошибка:', data.error);
-                }
-            })
-            .catch(error => {
-                console.log('Ошибка при отклонении запроса:', error);
-            });
+        if (data.success) {
+            console.log('Запрос отклонен');
+            const requestElement = document.querySelector(`.cancel-friend-request-btn[user-id="${userId}"]`);
+            if (requestElement) {
+                requestElement.closest('.user-item.friend-request').remove();
+            }
         } else {
             console.log('Ошибка:', data.error);
         }
     })
     .catch(error => {
-        console.log('Ошибка при получении request_id:', error);
+        console.log('Ошибка при отклонении запроса:', error);
     });
 }
 
