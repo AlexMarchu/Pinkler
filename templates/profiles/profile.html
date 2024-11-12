@@ -23,15 +23,15 @@
                 {% if user != profile_owner %}
                     <button class="btn"><i class="uil uil-comment-edit"></i></button>
                     {% if profile_owner in self_friends %}
-                        <button class="btn btn-primary remove-friend-btn" user-id="{{ profile_owner.id }}">
+                        <button class="btn btn-primary remove-friend-btn" user-id="{{ user_.id }}">
                             <i class="uil uil-user-times"></i>
                         </button>
                     {% elif profile_owner in self_requested %}
-                        <button class="btn btn-primary cancel-friend-request-btn" user-id="{{ profile_owner.id }}">
-                            <i class="uil uil-user-exclamation"></i>
+                        <button class="btn btn-primary request-pending-btn" disabled>
+                            <i class="uil uil-user-check"></i> Запрос отправлен
                         </button>
                     {% else %}
-                        <button class="btn btn-primary add-friend-btn" user-id="{{ profile_owner.id }}">
+                        <button class="btn btn-primary add-friend-btn" user-id="{{ user_.id }}" onclick="addUserToFriends({{ user_.id }})">
                             <i class="uil uil-user-plus"></i>
                         </button>
                     {% endif %}

@@ -169,9 +169,12 @@ def profile_view(request, username):
     owner_posts = Post.objects.filter(author=profile_owner).prefetch_related("comments")
     owner_friends = profile_owner.friends.all()
     self_friends = request.user.friends.all()
-    self_requested = FriendshipRequest.objects.filter(created_by=request.user,
+    self_requested = PinklerUser.objects.filter(
+        id__in=FriendshipRequest.objects.filter(created_by=request.user,
                                                       status=FriendshipRequest.SENT).values_list('created_for',
-                                                                                                 flat=True)
+                                                                                                flat=True)
+    )
+    
     context = {
         'profile_owner': profile_owner,
         'owner_posts': owner_posts,
