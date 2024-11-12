@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import PinklerUserAuthenticationView, PinklerUserRegistrationView, EmailConfirmationView, \
-    PinklerUserPasswordResetView, PinklerUserPasswordResetConfirmView, PasswordResetCompleteView
+    PinklerUserPasswordResetView, PinklerUserPasswordResetConfirmView, PasswordResetCompleteView, update_avatar_view
 from .views import save_theme_preference, get_theme_preference, profile_view
 
 urlpatterns = [
@@ -14,5 +14,6 @@ urlpatterns = [
     path('password_reset/complete', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('save-theme-preference/', save_theme_preference, name='save_theme_preference'),
     path('get-theme-preference/', get_theme_preference, name='get_theme_preference'),
+    path('update-avatar/', update_avatar_view, name='update_avatar'),
     path('<str:username>/', profile_view, name='profile'),
 ]

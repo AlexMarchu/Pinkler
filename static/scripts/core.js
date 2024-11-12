@@ -76,6 +76,33 @@ function loadChats() {
         .catch(error => console.error('Ошибка загрузки чатов:', error));
 }
 
+function updateProfileAvatar(inputElement) {
+    const formData = new FormData();
+    formData.append('avatar', inputElement.files[0]);
+
+    fetch('/accounts/update-avatar/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.querySelector('#profile-avatar').src = data.new_avatar_url;
+            // document.querySelector('#profile-photo img').src = data.new_avatar_url;
+        } else {
+            console.log(data);
+            alert(data.error || 'Произошла ошибка при загрузке аватара');
+        }
+    })
+    .catch(error => {
+        alert('Произошла ошибка. Попробуйте еще раз!', error);
+        console.error('Ошибка загрузки аватара:', error);
+    });
+}
+
 function acceptFriendRequestFromUser(userId) {
     console.log('User ID:', userId);
 

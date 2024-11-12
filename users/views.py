@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 
@@ -20,6 +21,7 @@ from .forms import PinklerUserSetPasswordForm
 from .models import PinklerUser, EmailConfirmationToken, UserThemePreference
 from friends.models import FriendshipRequest
 from feed.models import Post
+
 
 class PinklerUserRegistrationView(generic.CreateView):
     form_class = PinklerUserCreationForm
@@ -135,6 +137,7 @@ class PinklerUserPasswordResetView(generic.View):
 
         return render(request, self.template_name, {'form': form})
 
+
 class PinklerUserPasswordResetConfirmView(PasswordResetConfirmView):
     form_class = PinklerUserSetPasswordForm
     template_name = 'users/password_reset_confirm.html'
@@ -144,13 +147,16 @@ class PinklerUserPasswordResetConfirmView(PasswordResetConfirmView):
 class PasswordResetCompleteView(TemplateView):
     template_name = 'users/password_reset_complete.html'
 
+
 @login_required(login_url='/accounts/login/')
 def profile_view(request, username):
     profile_owner = PinklerUser.objects.get(username=username)
     owner_posts = Post.objects.filter(author=profile_owner).prefetch_related("comments")
     owner_friends = profile_owner.friends.all()
     self_friends = request.user.friends.all()
-    self_requested = FriendshipRequest.objects.filter(created_by=request.user, status=FriendshipRequest.SENT).values_list('created_for', flat=True)
+    self_requested = FriendshipRequest.objects.filter(created_by=request.user,
+                                                      status=FriendshipRequest.SENT).values_list('created_for',
+                                                                                                 flat=True)
     context = {
         'profile_owner': profile_owner,
         'owner_posts': owner_posts,
@@ -159,6 +165,24 @@ def profile_view(request, username):
         'self_requested': self_requested
     }
     return render(request, 'profiles/profile.html', context)
+
+
+@csrf_exempt
+@login_required(login_url='/accounts/login/')
+def update_avatar_view(request):
+    if request.method == 'POST' and request.FILES.get('avatar'):
+        user = request.user
+        if user is None:
+            return JsonResponse({'error': 'Пользователь не найден'}, status=404)
+
+        user.avatar = request.FILES['avatar']
+        user.save()
+        print('avatar has been updated')
+        return JsonResponse({
+            'success': True,
+            'new_avatar_url': user.avatar.url
+        })
+    return JsonResponse({'error': 'Неверный запрос'}, status=400)
 
 
 @csrf_exempt
@@ -178,6 +202,7 @@ def save_theme_preference(request):
 
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'}, status=400)
+
 
 @login_required(login_url='/accounts/login/')
 def get_theme_preference(request):
