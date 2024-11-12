@@ -90,25 +90,9 @@
                     <!----------------- CHATS -------------------->
                     <div class="chats-list">
                         <h4 class="heading">Недавние сообщения</h4>
-                        <!----------------- CHAT -------------------->
-                        <div class="chat-item">
-                            <div class="profile-photo">
-                                <img src="">
-                            </div>
-                            <div class="handle">
-                                <h4>wyborn</h4>
-                                <p class="text-muted">WASSUP!</p>
-                            </div>
-                        </div>
-                        <!----------------- CHAT -------------------->
-                        <div class="chat-item">
-                            <div class="profile-photo">
-                                <img src="">
-                            </div>
-                            <div class="handle">
-                                <h4>kurylov89iq</h4>
-                                <p class="text-muted">А вот я думаю...</p>
-                            </div>
+                        <div class="chat-items-right-side">
+                            {% block chats %}
+                            {% endblock %}
                         </div>
                     </div>
                     <!----------------- FRIEND REQUESTS -------------------->

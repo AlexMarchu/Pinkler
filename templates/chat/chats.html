@@ -4,6 +4,12 @@
     <title>Сообщения</title>
 {% endblock %}
 
+{% block chats %}
+    <script>
+        loadChats();
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="chats-list">
         <h3 class="heading">Сообщения</h3>
@@ -11,6 +17,9 @@
         <div class="search-input">
             <i class="uil uil-search"></i>
             <input type="search" placeholder="Поиск...">
+        </div>
+        <div class="chat-items">
+
         </div>
         {% if self_chats_and_last_messages %}
             {% for chat_, last_message_ in self_chats_and_last_messages %}
