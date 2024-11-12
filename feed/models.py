@@ -32,7 +32,6 @@ class Post(models.Model):
     
     class Meta:
         ordering = ('-created', )
-        unique_together = (('author', 'content'),)
     
 
 class Comment(models.Model):
