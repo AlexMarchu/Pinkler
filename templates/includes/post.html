@@ -1,3 +1,4 @@
+{% load feed_extras %}
 <div class="post">
     <div class="head">
         <div class="user url-item" url="/accounts/{{ obj.author.username }}/">
@@ -38,7 +39,7 @@
     {% endif %}
 
     <div class="caption">
-        <p>{{obj.content}}</p>
+        <p>{{obj.content | convert_markdown | safe}}</p>
     </div>
 
     <div class="action-buttons">
