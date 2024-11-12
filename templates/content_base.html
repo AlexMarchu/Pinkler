@@ -14,6 +14,7 @@
         {% endblock %}
     </head>
     <body>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!----------------- UPPER PANEL -------------------->
         <nav class="upper-panel">
             <div class="grid-container">
@@ -111,9 +112,9 @@
                         </div>
                     </div>
                     <!----------------- FRIEND REQUESTS -------------------->
-                    <div class="friend-requests">
+                    <!-- <div class="friend-requests">
                         <h4 class="heading">Заявки в друзья</h4>
-                        <!----------------- REQUEST -------------------->
+                        
                         <div class="request">
                             <div class="info">
                                 <div class="profile-photo">
@@ -129,7 +130,7 @@
                                 <button class="btn reject-request"><i class="uil uil-times"></i></button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </main>
@@ -183,7 +184,6 @@
         </div>
         <script src="{% static 'scripts/core.js' %}"></script>
         <script src="{% static 'scripts/themes.js' %}"></script>
-        <script src="{% static 'scripts/feed.js' %}"></script>
 <!--        <script src="{% static 'scripts/chat.js' %}"></script>-->
     </body>
 </html>

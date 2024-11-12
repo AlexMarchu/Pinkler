@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block content %}
-
-    {% for obj in query_set %}
-        {% if pinkler_user in obj.bookmark.all %}
-            {% include 'feed/post.html' with obj=obj %}
-        {% endif %}
-    {% endfor %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+    <div class="feed">
+        {% for obj in query_set %}
+            {% if pinkler_user in obj.bookmark.all %}
+                {% include 'includes/post.html' with obj=obj %}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <script src="{% static 'scripts/feed.js' %}"></script>
 {% endblock %}

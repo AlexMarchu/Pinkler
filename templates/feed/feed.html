@@ -6,10 +6,11 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'feed/create_post.html' %}
-
-    {% for obj in query_set %}
-        {% include 'feed/post.html' with obj=obj %}
-    {% endfor %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <div class="feed">
+        {% include 'feed/create_post.html' %}
+        {% for obj in query_set %}
+            {% include 'includes/post.html' with obj=obj %}
+        {% endfor %}
+    </div>
+    <script src="{% static 'scripts/feed.js' %}"></script>
 {% endblock %}

@@ -14,11 +14,15 @@
                 <label for="posts" class="tab-label"><i class="uil uil-clipboard-notes"></i>Посты</label>
                 <div class="tab-content">
                     {% if posts %}
-                        {% for obj in posts %}
-                            {% include 'feed/post.html' with obj=obj %}
-                        {% endfor %}
+                        <div class="feed">
+                            {% for obj in posts %}
+                                {% include 'includes/post.html' with obj=obj %}
+                            {% endfor %}
+                        </div>
                     {% else %}
-                        <label class="fallback-label">Ничего не найдено...</label>
+                        <div class="fallback-wrapper">
+                            <label class="fallback-label">Ничего не найдено...</label>
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -35,5 +39,5 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'scripts/feed.js' %}"></script>
 {% endblock %}

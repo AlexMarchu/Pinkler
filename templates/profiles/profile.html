@@ -1,10 +1,12 @@
 {% extends 'content_base.html' %}
+{% load static %}
 
 {% block title %}
     <title>{{ profile_owner.username }}</title>
 {% endblock %}
 
 {% block content %}
+    <script src="{% static 'scripts/feed.js' %}"></script>
     <div class="profile">
         <div class="profile-card">
             <div class="info">
@@ -62,9 +64,11 @@
                 <label for="posts" class="tab-label"><i class="uil uil-clipboard-notes"></i>Посты</label>
                 <div class="tab-content">
                     {% if owner_posts %}
-                        {% for post in owner_posts %}
-                            {% include 'feed/post.html' with obj=post %}
-                        {% endfor %}
+                        <div class="feed">
+                            {% for post in owner_posts %}
+                                {% include 'includes/post.html' with obj=post %}
+                            {% endfor %}
+                        </div>
                     {% else %}
                         <div class="fallback-wrapper">
                             <label class="fallback-label">У данного пользователя нет постов...</label>
@@ -89,5 +93,4 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}

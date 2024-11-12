@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.tokens import default_token_generator
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
@@ -147,6 +147,19 @@ class PasswordResetCompleteView(TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def profile_view(request, username):
+
+    if 'comment_button' in request.POST:
+        comment_form = CommentModelForm(request.POST)
+        if comment_form.is_valid():
+            instance = comment_form.save(commit=False)
+            instance.user = request.user
+            instance.post = Post.objects.get(id=request.POST.get('post_id'))
+            instance.save()
+            comment_form = CommentModelForm()
+
+            query_set = Post.objects.prefetch_related("comments").all()
+            return redirect('profile', username)
+
     comment_form = CommentModelForm()
     profile_owner = PinklerUser.objects.get(username=username)
     owner_posts = Post.objects.filter(author=profile_owner).prefetch_related("comments")

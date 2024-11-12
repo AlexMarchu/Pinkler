@@ -51,9 +51,8 @@ $(document).ready(function() {
     });
 });
 
-const fileUpload = document.getElementById('file-upload');
-if (fileUpload) {
-    fileUpload.addEventListener('change', function(event) {
+if (document.getElementById('file-upload')) {
+    document.getElementById('file-upload').addEventListener('change', function(event) {
         const file = event.target.files[0];
         const previewImage = document.getElementById('preview-image');
         const filePreview = document.getElementById('file-preview');
@@ -71,9 +70,8 @@ if (fileUpload) {
     });
 }
 
-const removeFile = document.getElementById('remove-file');
-if (removeFile) {
-    removeFile.addEventListener('click', function() {
+if (document.getElementById('remove-file')) {
+    document.getElementById('remove-file').addEventListener('click', function() {
         const fileUpload = document.getElementById('file-upload');
         const filePreview = document.getElementById('file-preview');
     
