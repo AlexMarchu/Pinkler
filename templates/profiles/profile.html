@@ -11,7 +11,8 @@
         <div class="profile-card">
             <div class="info">
                 <div class="profile-photo">
-                    <img src="{{ profile_owner.avatar.url }}">
+                    <img src="{{ profile_owner.avatar.url }}" id="profile-avatar" style="cursor: pointer;">
+                    <input type="file" id="avatar-input" accept="image/*" style="display:none;">
                 </div>
                 <div class="handle">
                     <h4>{{ profile_owner.username }}</h4>
@@ -93,4 +94,14 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.getElementById('profile-avatar').addEventListener('click', function() {
+            document.getElementById('avatar-input').click();
+        });
+
+        document.getElementById('avatar-input').addEventListener('change', function() {
+            updateProfileAvatar(this);
+        });
+    </script>
 {% endblock %}
