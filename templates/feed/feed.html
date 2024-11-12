@@ -5,6 +5,12 @@
     <title>Главная</title>
 {% endblock %}
 
+{% block chats %}
+    <script>
+        loadChats();
+    </script>
+{% endblock %}
+
 {% block content %}
     {% include 'feed/create_post.html' %}
 

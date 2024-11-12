@@ -34,6 +34,22 @@ def get_chat_id(request, user_id):
 
 
 @login_required(login_url='/accounts/login/')
+def get_chats(request):
+    self_chats = request.user.chats.all()
+    chats_and_last_messages = list(
+        {
+            'username': participant.username,
+            'user_id': participant.pk,
+            'avatar_url': participant.avatar.url,
+            'last_message_content': chat.get_last_message().content if chat.get_last_message() else None,
+            'last_message_sender': chat.get_last_message().sender.username if chat.get_last_message() else None,
+        } for chat in self_chats for participant in chat.participants.exclude(id=request.user.id)
+    )
+    print(chats_and_last_messages)
+    return JsonResponse(chats_and_last_messages[:5], safe=False)
+
+
+@login_required(login_url='/accounts/login/')
 def chats_view(request):
     self_chats = request.user.chats.all()  # request.user.chats.distinct()
     chats_and_last_messages = list((chat, chat.get_last_message()) for chat in self_chats)

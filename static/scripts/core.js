@@ -28,6 +28,7 @@ function retrieveUrlDataAndReplaceContent(url) {
                     goToUrl(urlItem.getAttribute('url'));
                 });
             });
+            loadChats();
             setupChatItemListeners();
             setupFriendsEventListeners();
             setupMessageBtnListeners();
@@ -45,6 +46,34 @@ function goToUrl(url) {
 
 function backToUrl(url) {
     retrieveUrlDataAndReplaceContent(url);
+}
+
+function loadChats() {
+    fetch('/chats/get-chats/')
+        .then(response => response.json())
+        .then(data => {
+            const chatsList = document.querySelector('.chat-items-right-side');
+            chatsList.innerHTML = '';
+            data.forEach(chat => {
+                const chatItem = document.createElement('div');
+                chatItem.classList.add('chat-item');
+                chatItem.setAttribute('user-id', chat.user_id);
+                chatItem.innerHTML = `
+                    <div class="profile-photo">
+                        <img src="${chat.avatar_url}">
+                    </div>
+                    <div class="handle">
+                        <h4>${chat.username}</h4>
+                        <p class="text-muted">${chat.last_message_content && chat.last_message_sender ? 
+                                    `${chat.last_message_sender}: ${chat.last_message_content}` : 
+                                    "Нет сообщений"}</p>
+                    </div>
+                `;
+                chatsList.appendChild(chatItem);
+            });
+            setupChatItemListeners();
+        })
+        .catch(error => console.error('Ошибка загрузки чатов:', error));
 }
 
 function acceptFriendRequestFromUser(userId) {
@@ -84,7 +113,6 @@ function acceptFriendRequestFromUser(userId) {
     })
     .catch(error => console.error('Ошибка при принятии запроса:', error));
 }
-
 
 function rejectFriendRequestFromUser(userId) {
     console.log('User ID:', userId);
@@ -129,7 +157,6 @@ function rejectFriendRequestFromUser(userId) {
     });
 }
 
-
 function removeUserFromFriends(userId) {
     fetch(`/friends/remove-friend/${userId}/`, {
         method: 'POST',
@@ -161,10 +188,6 @@ function removeUserFromFriends(userId) {
     .catch(error => console.error('Ошибка при удалении друга:', error));
 }
 
-
-
-
-
 function addUserToFriends(userId) {
     const button = document.querySelector(`.add-friend-btn[user-id="${userId}"]`);
 
@@ -195,9 +218,6 @@ function addUserToFriends(userId) {
         button.disabled = false;
     });
 }
-
-
-
 
 function cancelFriendRequestToUser(userId) {
     if (!userId) {
@@ -245,8 +265,6 @@ function cancelFriendRequestToUser(userId) {
         console.log('Ошибка при получении request_id:', error);
     });
 }
-
-
 
 function setupFriendsEventListeners() {
     document.querySelectorAll('.accept-friend-request-btn').forEach(button => {
@@ -355,6 +373,7 @@ globalSearchForm.addEventListener('submit', (event) => {
     goToUrl(`/search/?${searchParams.toString()}`);
 });
 
+loadChats();
 setupFriendsEventListeners();
 setupChatItemListeners();
 setupMessageBtnListeners();
