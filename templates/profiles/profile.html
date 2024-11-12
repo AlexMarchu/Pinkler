@@ -95,13 +95,15 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        document.getElementById('profile-avatar').addEventListener('click', function() {
-            document.getElementById('avatar-input').click();
-        });
+    {% if user == profile_owner %}
+        <script>
+            document.getElementById('profile-avatar').addEventListener('click', function() {
+                document.getElementById('avatar-input').click();
+            });
 
-        document.getElementById('avatar-input').addEventListener('change', function() {
-            updateProfileAvatar(this);
-        });
-    </script>
+            document.getElementById('avatar-input').addEventListener('change', function() {
+                updateProfileAvatar(this);
+            });
+        </script>
+    {% endif %}
 {% endblock %}
