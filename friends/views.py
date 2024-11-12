@@ -144,9 +144,11 @@ def friends_view(request):
             created_for=request.user, status=FriendshipRequest.SENT
         ).values_list('created_by', flat=True)
     )
-    self_requested = FriendshipRequest.objects.filter(created_by=request.user,
+    self_requested = PinklerUser.objects.filter(
+        id__in=FriendshipRequest.objects.filter(created_by=request.user,
                                                       status=FriendshipRequest.SENT).values_list('created_for',
-                                                                                                 flat=True)
+                                                                                                flat=True)
+    )
     self_received = FriendshipRequest.objects.filter(created_for=request.user,
                                                      status=FriendshipRequest.SENT).values_list('created_by', flat=True)
 

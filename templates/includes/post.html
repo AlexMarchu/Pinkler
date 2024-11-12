@@ -1,6 +1,6 @@
 <div class="post">
     <div class="head">
-        <div class="user">
+        <div class="user url-item" url="/accounts/{{ obj.author.username }}/">
             {% if obj.author.avatar %}
                 <div class="profile-photo">
                     <img src="{{ obj.author.avatar.url }}">

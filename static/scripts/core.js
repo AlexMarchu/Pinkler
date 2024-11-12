@@ -21,6 +21,8 @@ function retrieveUrlDataAndReplaceContent(url) {
                 content.appendChild(newScript);
             });
 
+            window.scrollTo(0, 0);
+
             const urlItems = document.querySelectorAll('.middle .url-item');
             urlItems.forEach(urlItem => {
                 urlItem.addEventListener('click', () => {
@@ -316,7 +318,7 @@ function setupFriendsEventListeners() {
     document.querySelectorAll('.cancel-friend-request-btn').forEach(button => {
         button.addEventListener('click', () => {
         const userId = button.getAttribute('user-id');
-        cancelFriendRequestToUser(userId);
+            cancelFriendRequestToUser(userId);
         });
     });
 
